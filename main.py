@@ -4,7 +4,7 @@ from PyQt4 import QtGui, QtCore
 
 import isometric
 import layout
-import canvas
+import items
 
 class BoatPlanner(QtGui.QMainWindow):
     def __init__(self):
@@ -15,21 +15,7 @@ class BoatPlanner(QtGui.QMainWindow):
         self.initUI()
 
     def initUI(self):
-        mainF = QtGui.QFrame()
-
-        hbox = QtGui.QHBoxLayout()
-        hbox.addStretch(1)
-        hbox.addWidget(self.canvas)
-        hbox.addStretch(1)
-
-        vbox = QtGui.QVBoxLayout()
-        vbox.addStretch(1)
-        vbox.addLayout(hbox)
-        vbox.addStretch(1)
-
-        mainF.setLayout(vbox)
-        self.setCentralWidget(mainF)
-
+        self.setCentralWidget(self.canvas)
 
         self.statusBar()
         menubar = self.menuBar()

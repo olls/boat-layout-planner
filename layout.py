@@ -14,7 +14,7 @@ class Canvas(QtGui.QGraphicsView):
 def main():
     app = QtGui.QApplication(sys.argv)
     win = Canvas()
-    win.show()
+    win.showMaximized()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
