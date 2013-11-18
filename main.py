@@ -4,6 +4,7 @@ from PyQt4 import QtGui, QtCore
 
 import isometric
 import layout
+import canvas
 
 class BoatPlanner(QtGui.QMainWindow):
     def __init__(self):
