@@ -8,8 +8,14 @@ class Canvas(QtGui.QGraphicsView):
         self.scene = QtGui.QGraphicsScene(self)
         self.setScene(self.scene)
 
-        self.item = QtGui.QGraphicsEllipseItem(0, 0, 50, 50)
-        self.scene.addItem(self.item)
+    def update(self, items):
+        for item in items:
+            if item[0] == 'line':
+                Qitem = QtCore.QLineF(float(item[1]['x1']),
+                                      float(item[1]['y1']),
+                                      float(item[1]['x2']),
+                                      float(item[1]['y2']))
+            self.scene.addLine(Qitem)
 
 def main():
     app = QtGui.QApplication(sys.argv)
