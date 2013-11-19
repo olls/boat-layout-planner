@@ -16,11 +16,11 @@ class BoatPlanner(QtGui.QMainWindow):
 
         # Temp test of adding items.
         chair1 = items.Furniture('chair', 100, 100, 1.5, 0, 'My Seat', '#000000')
-        self.canvas.update(chair1.generateQTO())
+        self.canvas.update(chair1)
         chair1.setX(300)
         chair1.setY(300)
-        chair1.setScale(2)
-        self.canvas.update(chair1.generateQTO())
+        chair1.setScale(8)
+        self.canvas.update(chair1)
 
     def initUI(self):
         self.setCentralWidget(self.canvas)

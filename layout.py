@@ -8,8 +8,9 @@ class Canvas(QtGui.QGraphicsView):
         self.scene = QtGui.QGraphicsScene(self)
         self.setScene(self.scene)
 
-    def update(self, items):
-        for item in items:
+    def update(self, item):
+        vectorItems = item.generateVectors()
+        for item in vectorItems:
             if item[0] == 'line':
                 Qitem = QtCore.QLineF(float(item[1]['x1']),
                                       float(item[1]['y1']),

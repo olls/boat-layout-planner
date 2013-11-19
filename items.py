@@ -4,9 +4,8 @@ import math
 from templates import TEMPLATES
 
 class Item(object):
-    def __init__(self, description, color):
-        self.description = description
-        self.color = color
+    def __init__(self):
+        pass
 
     def formatEval(self, template):
         # First put the values in place as normal.
@@ -32,9 +31,17 @@ class Item(object):
         return ''.join(ret)
 
 
+class Boat(Item):
+    pass
+
+
+class Wall(Item):
+    pass
+
+
 class Furniture(Item):
     def __init__(self, name, x, y, scale, angle, description, color):
-        super(Furniture, self).__init__(description, color)
+        super(Furniture, self).__init__()
         
         self.attrs = {}
 
@@ -52,10 +59,10 @@ class Furniture(Item):
     def generateSVG(self):
         return self.formatEval(TEMPLATES[self.attrs['name']]['SVG'])
 
-    def generateQTO(self):
+    def generateVectors(self):
         svg = self.generateSVG()
 
-        items = []
+        vectorItems = []
         item = True
         while item:
             item = svg[svg.find('<')+1 : svg.find('>')]
@@ -64,7 +71,7 @@ class Furniture(Item):
             name = item.split(' ')[0]
 
             if name == 'line':
-                items.append([name, {
+                vectorItems.append([name, {
                         'x1': self.getSVGItemAttrValue(item, 'x1'),
                         'y1': self.getSVGItemAttrValue(item, 'y1'),
                         'x2': self.getSVGItemAttrValue(item, 'x2'),
@@ -75,7 +82,7 @@ class Furniture(Item):
             elif name == 'rect':
                 pass
 
-        return items
+        return vectorItems
 
     def getSVGItemAttrValue(self, item, attr):
         # Find attr.
@@ -130,7 +137,7 @@ def main():
     chair1 = Furniture('chair', 100, 100, 1.5, 0, 'My Seat', '#000000')
     print(chair1.generateXML())
     print(chair1.generateSVG())
-    print(chair1.generateQTO())
+    print(chair1.generateVectors())
 
 if __name__ == '__main__':
     main()
