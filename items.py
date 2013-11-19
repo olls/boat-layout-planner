@@ -1,4 +1,5 @@
 import sys
+import math
 
 from templates import TEMPLATES
 
@@ -34,36 +35,16 @@ class Item(object):
 class Furniture(Item):
     def __init__(self, name, x, y, scale, angle, description, color):
         super(Furniture, self).__init__(description, color)
-
-        # Validation
-        try:
-            x = float(x)
-        except ValueError:
-            sys.exit('Fatal error: Invalid x attribute for Furniture item')
         
-        try:
-            y = float(y)
-        except ValueError:
-            sys.exit('Fatal error: Invalid y attribute for Furniture item')
-        
-        try:
-            scale = float(scale)
-        except ValueError:
-            sys.exit('Fatal error: Invalid scale attribute for Furniture item')
+        self.attrs = {}
 
-        try:
-            angle = float(angle)
-        except ValueError:
-            sys.exit('Fatal error: Invalid angle attribute for Furniture item')
-
-        
-        self.attrs = {'name': name,
-                      'x': x,
-                      'y': y,
-                      'scale': scale,
-                      'angle': angle,
-                      'description': description,
-                      'color': color}
+        self.setName(name)
+        self.setX(x)
+        self.setY(y)
+        self.setScale(scale)
+        self.setAngle(angle)
+        self.setDescription(description)
+        self.setColor(color)
 
     def generateXML(self):
         return self.formatEval(TEMPLATES[self.attrs['name']]['XML'])
@@ -71,6 +52,42 @@ class Furniture(Item):
     def generateSVG(self):
         return self.formatEval(TEMPLATES[self.attrs['name']]['SVG'])
 
+    def generateQTO(self):
+        svg = self.generateSVG()
+
+        items = []
+        item = True
+        while item:
+            item = svg[svg.find('<')+1 : svg.find('>')]
+            svg = svg[svg.find('>')+1:]
+
+            name = item.split(' ')[0]
+
+            if name == 'line':
+                items.append([name, {
+                        'x1': self.getSVGItemAttrValue(item, 'x1'),
+                        'y1': self.getSVGItemAttrValue(item, 'y1'),
+                        'x2': self.getSVGItemAttrValue(item, 'x2'),
+                        'y2': self.getSVGItemAttrValue(item, 'y2')
+                    }
+                ])
+
+            elif name == 'rect':
+                pass
+
+        return items
+
+    def getSVGItemAttrValue(self, item, attr):
+        # Find attr.
+        for section in item.split(' '):
+            pos = section.find(attr)
+            if not pos == -1:
+                break
+        # Get attr's value.
+        return section.split('"')[1]
+
+    def setName(self, name):
+        self.attrs['name'] = name
 
     def setX(self, x):
         try:
@@ -102,12 +119,18 @@ class Furniture(Item):
     def setColor(self, color):
         self.attrs['color'] = color
 
+    def setDescription(self, description):
+        self.attrs['description'] = description
+
+    def setColor(self, color):
+        self.attrs['color'] = color
+
 
 def main():
-     chair1 = Furniture('chair', 0, 0, 1, 0, 'My Seat', '#000000')
-     print(chair1.generateXML())
-     chair1.setX('hi')
-     print(chair1.generateXML())
+    chair1 = Furniture('chair', 100, 100, 1.5, 0, 'My Seat', '#000000')
+    print(chair1.generateXML())
+    print(chair1.generateSVG())
+    print(chair1.generateQTO())
 
 if __name__ == '__main__':
     main()
