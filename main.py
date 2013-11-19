@@ -37,8 +37,6 @@ class BoatPlanner(QtGui.QMainWindow):
         toolbar.addAction(exitAction)
         toolbar.addAction(isoAction)
 
-
-        self.setWindowState(QtCore.Qt.WindowMaximized)
         self.setWindowTitle('Boat Layout Planner')
 
     def isoView(self):
@@ -48,7 +46,7 @@ class BoatPlanner(QtGui.QMainWindow):
 def main():
     app = QtGui.QApplication(sys.argv)
     win = BoatPlanner()
-    win.show()
+    win.showMaximized()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
