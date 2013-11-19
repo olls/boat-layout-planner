@@ -1,3 +1,5 @@
+import sys
+
 from templates import TEMPLATES
 
 class Item(object):
@@ -37,22 +39,22 @@ class Furniture(Item):
         try:
             x = float(x)
         except ValueError:
-            sys.exit('Invalid x attribute for Furniture item')
+            sys.exit('Fatal error: Invalid x attribute for Furniture item')
         
         try:
             y = float(y)
         except ValueError:
-            sys.exit('Invalid y attribute for Furniture item')
+            sys.exit('Fatal error: Invalid y attribute for Furniture item')
         
         try:
             scale = float(scale)
         except ValueError:
-            sys.exit('Invalid scale attribute for Furniture item')
+            sys.exit('Fatal error: Invalid scale attribute for Furniture item')
 
         try:
             angle = float(angle)
         except ValueError:
-            sys.exit('Invalid angle attribute for Furniture item')
+            sys.exit('Fatal error: Invalid angle attribute for Furniture item')
 
         
         self.attrs = {'name': name,
@@ -71,26 +73,40 @@ class Furniture(Item):
 
 
     def setX(self, x):
-        self.x = x
+        try:
+            self.attrs['x'] = float(x)
+        except ValueError:
+            sys.exit('Fatal error: Invalid x attribute for Furniture item')
 
     def setY(self, y):
-        self.y = y
+        try:
+            self.attrs['y'] = float(y)
+        except ValueError:
+            sys.exit('Fatal error: Invalid y attribute for Furniture item')
 
     def setScale(self, scale):
-        self.scale = scale
+        try:
+            self.attrs['scale'] = float(scale)
+        except ValueError:
+            sys.exit('Fatal error: Invalid scale attribute for Furniture item')
 
     def setAngle(self, angle):
-        self.angle = angle
+        try:
+            self.attrs['angle'] = float(angle)
+        except ValueError:
+            sys.exit('Fatal error: Invalid angle attribute for Furniture item')
 
     def setDescription(self, description):
-        self.description = description
+        self.attrs['description'] = description
 
     def setColor(self, color):
-        self.color = color
+        self.attrs['color'] = color
 
 
 def main():
      chair1 = Furniture('chair', 0, 0, 1, 0, 'My Seat', '#000000')
+     print(chair1.generateXML())
+     chair1.setX('hi')
      print(chair1.generateXML())
 
 if __name__ == '__main__':
