@@ -15,7 +15,8 @@ class BoatPlanner(QtGui.QMainWindow):
         super(BoatPlanner, self).__init__()
 
         self.canvas = layout.Canvas()
-        self.itemMngr = items.ItemMngr(self.canvas)
+        self.boat = items.Boat(self.canvas, length=random.randint(200, 1000),
+                               description='My long Boat.')
 
         self.initUI()
 
@@ -59,10 +60,10 @@ class BoatPlanner(QtGui.QMainWindow):
     def setUpItemsToolbar(self):
         addItems = self.addToolBar('items')
 
-        for name in self.itemMngr.furniture.keys():
+        for name in self.boat.furniture.keys():
             action = QtGui.QAction(name, self)
             action.setStatusTip('Add a '+str(name))
-            action.triggered.connect(lambda: self.itemMngr.addFurniture(name))
+            action.triggered.connect(lambda: self.boat.addFurniture(name))
             addItems.addAction(action)
 
 
@@ -71,7 +72,7 @@ class BoatPlanner(QtGui.QMainWindow):
 
         # Open the 3D view with a temporary random length, 
         #   and position it in the center of this window.
-        self.win = isometric.Boat3D(random.randint(0, 300), 
+        self.win = isometric.Boat3D(self.boat.attrs['length'], 
                                     self.frameGeometry().center())
         self.win.show()
 
