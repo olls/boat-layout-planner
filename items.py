@@ -1,14 +1,16 @@
 import sys
 import math
+from PyQt4 import QtGui, QtCore
 
 from templates import TEMPLATES
 
-class Item(object):
+class Item(QtGui.QGraphicsItemGroup):
     """
-        An Item class which all displayed items on the canvas are devived from.
+        An Item class which all displayed items on the canvas are derived from.
     """
+
     def __init__(self):
-        pass
+        super(Item, self).__init__()
 
     def formatEval(self, template):
         """ A method which acts like the str.format method, except it evaluates 
@@ -46,7 +48,10 @@ class Wall(Item):
 
 
 class Furniture(Item):
-    """ An item which uses the templates to create furniture items. """
+    """
+        An QGraphicsItemGroup which holds all the QItems 
+            and can return its XML or SVG.
+    """
     
     def __init__(self, name, x, y, scale, angle, description, color, canvas):
         super(Furniture, self).__init__()
@@ -63,7 +68,13 @@ class Furniture(Item):
 
         self.canvas = canvas
 
-        self.addToCanvas()
+        # Add ourself to the canvas and set as drag-able.
+        self.canvas.scene.addItem(self)
+        self.setFlag(QtGui.QGraphicsItem.ItemIsMovable)
+        self.setAcceptHoverEvents(True)
+
+        # Create QItems
+        self.update()
 
     def generateXML(self):
         """ Creates XML code for this object using the template and attrs """
@@ -75,44 +86,40 @@ class Furniture(Item):
         
         return self.formatEval(TEMPLATES[self.attrs['name']]['SVG'])
 
-    def addToCanvas(self):
+    def update(self):
         """ Creates vector information for this object, which is 
             then displayed on the canvas. """
 
-        # Remove the item if it already is on the canvas.
-        try:
-            self.canvas.delete(self.group)
-        except AttributeError:
-            # Item hasn't been created yet, so no need to delete.
-            pass
+        # First remove all items from group.
+        for child in self.childItems():
+            self.removeFromGroup(child)
 
-        # It converts the SVG vector information to dictionary's.
+        # It converts the SVG vector information to QItems.
         svg = self.generateSVG()
 
         vectorItems = []
         item = True
         while item:
             # Goes through each SVG item and depending on the type,
-            #   extracts different attributes from it.
+            #   extracts different attributes from it and creates the QItem.
             item = svg[svg.find('<')+1 : svg.find('>')]
             svg = svg[svg.find('>')+1:]
 
             name = item.split(' ')[0]
 
             if name == 'line':
-                vectorItems.append([name, {
-                        'x1': self.getSVGItemAttrValue(item, 'x1'),
-                        'y1': self.getSVGItemAttrValue(item, 'y1'),
-                        'x2': self.getSVGItemAttrValue(item, 'x2'),
-                        'y2': self.getSVGItemAttrValue(item, 'y2')
-                    }
-                ])
+                QItem = self.canvas.scene.addLine(
+                    QtCore.QLineF(float(self.getSVGItemAttrValue(item, 'x1')),
+                                  float(self.getSVGItemAttrValue(item, 'y1')),
+                                  float(self.getSVGItemAttrValue(item, 'x2')),
+                                  float(self.getSVGItemAttrValue(item, 'y2')))
+                )
 
             elif name == 'rect':
                 pass
 
-        # Save the canvas item.
-        self.group = self.canvas.update(vectorItems)
+            # Add the QItem to ourself so it is a part of the group.
+            self.addToGroup(QItem)
 
     def getSVGItemAttrValue(self, item, attr):
         """ Takes an SVG item and returns the value of a given attribute. """
@@ -135,7 +142,7 @@ class Furniture(Item):
         self.attrs['name'] = name    
     def setName(self, name):
         self._setName(name)
-        self.addToCanvas()
+        self.update()
 
     def _setX(self, x):
         try:
@@ -144,7 +151,7 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid x attribute for Furniture item')
     def setX(self, x):
         self._setX(x)
-        self.addToCanvas()
+        self.update()
 
     def _setY(self, y):
         try:
@@ -153,7 +160,7 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid y attribute for Furniture item')
     def setY(self, y):
         self._setY(y)
-        self.addToCanvas()
+        self.update()
 
     def _setScale(self, scale):
         try:
@@ -162,7 +169,7 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid scale attribute for Furniture item')
     def setScale(self, scale):
         self._setScale(scale)
-        self.addToCanvas()
+        self.update()
 
     def _setAngle(self, angle):
         try:
@@ -171,19 +178,19 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid angle attribute for Furniture item')
     def setAngle(self, angle):
         self._setAngle(angle)
-        self.addToCanvas()
+        self.update()
 
     def _setDescription(self, description):
         self.attrs['description'] = description
     def setDescription(self, description):
         self._setDescription(description)
-        self.addToCanvas()
+        self.update()
 
     def _setColor(self, color):
         self.attrs['color'] = color
     def setColor(self, color):
         self._setColor(color)
-        self.addToCanvas()
+        self.update()
 
 def main():
     """

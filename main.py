@@ -1,6 +1,6 @@
 import sys
 import random
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui
 
 import isometric
 import layout
