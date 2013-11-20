@@ -7,6 +7,7 @@ class Boat3D(QtGui.QMainWindow):
     """
         The window which displays the 3D isometric image of the boat widget.
     """
+    
     def __init__(self, length, pos):
         super(Boat3D, self).__init__()
 
