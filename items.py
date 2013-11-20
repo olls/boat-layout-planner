@@ -4,6 +4,21 @@ from PyQt4 import QtGui, QtCore
 
 from templates import TEMPLATES
 
+class ItemMngr(object):
+    """ Manages all the items added to the Boat. """
+
+    def __init__(self, canvas):
+        self.items = []
+        self.canvas = canvas
+
+    def addFurniture(self, name):
+        self.items.append(Furniture(self.canvas, name))
+
+    @property
+    def furniture(self):
+        return TEMPLATES
+
+
 class Item(QtGui.QGraphicsItemGroup):
     """
         An Item class which all displayed items on the canvas are derived from.
@@ -53,7 +68,8 @@ class Furniture(Item):
             and can return its XML or SVG.
     """
     
-    def __init__(self, name, x, y, scale, angle, description, color, canvas):
+    def __init__(self, canvas, name, x=0, y=0, scale=1, angle=0, 
+                 description='', color='#000000'):
         super(Furniture, self).__init__()
         
         self.attrs = {}
@@ -71,10 +87,9 @@ class Furniture(Item):
         # Add ourself to the canvas and set as drag-able.
         self.canvas.scene.addItem(self)
         self.setFlag(QtGui.QGraphicsItem.ItemIsMovable)
-        self.setAcceptHoverEvents(True)
 
         # Create QItems
-        self.update()
+        self.redraw()
 
     def generateXML(self):
         """ Creates XML code for this object using the template and attrs """
@@ -86,7 +101,7 @@ class Furniture(Item):
         
         return self.formatEval(TEMPLATES[self.attrs['name']]['SVG'])
 
-    def update(self):
+    def redraw(self):
         """ Creates vector information for this object, which is 
             then displayed on the canvas. """
 
@@ -134,15 +149,20 @@ class Furniture(Item):
         return section.split('"')[1]
 
 
+    def mousePressEvent(self, e):
+        # print(e)
+        e.accept()
+
+
     # Each 'set' method has a private one for internal use which does the work
     #   and validates the input, and a public one which uses the private one
-    #   then updates the canvas.
+    #   then redraws the canvas.
 
     def _setName(self, name):
         self.attrs['name'] = name    
     def setName(self, name):
         self._setName(name)
-        self.update()
+        self.redraw()
 
     def _setX(self, x):
         try:
@@ -151,7 +171,7 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid x attribute for Furniture item')
     def setX(self, x):
         self._setX(x)
-        self.update()
+        self.redraw()
 
     def _setY(self, y):
         try:
@@ -160,7 +180,7 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid y attribute for Furniture item')
     def setY(self, y):
         self._setY(y)
-        self.update()
+        self.redraw()
 
     def _setScale(self, scale):
         try:
@@ -169,7 +189,7 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid scale attribute for Furniture item')
     def setScale(self, scale):
         self._setScale(scale)
-        self.update()
+        self.redraw()
 
     def _setAngle(self, angle):
         try:
@@ -178,19 +198,19 @@ class Furniture(Item):
             sys.exit('Fatal error: Invalid angle attribute for Furniture item')
     def setAngle(self, angle):
         self._setAngle(angle)
-        self.update()
+        self.redraw()
 
     def _setDescription(self, description):
         self.attrs['description'] = description
     def setDescription(self, description):
         self._setDescription(description)
-        self.update()
+        self.redraw()
 
     def _setColor(self, color):
         self.attrs['color'] = color
     def setColor(self, color):
         self._setColor(color)
-        self.update()
+        self.redraw()
 
 def main():
     """

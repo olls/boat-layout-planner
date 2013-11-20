@@ -15,15 +15,16 @@ class BoatPlanner(QtGui.QMainWindow):
         super(BoatPlanner, self).__init__()
 
         self.canvas = layout.Canvas()
+        self.itemMngr = items.ItemMngr(self.canvas)
 
         self.initUI()
 
         # Temp test of adding items.
-        chair = items.Furniture('chair', 100, 100, 1.5, 0, 
-                                 'My Seat', '#000000', self.canvas)
+        chair = items.Furniture(self.canvas, 'chair', x=100, y=100, scale=1.5,
+                                 description='My Seat')
 
-        chair1 = items.Furniture('chair', 100, 100, 1.5, 0, 
-                                 'My Seat', '#000000', self.canvas)
+        chair1 = items.Furniture(self.canvas, 'chair', x=100, y=100, scale=1.5,
+                                 description='My Seat')
         chair1.setX(300)
         chair1.setY(300)
         chair1.setScale(8)
@@ -47,11 +48,23 @@ class BoatPlanner(QtGui.QMainWindow):
         fileMenu.addAction(isoAction)
         fileMenu.addAction(exitAction)
 
-        toolbar = self.addToolBar('File')
+        toolbar = self.addToolBar('menu')
         toolbar.addAction(exitAction)
         toolbar.addAction(isoAction)
 
+        self.setUpItemsToolbar()
+
         self.setWindowTitle('Boat Layout Planner')
+
+    def setUpItemsToolbar(self):
+        addItems = self.addToolBar('items')
+
+        for name in self.itemMngr.furniture.keys():
+            action = QtGui.QAction(name, self)
+            action.setStatusTip('Add a '+str(name))
+            action.triggered.connect(lambda: self.itemMngr.addFurniture(name))
+            addItems.addAction(action)
+
 
     def isoView(self):
         """ Opens the isometric 3D view window. """
