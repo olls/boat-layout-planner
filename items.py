@@ -14,6 +14,9 @@ class ItemMngr(object):
     def addFurniture(self, name):
         self.items.append(Furniture(self.canvas, name))
 
+    def addWall(self):
+        self.items.append(Wall(self.canvas))
+
     @property
     def furniture(self):
         return TEMPLATES
@@ -26,6 +29,14 @@ class Item(QtGui.QGraphicsItemGroup):
 
     def __init__(self):
         super(Item, self).__init__()
+
+    def generateXML(self):
+        """ Creates XML code for this object using the template and attrs """
+        return self.formatEval(TEMPLATES[self.attrs['name']]['XML'])
+
+    def generateSVG(self):
+        """ Creates SVG code for this object using the template and attrs """
+        return self.formatEval(TEMPLATES[self.attrs['name']]['SVG'])
 
     def formatEval(self, template):
         """ A method which acts like the str.format method, except it evaluates 
@@ -59,7 +70,9 @@ class Boat(Item):
 
 
 class Wall(Item):
-    pass
+    
+    def __init__(self, x=0, doorY=0, description=''):
+        pass
 
 
 class Furniture(Item):
@@ -88,18 +101,12 @@ class Furniture(Item):
         self.canvas.scene.addItem(self)
         self.setFlag(QtGui.QGraphicsItem.ItemIsMovable)
 
+        self.setToolTip(str(self.attrs['name']) + ':\n' + 
+                        str(self.attrs['description']))
+        self.setCursor(QtCore.Qt.OpenHandCursor)
+
         # Create QItems
         self.redraw()
-
-    def generateXML(self):
-        """ Creates XML code for this object using the template and attrs """
-        
-        return self.formatEval(TEMPLATES[self.attrs['name']]['XML'])
-
-    def generateSVG(self):
-        """ Creates SVG code for this object using the template and attrs """
-        
-        return self.formatEval(TEMPLATES[self.attrs['name']]['SVG'])
 
     def redraw(self):
         """ Creates vector information for this object, which is 
@@ -135,6 +142,7 @@ class Furniture(Item):
 
             # Add the QItem to ourself so it is a part of the group.
             self.addToGroup(QItem)
+        self.top()
 
     def getSVGItemAttrValue(self, item, attr):
         """ Takes an SVG item and returns the value of a given attribute. """
@@ -150,8 +158,23 @@ class Furniture(Item):
 
 
     def mousePressEvent(self, e):
-        # print(e)
-        e.accept()
+        if e.button() == 1:
+            self.setCursor(QtCore.Qt.ClosedHandCursor)
+    def mouseReleaseEvent(self, e):
+        # This runs the default event method, which allows 
+        #   the dragging to work properly.
+        QtGui.QGraphicsItem.mouseReleaseEvent(self, e)
+        
+        self.setCursor(QtCore.Qt.OpenHandCursor)
+        self.top()
+
+    def top(self):
+        """ Brings us to the top. """
+        # Sets our Z value to one.
+        self.setZValue(1)
+        # Set every colliding items Z value to 0
+        for sibling in self.collidingItems():
+            sibling.setZValue(0)
 
 
     # Each 'set' method has a private one for internal use which does the work
