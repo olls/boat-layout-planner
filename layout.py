@@ -12,14 +12,11 @@ class Canvas(QtGui.QGraphicsView):
         self.scene = QtGui.QGraphicsScene(self)
         self.setScene(self.scene)
 
-    def update(self, item):
+    def update(self, vectorItems):
         """ This method allows you to add a Item 
             (From the items module.) to the canvas. 
             It returns the group of Qitems 
             that make up the item. """
-
-        # First generate the vector information for that item.
-        vectorItems = item.generateVectors()
 
         # Then for each vector, find the type and create the Qitems for it.
         Qitems = []
@@ -36,8 +33,14 @@ class Canvas(QtGui.QGraphicsView):
         # Store all the Qitems in a group so they behave as one item.
         group = self.scene.createItemGroup(Qitems)
         group.setFlag(QtGui.QGraphicsItem.ItemIsMovable)
-        
+
+        self.centerOn(group)
+
         return group
+
+    def delete(self, group):
+        """ Remove the group from the canvas """
+        self.scene.removeItem(group)
 
 def main():
     app = QtGui.QApplication(sys.argv)

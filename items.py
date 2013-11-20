@@ -48,18 +48,22 @@ class Wall(Item):
 class Furniture(Item):
     """ An item which uses the templates to create furniture items. """
     
-    def __init__(self, name, x, y, scale, angle, description, color):
+    def __init__(self, name, x, y, scale, angle, description, color, canvas):
         super(Furniture, self).__init__()
         
         self.attrs = {}
 
-        self.setName(name)
-        self.setX(x)
-        self.setY(y)
-        self.setScale(scale)
-        self.setAngle(angle)
-        self.setDescription(description)
-        self.setColor(color)
+        self._setName(name)
+        self._setX(x)
+        self._setY(y)
+        self._setScale(scale)
+        self._setAngle(angle)
+        self._setDescription(description)
+        self._setColor(color)
+
+        self.canvas = canvas
+
+        self.addToCanvas()
 
     def generateXML(self):
         """ Creates XML code for this object using the template and attrs """
@@ -71,9 +75,16 @@ class Furniture(Item):
         
         return self.formatEval(TEMPLATES[self.attrs['name']]['SVG'])
 
-    def generateVectors(self):
-        """ Creates vector information for this object, which can 
-            then be given displayed on the canvas. """
+    def addToCanvas(self):
+        """ Creates vector information for this object, which is 
+            then displayed on the canvas. """
+
+        # Remove the item if it already is on the canvas.
+        try:
+            self.canvas.delete(self.group)
+        except AttributeError:
+            # Item hasn't been created yet, so no need to delete.
+            pass
 
         # It converts the SVG vector information to dictionary's.
         svg = self.generateSVG()
@@ -100,7 +111,8 @@ class Furniture(Item):
             elif name == 'rect':
                 pass
 
-        return vectorItems
+        # Save the canvas item.
+        self.group = self.canvas.update(vectorItems)
 
     def getSVGItemAttrValue(self, item, attr):
         """ Takes an SVG item and returns the value of a given attribute. """
@@ -115,48 +127,72 @@ class Furniture(Item):
         return section.split('"')[1]
 
 
-    def setName(self, name):
-        self.attrs['name'] = name
+    # Each 'set' method has a private one for internal use which does the work
+    #   and validates the input, and a public one which uses the private one
+    #   then updates the canvas.
 
-    def setX(self, x):
+    def _setName(self, name):
+        self.attrs['name'] = name    
+    def setName(self, name):
+        self._setName(name)
+        self.addToCanvas()
+
+    def _setX(self, x):
         try:
             self.attrs['x'] = float(x)
         except ValueError:
             sys.exit('Fatal error: Invalid x attribute for Furniture item')
+    def setX(self, x):
+        self._setX(x)
+        self.addToCanvas()
 
-    def setY(self, y):
+    def _setY(self, y):
         try:
             self.attrs['y'] = float(y)
         except ValueError:
             sys.exit('Fatal error: Invalid y attribute for Furniture item')
+    def setY(self, y):
+        self._setY(y)
+        self.addToCanvas()
 
-    def setScale(self, scale):
+    def _setScale(self, scale):
         try:
             self.attrs['scale'] = float(scale)
         except ValueError:
             sys.exit('Fatal error: Invalid scale attribute for Furniture item')
+    def setScale(self, scale):
+        self._setScale(scale)
+        self.addToCanvas()
 
-    def setAngle(self, angle):
+    def _setAngle(self, angle):
         try:
             self.attrs['angle'] = float(angle)
         except ValueError:
             sys.exit('Fatal error: Invalid angle attribute for Furniture item')
+    def setAngle(self, angle):
+        self._setAngle(angle)
+        self.addToCanvas()
 
-    def setDescription(self, description):
+    def _setDescription(self, description):
         self.attrs['description'] = description
-
-    def setColor(self, color):
-        self.attrs['color'] = color
-
     def setDescription(self, description):
-        self.attrs['description'] = description
+        self._setDescription(description)
+        self.addToCanvas()
 
-    def setColor(self, color):
+    def _setColor(self, color):
         self.attrs['color'] = color
-
+    def setColor(self, color):
+        self._setColor(color)
+        self.addToCanvas()
 
 def main():
-    chair1 = Furniture('chair', 100, 100, 1.5, 0, 'My Seat', '#000000')
+    """
+        Can't do much to test, because the Furniture class relies 
+            on the canvas class
+    """
+
+    # Canvas doesn't exist so this doesn't run.
+    chair1 = Furniture('chair', 100, 100, 1.5, 0, 'My Seat', '#000000', canvas)
     print(chair1.generateXML())
     print(chair1.generateSVG())
     print(chair1.generateVectors())

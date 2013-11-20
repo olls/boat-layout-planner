@@ -19,13 +19,14 @@ class BoatPlanner(QtGui.QMainWindow):
         self.initUI()
 
         # Temp test of adding items.
+        chair = items.Furniture('chair', 100, 100, 1.5, 0, 
+                                 'My Seat', '#000000', self.canvas)
+
         chair1 = items.Furniture('chair', 100, 100, 1.5, 0, 
-                                 'My Seat', '#000000')
-        self.canvas.update(chair1)
+                                 'My Seat', '#000000', self.canvas)
         chair1.setX(300)
         chair1.setY(300)
         chair1.setScale(8)
-        self.canvas.update(chair1)
 
     def initUI(self):
         self.setCentralWidget(self.canvas)
@@ -33,7 +34,7 @@ class BoatPlanner(QtGui.QMainWindow):
         self.statusBar()
         menubar = self.menuBar()
 
-        exitAction = QtGui.QAction('&Exit', self)        
+        exitAction = QtGui.QAction('&Exit', self)
         exitAction.setShortcut('Ctrl+D')
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(self.close)
