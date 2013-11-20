@@ -4,8 +4,10 @@ import random
 from PyQt4 import QtGui, QtCore
 
 class Boat3D(QtGui.QMainWindow):
-    def __init__(self, length):
+    def __init__(self, length, pos):
         super(Boat3D, self).__init__()
+
+        self.pos = pos
 
         self.length = length
         self.wallHeight = 60
@@ -53,7 +55,10 @@ class Boat3D(QtGui.QMainWindow):
         toolbar.addAction(saveAction)
 
 
-        self.setGeometry(300, 300, 350, 350)
+        # Center the window on the pos passed to it.
+        self.setGeometry(0, 0, 350, 350)
+        self.setGeometry(self.pos.x() - (self.frameGeometry().width()/2), self.pos.y() - (self.frameGeometry().height()/2), 350, 350)
+
         self.setWindowTitle('Boat 3D')
 
 class Drawing(QtGui.QWidget):
@@ -202,7 +207,7 @@ def main():
         length = random.randint(0, 300)
 
     app = QtGui.QApplication(sys.argv)
-    bt1 = Boat3D(length)
+    bt1 = Boat3D(length, QtGui.QDesktopWidget().availableGeometry().center())
     bt1.show()
     sys.exit(app.exec_())
 

@@ -15,7 +15,8 @@ class BoatPlanner(QtGui.QMainWindow):
         self.initUI()
 
         # Temp test of adding items.
-        chair1 = items.Furniture('chair', 100, 100, 1.5, 0, 'My Seat', '#000000')
+        chair1 = items.Furniture('chair', 100, 100, 1.5, 0, 
+                                 'My Seat', '#000000')
         self.canvas.update(chair1)
         chair1.setX(300)
         chair1.setY(300)
@@ -48,7 +49,10 @@ class BoatPlanner(QtGui.QMainWindow):
         self.setWindowTitle('Boat Layout Planner')
 
     def isoView(self):
-        self.win = isometric.Boat3D(random.randint(0, 300))
+        # Open the 3D view with a temporary length, 
+        #   and position it in the center of this window.
+        self.win = isometric.Boat3D(random.randint(0, 300), 
+                                    self.frameGeometry().center())
         self.win.show()
 
 def main():
