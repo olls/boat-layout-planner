@@ -7,6 +7,10 @@ import layout
 import items
 
 class BoatPlanner(QtGui.QMainWindow):
+    """
+        The main window which holds the canvas and tool-bars.
+    """
+
     def __init__(self):
         super(BoatPlanner, self).__init__()
 
@@ -49,7 +53,9 @@ class BoatPlanner(QtGui.QMainWindow):
         self.setWindowTitle('Boat Layout Planner')
 
     def isoView(self):
-        # Open the 3D view with a temporary length, 
+        """ Opens the isometric 3D view window. """
+
+        # Open the 3D view with a temporary random length, 
         #   and position it in the center of this window.
         self.win = isometric.Boat3D(random.randint(0, 300), 
                                     self.frameGeometry().center())
