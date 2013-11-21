@@ -4,9 +4,9 @@ from PyQt4 import QtGui
 
 import isometric
 import layout
-import item
-import furniture
-import boat
+import items.item
+import items.furniture
+import items.boat
 
 class BoatPlanner(QtGui.QMainWindow):
     """
@@ -17,16 +17,16 @@ class BoatPlanner(QtGui.QMainWindow):
         super(BoatPlanner, self).__init__()
 
         self.canvas = layout.Canvas()
-        self.boat = boat.Boat(self.canvas, length=random.randint(200, 1000),
+        self.boat = items.boat.Boat(self.canvas, length=random.randint(200, 1000),
                                description='My long Boat.')
 
         self.initUI()
 
         # Temp test of adding items.
-        chair = furniture.Furniture(self.canvas, 'chair', x=100, y=100, 
+        chair = items.furniture.Furniture(self.canvas, 'chair', x=100, y=100, 
                                     scale=1.5, description='My Seat')
 
-        chair1 = furniture.Furniture(self.canvas, 'chair', x=100, y=100, 
+        chair1 = items.furniture.Furniture(self.canvas, 'chair', x=100, y=100, 
                                      scale=1.5, description='My Seat')
         chair1.setX(300)
         chair1.setY(300)
