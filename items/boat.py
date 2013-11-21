@@ -6,7 +6,7 @@ from items.templates import TEMPLATES
 
 class Boat(items.item.Item):
     
-    def __init__(self, canvas, length=400, width=100, bow=50, x=0, y=0, 
+    def __init__(self, canvas, length=40, width=100, bow=50, x=0, y=0, 
                  color='#000000', description='', author='Unknown'):
         super(Boat, self).__init__()
 
@@ -31,6 +31,7 @@ class Boat(items.item.Item):
 
         # Create QItems
         self.redraw()
+        self.canvas.fitInView(self)
 
 
     def addFurniture(self, name):

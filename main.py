@@ -16,21 +16,14 @@ class BoatPlanner(QtGui.QMainWindow):
     def __init__(self):
         super(BoatPlanner, self).__init__()
 
-        self.canvas = layout.Canvas()
-        self.boat = items.boat.Boat(self.canvas, length=random.randint(200, 1000),
+        self.scale = 1 # 1m = 10px
+
+        self.canvas = layout.Canvas(self.scale)
+        self.boat = items.boat.Boat(self.canvas,
                                description='My long Boat.')
 
         self.initUI()
-
-        # Temp test of adding items.
-        chair = items.furniture.Furniture(self.canvas, 'chair', x=100, y=100, 
-                                    scale=1.5, description='My Seat')
-
-        chair1 = items.furniture.Furniture(self.canvas, 'chair', x=100, y=100, 
-                                     scale=1.5, description='My Seat')
-        chair1.setX(300)
-        chair1.setY(300)
-        chair1.setScale(8)
+        
 
     def initUI(self):
         self.setCentralWidget(self.canvas)

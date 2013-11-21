@@ -6,8 +6,10 @@ class Canvas(QtGui.QGraphicsView):
         This widget the interactive canvas which the layout is created.
     """
 
-    def __init__(self):
+    def __init__(self, scale):
         super(Canvas, self).__init__()
+
+        self.scale = scale
 
         self.scene = QtGui.QGraphicsScene(self)
         self.setScene(self.scene)

@@ -63,7 +63,7 @@ class Boat3D(QtGui.QMainWindow):
 
 
         # Center the window on the pos passed to it.
-        self.setGeometry(0, 0, 350, 350)
+        self.setGeometry(0, 0, 350, 350) # DOESN'T WORK
         self.setGeometry(self.pos.x() - (self.frameGeometry().width()/2), 
                          self.pos.y() - (self.frameGeometry().height()/2), 
                          350, 350)
