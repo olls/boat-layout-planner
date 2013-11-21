@@ -1,8 +1,8 @@
 from PyQt4 import QtGui, QtCore
 
-import item
+import items.item
 
-class Furniture(item.Item):
+class Furniture(items.item.Item):
     """
         An QGraphicsItemGroup which holds all the QItems 
             and can return its XML or SVG.
@@ -70,7 +70,7 @@ class Furniture(item.Item):
         self.redraw()
 
 
-class Wall(item.Item):
+class Wall(items.item.Item):
     
     def __init__(self, x=0, doorY=0, description=''):
         pass

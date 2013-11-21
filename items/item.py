@@ -2,7 +2,7 @@ import sys
 import math
 from PyQt4 import QtGui, QtCore
 
-from templates import TEMPLATES
+from items.templates import TEMPLATES
 
 
 class Item(QtGui.QGraphicsItemGroup):

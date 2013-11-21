@@ -1,10 +1,10 @@
 from PyQt4 import QtGui
 
-import item
-import furniture
-from templates import TEMPLATES
+import items.item
+import items.furniture
+from items.templates import TEMPLATES
 
-class Boat(item.Item):
+class Boat(items.item.Item):
     
     def __init__(self, canvas, length=400, width=100, bow=50, x=0, y=0, 
                  color='#000000', description='', author='Unknown'):
@@ -34,10 +34,10 @@ class Boat(item.Item):
 
 
     def addFurniture(self, name):
-        self.items.append(furniture.Furniture(self.canvas, name))
+        self.items.append(items.furniture.Furniture(self.canvas, name))
 
     def addWall(self):
-        self.items.append(furniture.Wall(self.canvas))
+        self.items.append(items.furniture.Wall(self.canvas))
 
     @property
     def furniture(self):
