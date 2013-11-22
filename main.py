@@ -19,7 +19,7 @@ class BoatPlanner(QtGui.QMainWindow):
         self.scale = 1 # 1m = 10px
 
         self.canvas = layout.Canvas(self.scale)
-        self.boat = items.boat.Boat(self.canvas,
+        self.boat = items.boat.Boat(self.canvas, length=1000, stern=30, bow=150,
                                description='My long Boat.')
 
         self.initUI()
@@ -37,6 +37,7 @@ class BoatPlanner(QtGui.QMainWindow):
         exitAction.triggered.connect(self.close)
 
         isoAction = QtGui.QAction('&3D View', self)
+        isoAction.setShortcut('Ctrl+V')
         isoAction.setStatusTip('View an isometric image of the boat.')
         isoAction.triggered.connect(self.isoView)
 
@@ -67,8 +68,7 @@ class BoatPlanner(QtGui.QMainWindow):
 
         # Open the 3D view with a temporary random length, 
         #   and position it in the center of this window.
-        self.win = isometric.Boat3D(self.boat.attrs['length'], 
-                                    self.frameGeometry().center())
+        self.win = isometric.Boat3D(self.boat, self.frameGeometry().center())
         self.win.show()
 
 def main():

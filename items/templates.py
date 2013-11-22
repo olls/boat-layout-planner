@@ -7,8 +7,14 @@ TEMPLATES = {
     },
     'other': {
         'boat': {
-            'XML': '<boat length="{length}" color="{color}" description="{description}" author="{author}" />',
-            'SVG': '<line stroke="#000000" stroke-width="1" x1="{x}+{bow}" y1="{y}" x2="{x}+{length}" y2="{y}" id="svg_1"/><line stroke="#000000" stroke-width="1" x1="{x}+{bow}" y1="{y}+{width}" x2="{x}+{length}" y2="{y}+{width}" /><line stroke="#000000" stroke-width="1" x1="{x}" y1="{y}+({width}/2)" x2="{x}+{bow}" y2="{y}" /><line stroke="#000000" stroke-width="1" x1="{x}" y1="{y}+({width}/2)" x2="{x}+{bow}" y2="{y}+{width}" /><line stroke="#000000" stroke-width="1" x1="{x}+{length}" y1="{y}" x2="{x}+{length}" y2="{y}+{width}" />'
+            'XML': '<boat length="{length}" width="{width}" bow="{bow}" stern="{stern}" color="{color}" description="{description}" author="{author}" />',
+            'SVG': '\
+            <line stroke="#000000" stroke-width="1" x1="{x}+{bow}" y1="{y}" x2="{x}+{length}" y2="{y}"/>\
+            <line stroke="#000000" stroke-width="1" x1="{x}+{bow}" y1="{y}+{width}" x2="{x}+{length}" y2="{y}+{width}" />\
+            <line stroke="#000000" stroke-width="1" x1="{x}" y1="{y}+({width}/2)" x2="{x}+{bow}" y2="{y}" />\
+            <line stroke="#000000" stroke-width="1" x1="{x}" y1="{y}+({width}/2)" x2="{x}+{bow}" y2="{y}+{width}" />\
+            <line stroke="#000000" stroke-width="1" x1="{x}+({length}-{stern})" y1="{y}" x2="{x}+({length}-{stern})" y2="{y}+{width}" />\
+            <line stroke="#000000" stroke-width="1" x1="{x}+{length}" y1="{y}" x2="{x}+{length}" y2="{y}+{width}" />'
         },
         'wall': {
             'XML': '',

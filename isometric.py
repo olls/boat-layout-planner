@@ -8,16 +8,13 @@ class Boat3D(QtGui.QMainWindow):
         The window which displays the 3D isometric image of the boat widget.
     """
     
-    def __init__(self, length, pos):
+    def __init__(self, boat, pos):
         super(Boat3D, self).__init__()
 
         self.pos = pos
 
-        self.length = length
-        self.wallHeight = 60
-
         # Creates the boat.
-        self.image = Drawing(self.length, self.wallHeight)
+        self.image = Drawing(boat)
 
         self.initUI()
         
@@ -76,18 +73,27 @@ class Drawing(QtGui.QWidget):
         draws it in the widget and saves it as an SVG file.
     """
 
-    def __init__(self, length, wallHeight):
+    def __init__(self, boat):
         super(Drawing, self).__init__()
 
-        self.length = length
-        self.wallHeight = wallHeight
+        self.length = boat.attrs['length']
+        self.bow = boat.attrs['bow']
+        self.stern = boat.attrs['stern']
+        self.width = boat.attrs['width']
+
+        self.color = boat.attrs['color']
+
         # Calculate this here because it's being used a lot in the drawing code.
         self.COS30 = math.sqrt(3) /2
 
         # Calculate boat image dimensions.
-        self.totLength = self.COS30 * (((5 * self.wallHeight) /2) + self.length)
-        self.totHeight = (self.length /2) + ((3 * self.wallHeight) /2)
-        self.origin = (self.COS30 * ((3 * self.wallHeight) /2), self.totHeight)
+        self.totLength = max(self.COS30 * ((self.width / 2) + self.length), 
+                             self.COS30 * (self.length - self.bow + self.width))
+        self.totHeight = max(((self.length - self.bow + self.width) / 2) + (self.width / 3), # Measured from origin to end of stern.
+                             ((self.length - self.bow - self.stern + self.width) / 2) + self.width, # Measured from origin to end of cabin.
+                             (((self.width / 2) + self.bow + (self.length - self.stern - self.bow)) / 2) + ((2 * self.width) / 3), # Measured from end of bow to end of cabin.
+                             ) # Measured from end of bow to end of stern.
+        self.origin = (self.COS30 * ((self.width / 2) + self.bow), self.totHeight) # Y NBOTa always totheight
 
         self.calcualeVectors()
 
@@ -136,71 +142,89 @@ class Drawing(QtGui.QWidget):
         """ This calculates the vectors to draw the boat
             based off the length and line height """
         
-        self.vectors = (
+        self.vectors = [
             # Left wall
-            self.rLine(self.length, 
+            self.rLine(self.length - self.bow - self.stern, 
                        (self.origin[0],
-                        self.origin[1] - self.wallHeight)),
-            self.rLine(self.length + self.wallHeight, 
+                        self.origin[1] - self.width)),
+            self.rLine(self.length - self.bow, 
                        self.origin),
-            self.vLine((self.wallHeight / 3) * 2, 
+            self.vLine((2 * self.width) / 3, 
                        (self.origin[0], 
-                        self.origin[1] - self.wallHeight)),
-            self.vLine((self.wallHeight / 3) * 2, 
-                       (self.origin[0] + (self.COS30 * self.length), 
-                        self.origin[1] - self.wallHeight - (self.length / 2))),
+                        self.origin[1] - self.width)),
+            self.vLine((2 * self.width) / 3, 
+                       (self.origin[0] + (self.COS30 * (self.length - self.bow - self.stern)), 
+                        self.origin[1] - self.width - ((self.length - self.bow - self.stern) / 2))),
 
             # Front wall
-            self.lLine(self.wallHeight, 
+            self.lLine(self.width, 
                        (self.origin[0], 
-                        self.origin[1] - (self.wallHeight / 3))),
-            self.lLine(self.wallHeight, 
+                        self.origin[1] - (self.width / 3))),
+            self.lLine(self.width, 
                        (self.origin[0], 
-                        self.origin[1] - self.wallHeight)),
-            self.vLine((self.wallHeight / 3) * 2, 
-                       (self.origin[0] - (self.COS30 * self.wallHeight), 
-                        self.origin[1] - ((3 * self.wallHeight) / 2))),
+                        self.origin[1] - self.width)),
+            self.vLine((2 * self.width) / 3, 
+                       (self.origin[0] - (self.COS30 * self.width), 
+                        self.origin[1] - ((3 * self.width) / 2))),
 
             # Roof
-            self.rLine(self.length, 
-                       (self.origin[0] - (self.COS30 * self.wallHeight), 
-                        self.origin[1] - ((3 * self.wallHeight) / 2))),
-            self.lLine(self.wallHeight, 
-                       (self.origin[0] + (self.COS30 * self.length), 
-                        self.origin[1] - self.wallHeight - (self.length / 2))),
+            self.rLine(self.length - self.bow - self.stern, 
+                       (self.origin[0] - (self.COS30 * self.width), 
+                        self.origin[1] - ((3 * self.width) / 2))),
+            self.lLine(self.width, 
+                       (self.origin[0] + (self.COS30 * (self.length - self.bow - self.stern)), 
+                        self.origin[1] - self.width - ((self.length - self.bow - self.stern) / 2))),
 
-            # Back
-            self.rLine(self.wallHeight, 
-                       (self.origin[0] + (self.COS30 * self.length), 
-                        self.origin[1] - (self.length / 2) - (self.wallHeight / 3))),
-            self.vLine(self.wallHeight / 3,
-                       (self.origin[0] + (self.COS30 * (self.length + self.wallHeight)), 
-                        self.origin[1] - (self.length / 2) - ((5 * self.wallHeight) / 6))),
-            self.lLine(self.wallHeight,
-                       (self.origin[0] + (self.COS30 * (self.length + self.wallHeight)), 
-                        self.origin[1] - (self.length / 2) - ((5 * self.wallHeight) / 6))),
-            self.rLine(self.wallHeight / 3, 
-                       (self.origin[0] + (self.COS30 * self.length) - (self.COS30 * (self.wallHeight / 3)), 
-                        self.origin[1] -(self.length / 2) - ((7 * self.wallHeight) / 6))),
+            # Stern
+            self.rLine(self.stern, 
+                       (self.origin[0] + (self.COS30 * (self.length - self.bow - self.stern)), 
+                        self.origin[1] - ((self.length - self.bow - self.stern) / 2) - (self.width / 3))),
+            self.vLine(self.width / 3,
+                       (self.origin[0] + (self.COS30 * (self.length - self.bow)), 
+                        self.origin[1] - ((self.length - self.bow) / 2) - (self.width / 3)))
+        ]
+        if self.stern < ((2 * self.width) / 3):
+            self.vectors.append(
+                # If the cabin is partially hiding the line across the back of 
+                #   the boat, set it to the stern length.
+                self.lLine(self.stern,
+                           (self.origin[0] + (self.COS30 * (self.length - self.bow)), 
+                            self.origin[1] - ((self.length - self.bow) / 2) - (self.width / 3)))
+            )
+        else:
+            self.vectors += [
+                # If the cabin is not partially hiding the line across the back 
+                #   of the boat, set it to the width, to display fully.
+                self.lLine(self.width,
+                           (self.origin[0] + (self.COS30 * (self.length - self.bow)), 
+                            self.origin[1] - ((self.length - self.bow) / 2) - (self.width / 3))),
+                # If the cabin is not hiding the small line on the far side 
+                #   completely, show it, otherwise don't.
+                self.rLine(self.stern - ((2 * self.width) / 3), 
+                           (self.origin[0] + (self.COS30 * (self.length - self.bow - self.stern - (self.width / 3))),  
+                            self.origin[1] -((self.length - self.bow - self.stern + (self.width / 3)) / 2) - self.width))
+            ]
+        self.vectors += [
 
-            # Point
+            # Bow
             # Because these lines are not parallel to any 
             #   of the three axis, I cannot use the rLine, lLine 
             #   or vLine methods, so I calculate the vector information
             #   straight to the format needed for the pen.drawLine method.
             (self.origin[0], 
-             self.origin[1] - (self.wallHeight / 3), 
-             self.origin[0] + self.COS30 * (-3 * (self.wallHeight / 2)), 
-             self.origin[1] - (self.wallHeight / 12)),
-            (self.origin[0] - (self.COS30 * self.wallHeight), 
-             self.origin[1] - ((5 * self.wallHeight) / 6), 
-             self.origin[0] + self.COS30 * (-3 * (self.wallHeight / 2)), 
-             self.origin[1] - (self.wallHeight / 12)),
+             self.origin[1] - (self.width / 3), 
+             self.origin[0] - self.COS30 * (self.bow + (self.width / 2)), 
+             self.origin[1] - (self.width/3) + (self.bow / 2) - (self.width / 4)),
+            (self.origin[0] - (self.COS30 * self.width), 
+             self.origin[1] - ((5 * self.width) / 6), 
+             self.origin[0] - self.COS30 * (self.bow + (self.width / 2)), 
+             self.origin[1] - (self.width/3) + (self.bow / 2) - (self.width / 4)),
             (self.origin[0], 
              self.origin[1], 
-             self.origin[0] + self.COS30 * (-3 * (self.wallHeight / 2)), 
-             self.origin[1] - (self.wallHeight / 12))
-        )
+             self.origin[0] - self.COS30 * (self.bow + (self.width / 2)), 
+             self.origin[1] - (self.width/3) + (self.bow / 2) - (self.width / 4))
+        ]
+        self.vectors = tuple(self.vectors)
 
     def drawBoat(self, qp):
         """ Draws the vectors calculated by self.calcualeVectors 

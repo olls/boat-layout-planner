@@ -1,3 +1,4 @@
+import sys
 from PyQt4 import QtGui
 
 import items.item
@@ -6,7 +7,7 @@ from items.templates import TEMPLATES
 
 class Boat(items.item.Item):
     
-    def __init__(self, canvas, length=40, width=100, bow=50, x=0, y=0, 
+    def __init__(self, canvas, length=400, width=100, bow=50, stern=50,
                  color='#000000', description='', author='Unknown'):
         super(Boat, self).__init__()
 
@@ -17,8 +18,9 @@ class Boat(items.item.Item):
         self._setLength(length)
         self._setWidth(width)
         self._setBow(bow)
-        self._setX(x)
-        self._setY(y)
+        self._setStern(stern)
+        self._setX(0)
+        self._setY(0)
         self._setColor(color)
         self._setDescription(description)
         self._setAuthor(author)
@@ -31,7 +33,7 @@ class Boat(items.item.Item):
 
         # Create QItems
         self.redraw()
-        self.canvas.fitInView(self)
+        # self.canvas.fitInView(self)
 
 
     def addFurniture(self, name):
@@ -68,8 +70,21 @@ class Boat(items.item.Item):
             self.attrs['bow'] = float(bow)
         except ValueError:
             sys.exit('Fatal error: Invalid bow attribute for Boat item')
+        if self.attrs['bow'] > self.attrs['length']:
+            sys.exit('Fatal error: Invalid bow attribute for Boat item')
     def setBow(self, bow):
         self._setBow(bow)
+        self.redraw()
+
+    def _setStern(self, stern):
+        try:
+            self.attrs['stern'] = float(stern)
+        except ValueError:
+            sys.exit('Fatal error: Invalid stern attribute for Boat item')
+        if self.attrs['stern'] > (self.attrs['length'] - self.attrs['bow']):
+            sys.exit('Fatal error: Invalid stern attribute for Boat item')
+    def setStern(self, stern):
+        self._setStern(stern)
         self.redraw()
 
     def _setAuthor(self, author):
