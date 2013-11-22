@@ -92,8 +92,11 @@ class Drawing(QtGui.QWidget):
         self.totHeight = max(((self.length - self.bow + self.width) / 2) + (self.width / 3), # Measured from origin to end of stern.
                              ((self.length - self.bow - self.stern + self.width) / 2) + self.width, # Measured from origin to end of cabin.
                              (((self.width / 2) + self.bow + (self.length - self.stern - self.bow)) / 2) + ((2 * self.width) / 3), # Measured from end of bow to end of cabin.
-                             ) # Measured from end of bow to end of stern.
-        self.origin = (self.COS30 * ((self.width / 2) + self.bow), self.totHeight) # Y NBOTa always totheight
+                             ((self.width / 2) + self.length) / 2) # Measured from end of bow to end of stern.
+        self.origin = (max(self.COS30 * ((self.width / 2) + self.bow), 
+                           self.COS30 * self.width), 
+                       min(self.totHeight,
+                           self.totHeight + (self.width / 4) - (self.bow / 2) + (self.width / 3))) # Y NBOTa always totheight
 
         self.calcualeVectors()
 

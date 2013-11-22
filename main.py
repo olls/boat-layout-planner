@@ -19,7 +19,7 @@ class BoatPlanner(QtGui.QMainWindow):
         self.scale = 1 # 1m = 10px
 
         self.canvas = layout.Canvas(self.scale)
-        self.boat = items.boat.Boat(self.canvas, length=1000, stern=30, bow=150,
+        self.boat = items.boat.Boat(self.canvas, length=1000, stern=130, bow=130,
                                description='My long Boat.')
 
         self.initUI()
