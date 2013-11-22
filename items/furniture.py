@@ -46,6 +46,9 @@ class Furniture(items.item.Item):
         self.setCursor(QtCore.Qt.OpenHandCursor)
         self.top()
 
+        self.setX(self.x()/(self.canvas.scale * self.canvas.ppm))
+        self.setY(self.y()/(self.canvas.scale * self.canvas.ppm))
+
 
     # Each 'set' method has a private one for internal use which does the work
     #   and validates the input, and a public one which uses the private one

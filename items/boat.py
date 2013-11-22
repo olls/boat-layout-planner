@@ -46,7 +46,7 @@ class Boat(items.item.Item):
     def furniture(self):
         return TEMPLATES['furniture']
 
-    def updateAll(self):
+    def redrawAll(self):
         self.redraw()
         for item in self.items:
             item.redraw()

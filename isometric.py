@@ -76,10 +76,11 @@ class Drawing(QtGui.QWidget):
     def __init__(self, boat):
         super(Drawing, self).__init__()
 
-        self.length = boat.attrs['length']
-        self.bow = boat.attrs['bow']
-        self.stern = boat.attrs['stern']
-        self.width = boat.attrs['width']
+        sf = 50
+        self.length = boat.attrs['length']*sf
+        self.bow = boat.attrs['bow']*sf
+        self.stern = boat.attrs['stern']*sf
+        self.width = boat.attrs['width']*sf
 
         self.color = boat.attrs['color']
 

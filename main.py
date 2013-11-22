@@ -89,7 +89,7 @@ class BoatPlanner(QtGui.QMainWindow):
             self.canvas.zoomIn()
         else:
             self.canvas.zoomOut()
-        self.boat.updateAll()
+        self.boat.redrawAll()
 
 def main():
     app = QtGui.QApplication(sys.argv)
