@@ -39,10 +39,10 @@ class Item(QtGui.QGraphicsItemGroup):
 
             if name == 'line':
                 QItem = self.canvas.scene.addLine(
-                    QtCore.QLineF(float(self.getSVGItemAttrValue(item, 'x1')),
-                                  float(self.getSVGItemAttrValue(item, 'y1')),
-                                  float(self.getSVGItemAttrValue(item, 'x2')),
-                                  float(self.getSVGItemAttrValue(item, 'y2')))
+                    QtCore.QLineF(float(self.getSVGItemAttrValue(item, 'x1'))*self.canvas.scale*self.canvas.ppm,
+                                  float(self.getSVGItemAttrValue(item, 'y1'))*self.canvas.scale*self.canvas.ppm,
+                                  float(self.getSVGItemAttrValue(item, 'x2'))*self.canvas.scale*self.canvas.ppm,
+                                  float(self.getSVGItemAttrValue(item, 'y2'))*self.canvas.scale*self.canvas.ppm)
                 )
 
             elif name == 'rect':

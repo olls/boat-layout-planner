@@ -13,17 +13,16 @@ class BoatPlanner(QtGui.QMainWindow):
         The main window which holds the canvas and tool-bars.
     """
 
-    def __init__(self):
+    def __init__(self, scale=1, ppm=100):
         super(BoatPlanner, self).__init__()
 
-        self.scale = 1 # 1m = 10px
+        self.scale = scale
+        self.ppm = ppm # Pixels per Meter at Scale = 1
 
-        self.canvas = layout.Canvas(self.scale)
-        self.boat = items.boat.Boat(self.canvas, length=1000, stern=130, bow=130,
+        self.canvas = layout.Canvas(self.scale, self.ppm)
+        self.boat = items.boat.Boat(self.canvas, length=20, stern=2, bow=3,
                                description='My long Boat.')
-
         self.initUI()
-        
 
     def initUI(self):
         self.setCentralWidget(self.canvas)
@@ -41,6 +40,16 @@ class BoatPlanner(QtGui.QMainWindow):
         isoAction.setStatusTip('View an isometric image of the boat.')
         isoAction.triggered.connect(self.isoView)
 
+        zoomInAction = QtGui.QAction('Zoom In', self)
+        zoomInAction.setShortcut('Ctrl++')
+        zoomInAction.setStatusTip('Zoom In (Ctrl++)')
+        zoomInAction.triggered.connect(lambda: self.zoom(True))
+
+        zoomOutAction = QtGui.QAction('Zoom Out', self)
+        zoomOutAction.setShortcut('Ctrl+-')
+        zoomOutAction.setStatusTip('Zoom Out (Ctrl+-)')
+        zoomOutAction.triggered.connect(lambda: self.zoom(False))
+
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(isoAction)
         fileMenu.addAction(exitAction)
@@ -48,6 +57,8 @@ class BoatPlanner(QtGui.QMainWindow):
         toolbar = self.addToolBar('menu')
         toolbar.addAction(exitAction)
         toolbar.addAction(isoAction)
+        toolbar.addAction(zoomInAction)
+        toolbar.addAction(zoomOutAction)
 
         self.setUpItemsToolbar()
 
@@ -70,6 +81,15 @@ class BoatPlanner(QtGui.QMainWindow):
         #   and position it in the center of this window.
         self.win = isometric.Boat3D(self.boat, self.frameGeometry().center())
         self.win.show()
+
+    def zoom(self, dir):
+        """ Increases the scale in the canvas. """
+
+        if dir:
+            self.canvas.zoomIn()
+        else:
+            self.canvas.zoomOut()
+        self.boat.updateAll()
 
 def main():
     app = QtGui.QApplication(sys.argv)

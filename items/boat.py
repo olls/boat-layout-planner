@@ -7,11 +7,13 @@ from items.templates import TEMPLATES
 
 class Boat(items.item.Item):
     
-    def __init__(self, canvas, length=400, width=100, bow=50, stern=50,
+    def __init__(self, canvas, length=20, width=2, bow=3, stern=4,
                  color='#000000', description='', author='Unknown'):
         super(Boat, self).__init__()
 
         self.items = []
+
+        self.canvas = canvas
 
         self.attrs = {}
         self._setName('boat')
@@ -24,8 +26,6 @@ class Boat(items.item.Item):
         self._setColor(color)
         self._setDescription(description)
         self._setAuthor(author)
-
-        self.canvas = canvas
 
         self.canvas.scene.addItem(self)
 
@@ -45,6 +45,11 @@ class Boat(items.item.Item):
     @property
     def furniture(self):
         return TEMPLATES['furniture']
+
+    def updateAll(self):
+        self.redraw()
+        for item in self.items:
+            item.redraw()
 
 
     def _setLength(self, length):

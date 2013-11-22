@@ -11,6 +11,8 @@ class Furniture(items.item.Item):
     def __init__(self, canvas, name, x=0, y=0, scale=1, angle=0, 
                  description='', color='#000000'):
         super(Furniture, self).__init__()
+
+        self.canvas = canvas
         
         self.attrs = {}
         self._setName(name)
@@ -20,8 +22,6 @@ class Furniture(items.item.Item):
         self._setAngle(angle)
         self._setDescription(description)
         self._setColor(color)
-
-        self.canvas = canvas
 
         # Add ourself to the canvas and set as drag-able.
         self.canvas.scene.addItem(self)
