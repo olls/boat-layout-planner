@@ -21,7 +21,7 @@ class BoatPlanner(QtGui.QMainWindow):
 
         self.newBoat()
 
-    def newBoat(self, length=2, width=5, stern=1.8, bow=.2, description='Dvbris'):
+    def newBoat(self, length=20, width=2, stern=2.5, bow=2.5, description='Dvbris'):
         self.scale = 1
 
         self.canvas = layout.Canvas(self.scale, self.ppm)
