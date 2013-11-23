@@ -1,5 +1,6 @@
 import sys
 import random
+import time
 from PyQt4 import QtGui
 
 import isometric
@@ -13,15 +14,19 @@ class BoatPlanner(QtGui.QMainWindow):
         The main window which holds the canvas and tool-bars.
     """
 
-    def __init__(self, scale=1, ppm=100):
+    def __init__(self, ppm=100):
         super(BoatPlanner, self).__init__()
 
-        self.scale = scale
         self.ppm = ppm # Pixels per Meter at Scale = 1
 
+        self.newBoat()
+
+    def newBoat(self, length=2, width=5, stern=1.8, bow=.2, description='Dvbris'):
+        self.scale = 1
+
         self.canvas = layout.Canvas(self.scale, self.ppm)
-        self.boat = items.boat.Boat(self.canvas, length=20, stern=2, bow=3,
-                               description='My long Boat.')
+        self.boat = items.boat.Boat(self.canvas, length=length, width=width, 
+                        stern=stern, bow=bow, description=description)
         self.initUI()
 
     def initUI(self):
@@ -63,6 +68,7 @@ class BoatPlanner(QtGui.QMainWindow):
         self.setUpItemsToolbar()
 
         self.setWindowTitle('Boat Layout Planner')
+        self.showMaximized()
 
     def setUpItemsToolbar(self):
         addItems = self.addToolBar('items')
@@ -94,7 +100,6 @@ class BoatPlanner(QtGui.QMainWindow):
 def main():
     app = QtGui.QApplication(sys.argv)
     win = BoatPlanner()
-    win.showMaximized()
     sys.exit(app.exec_())
 
 if __name__ == '__main__':

@@ -92,7 +92,7 @@ class Drawing(QtGui.QWidget):
                              self.COS30 * (self.length - self.bow + self.width))
         self.totHeight = max(((self.length - self.bow + self.width) / 2) + (self.width / 3), # Measured from origin to end of stern.
                              ((self.length - self.bow - self.stern + self.width) / 2) + self.width, # Measured from origin to end of cabin.
-                             (((self.width / 2) + self.bow + (self.length - self.stern - self.bow)) / 2) + ((2 * self.width) / 3), # Measured from end of bow to end of cabin.
+                             (((self.width / 2) + self.length - self.stern) / 2) + ((2 * self.width) / 3), # Measured from end of bow to end of cabin.
                              ((self.width / 2) + self.length) / 2) # Measured from end of bow to end of stern.
         self.origin = (max(self.COS30 * ((self.width / 2) + self.bow), 
                            self.COS30 * self.width), 
