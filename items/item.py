@@ -2,6 +2,7 @@ import sys
 import math
 from PyQt4 import QtGui, QtCore
 
+import items.edit
 from items.templates import TEMPLATES
 
 
@@ -116,6 +117,12 @@ class Item(QtGui.QGraphicsItemGroup):
         # Set every colliding items Z value to 0
         for sibling in self.collidingItems():
             sibling.setZValue(0)
+
+    
+    def mouseDoubleClickEvent(self, e):
+        """ Opens the edit window when double clicked. """
+        self.win = items.edit.Edit(self)
+        self.win.show()
 
 
     # Each 'set' method has a private one for internal use which does the work

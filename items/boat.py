@@ -2,15 +2,14 @@ import sys
 from PyQt4 import QtGui, QtCore
 
 import items.item
-import items.furniture
-import items.edit
 from items.templates import TEMPLATES
-import isometric
+
 
 class Boat(items.item.Item):
     
-    def __init__(self, canvas, length=20, width=2, bow=3, stern=4, wallWidth=0.1,
-                 color='#000000', description='', author='Unknown'):
+    def __init__(self, canvas, length=20, width=2, height=3, bow=3, stern=4, 
+                 wallWidth=0.1, color='#000000', description='', 
+                 author='Unknown'):
         super(Boat, self).__init__()
 
         self.items = []
@@ -21,6 +20,7 @@ class Boat(items.item.Item):
         self._setName('boat')
         self._setLength(length)
         self._setWidth(width)
+        self._setHeight(height)
         self._setBow(bow)
         self._setStern(stern)
         self._setWallWidth(wallWidth)
@@ -37,13 +37,6 @@ class Boat(items.item.Item):
         # Create QItems
         self.redraw()
         # self.canvas.fitInView(self)
-
-
-    def mouseDoubleClickEvent(self, e):
-        print('Click')
-        win = items.edit.Edit()
-        win.show()
-        print('Done')
 
 
     def addFurniture(self, name):
@@ -76,8 +69,22 @@ class Boat(items.item.Item):
             self.attrs['width'] = float(width)
         except ValueError:
             sys.exit('Fatal error: Invalid width attribute for Boat item')
+        if self.attrs['width'] < 0:
+            sys.exit('Fatal error: Invalid width attribute for Boat item')
     def setWidth(self, width):
         self._setWidth(width)
+        self.redraw()
+        self.redraw()
+
+    def _setHeight(self, height):
+        try:
+            self.attrs['height'] = float(height)
+        except ValueError:
+            sys.exit('Fatal error: Invalid height attribute for Boat item')
+        if self.attrs['height'] < 0:
+            sys.exit('Fatal error: Invalid height attribute for Boat item')
+    def setWallWidth(self, height):
+        self._setHeight(height)
         self.redraw()
 
     def _setBow(self, bow):
@@ -111,7 +118,6 @@ class Boat(items.item.Item):
             sys.exit('Fatal error: Invalid wallWidth attribute for Boat item')
     def setWallWidth(self, stern):
         self._setStern(stern)
-        self.redraw()
 
     def _setAuthor(self, author):
         self.attrs['author'] = author
