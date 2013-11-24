@@ -3,6 +3,7 @@ import math
 import random
 from PyQt4 import QtGui, QtCore
 
+
 class Boat3D(QtGui.QMainWindow):
     """
         The window which displays the 3D isometric image of the boat widget.

@@ -7,6 +7,7 @@ import isometric
 import layout
 import items.item
 import items.furniture
+import items.edit
 import items.boat
 
 class BoatPlanner(QtGui.QMainWindow):
@@ -85,8 +86,9 @@ class BoatPlanner(QtGui.QMainWindow):
 
         # Open the 3D view with a temporary random length, 
         #   and position it in the center of this window.
-        self.win = isometric.Boat3D(self.boat, self.frameGeometry().center())
-        self.win.show()
+        # win = isometric.Boat3D(self.boat, self.frameGeometry().center())
+        win = items.edit.Edit()
+        win.show()
 
     def zoom(self, dir):
         """ Increases the scale in the canvas. """

@@ -1,13 +1,15 @@
 import sys
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 
 import items.item
 import items.furniture
+import items.edit
 from items.templates import TEMPLATES
+import isometric
 
 class Boat(items.item.Item):
     
-    def __init__(self, canvas, length=20, width=2, bow=3, stern=4,
+    def __init__(self, canvas, length=20, width=2, bow=3, stern=4, wallWidth=0.1,
                  color='#000000', description='', author='Unknown'):
         super(Boat, self).__init__()
 
@@ -21,6 +23,7 @@ class Boat(items.item.Item):
         self._setWidth(width)
         self._setBow(bow)
         self._setStern(stern)
+        self._setWallWidth(wallWidth)
         self._setX(0)
         self._setY(0)
         self._setColor(color)
@@ -34,6 +37,13 @@ class Boat(items.item.Item):
         # Create QItems
         self.redraw()
         # self.canvas.fitInView(self)
+
+
+    def mouseDoubleClickEvent(self, e):
+        print('Click')
+        win = items.edit.Edit()
+        win.show()
+        print('Done')
 
 
     def addFurniture(self, name):
@@ -89,6 +99,17 @@ class Boat(items.item.Item):
         if self.attrs['stern'] > (self.attrs['length'] - self.attrs['bow']):
             sys.exit('Fatal error: Invalid stern attribute for Boat item')
     def setStern(self, stern):
+        self._setStern(stern)
+        self.redraw()
+
+    def _setWallWidth(self, wallWidth):
+        try:
+            self.attrs['wallWidth'] = float(wallWidth)
+        except ValueError:
+            sys.exit('Fatal error: Invalid wallWidth attribute for Boat item')
+        if self.attrs['wallWidth'] > (self.attrs['length'] / 2):
+            sys.exit('Fatal error: Invalid wallWidth attribute for Boat item')
+    def setWallWidth(self, stern):
         self._setStern(stern)
         self.redraw()
 
