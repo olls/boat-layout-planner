@@ -2,7 +2,7 @@ import sys
 import math
 from PyQt4 import QtGui, QtCore
 
-# import items.edit
+import items.edit
 from items.templates import TEMPLATES
 
 
@@ -124,9 +124,8 @@ class Item(QtGui.QGraphicsItemGroup):
     
     def mouseDoubleClickEvent(self, e):
         """ Opens the edit window when double clicked. """
-        # self.win = items.edit.Edit(self)
-        # self.win.show()
-        pass
+        self.win = items.edit.Edit(self)
+        self.win.show()
 
 
     # Each 'set' method has a private one for internal use which does the work
