@@ -46,8 +46,8 @@ class Furniture(items.item.Item):
         self.setCursor(QtCore.Qt.OpenHandCursor)
         self.top()
         
-        self.setX((e.scenePos().x() - e.pos().x())/(self.canvas.scale * self.canvas.ppm))
-        self.setY((e.scenePos().y() - e.pos().y())/(self.canvas.scale * self.canvas.ppm))
+        # self.setX((e.scenePos().x() - e.pos().x())/(self.canvas.scale * self.canvas.ppm))
+        # self.setY((e.scenePos().y() - e.pos().y())/(self.canvas.scale * self.canvas.ppm))
         # self.setX(self.x()/(self.canvas.scale * self.canvas.ppm))
         # self.setY(self.y()/(self.canvas.scale * self.canvas.ppm))
         self.redraw()

@@ -2,7 +2,7 @@ import sys
 import math
 from PyQt4 import QtGui, QtCore
 
-import items.edit
+# import items.edit
 from items.templates import TEMPLATES
 
 
@@ -27,6 +27,9 @@ class Item(QtGui.QGraphicsItemGroup):
 
         # It converts the SVG vector information to QItems.
         svg = self.generateSVG()
+
+        self._setX(self.x() / (self.canvas.scale * self.canvas.ppm))
+        self._setY(self.y() / (self.canvas.scale * self.canvas.ppm))
 
         vectorItems = []
         item = True
@@ -121,8 +124,9 @@ class Item(QtGui.QGraphicsItemGroup):
     
     def mouseDoubleClickEvent(self, e):
         """ Opens the edit window when double clicked. """
-        self.win = items.edit.Edit(self)
-        self.win.show()
+        # self.win = items.edit.Edit(self)
+        # self.win.show()
+        pass
 
 
     # Each 'set' method has a private one for internal use which does the work
