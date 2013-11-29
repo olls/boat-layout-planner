@@ -28,9 +28,6 @@ class Item(QtGui.QGraphicsItemGroup):
         # It converts the SVG vector information to QItems.
         svg = self.generateSVG()
 
-        self._setX(self.x() / (self.canvas.scale * self.canvas.ppm))
-        self._setY(self.y() / (self.canvas.scale * self.canvas.ppm))
-
         vectorItems = []
         item = True
         while item:
@@ -43,10 +40,10 @@ class Item(QtGui.QGraphicsItemGroup):
 
             if name == 'line':
                 QItem = self.canvas.scene.addLine(
-                    QtCore.QLineF(float(self.getSVGItemAttrValue(item, 'x1'))*self.canvas.scale*self.canvas.ppm,
-                                  float(self.getSVGItemAttrValue(item, 'y1'))*self.canvas.scale*self.canvas.ppm,
-                                  float(self.getSVGItemAttrValue(item, 'x2'))*self.canvas.scale*self.canvas.ppm,
-                                  float(self.getSVGItemAttrValue(item, 'y2'))*self.canvas.scale*self.canvas.ppm)
+                    QtCore.QLineF(float(self.getSVGItemAttrValue(item, 'x1')),
+                                  float(self.getSVGItemAttrValue(item, 'y1')),
+                                  float(self.getSVGItemAttrValue(item, 'x2')),
+                                  float(self.getSVGItemAttrValue(item, 'y2')))
                 )
 
             elif name == 'rect':
@@ -55,6 +52,7 @@ class Item(QtGui.QGraphicsItemGroup):
             # Add the QItem to ourself so it is a part of the group.
             self.addToGroup(QItem)
         self.top()
+        print((self.x(), self.y()))
 
 
     def generateXML(self):

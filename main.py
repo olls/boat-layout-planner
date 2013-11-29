@@ -21,11 +21,14 @@ class BoatPlanner(QtGui.QMainWindow):
         self.newBoat()
 
     def newBoat(self, length=20, width=2, stern=2.5, bow=2.5, description='Dvbris'):
-        self.scale = 1
+        self.scale = .3
 
         self.canvas = layout.Canvas(self.scale, self.ppm)
+        # self.canvas.scale = (self.ppm/length)*(self.canvas.width())
         self.boat = items.boat.Boat(self.canvas, length=length, width=width, 
                         stern=stern, bow=bow, description=description)
+        
+        self.boat.redrawAll()
         self.initUI()
 
     def initUI(self):
@@ -44,16 +47,6 @@ class BoatPlanner(QtGui.QMainWindow):
         isoAction.setStatusTip('View an isometric image of the boat.')
         isoAction.triggered.connect(self.isoView)
 
-        zoomInAction = QtGui.QAction('Zoom In', self)
-        zoomInAction.setShortcut('Ctrl++')
-        zoomInAction.setStatusTip('Zoom In (Ctrl++)')
-        zoomInAction.triggered.connect(lambda: self.zoom(True))
-
-        zoomOutAction = QtGui.QAction('Zoom Out', self)
-        zoomOutAction.setShortcut('Ctrl+-')
-        zoomOutAction.setStatusTip('Zoom Out (Ctrl+-)')
-        zoomOutAction.triggered.connect(lambda: self.zoom(False))
-
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(isoAction)
         fileMenu.addAction(exitAction)
@@ -61,8 +54,35 @@ class BoatPlanner(QtGui.QMainWindow):
         toolbar = self.addToolBar('menu')
         toolbar.addAction(exitAction)
         toolbar.addAction(isoAction)
+
+
+        # Controls
+        zoomInAction = QtGui.QAction('Zoom In', self)
+        zoomInAction.setShortcut('Ctrl+Up')
+        zoomInAction.setStatusTip('Zoom In (Ctrl+Up)')
+        zoomInAction.triggered.connect(lambda: self.zoom(True))
+
+        zoomOutAction = QtGui.QAction('Zoom Out', self)
+        zoomOutAction.setShortcut('Ctrl+Down')
+        zoomOutAction.setStatusTip('Zoom Out (Ctrl+Down)')
+        zoomOutAction.triggered.connect(lambda: self.zoom(False))
+
+        turnCWAction = QtGui.QAction('Rotate CW', self)
+        turnCWAction.setShortcut('Ctrl+Left')
+        turnCWAction.setStatusTip('Zoom In (Ctrl+Left)')
+        turnCWAction.triggered.connect(lambda: self.rotate(True))
+
+        turnCCWAction = QtGui.QAction('Rotate CCW', self)
+        turnCCWAction.setShortcut('Ctrl+Right')
+        turnCCWAction.setStatusTip('Zoom Out (Ctrl+Right)')
+        turnCCWAction.triggered.connect(lambda: self.rotate(False))
+
+        toolbar = self.addToolBar('controls')
         toolbar.addAction(zoomInAction)
         toolbar.addAction(zoomOutAction)
+        toolbar.addAction(turnCWAction)
+        toolbar.addAction(turnCCWAction)
+
 
         self.setUpItemsToolbar()
 
@@ -87,14 +107,24 @@ class BoatPlanner(QtGui.QMainWindow):
         self.win = isometric.Boat3D(self.boat, self.frameGeometry().center())
         self.win.show()
 
-    def zoom(self, dir):
-        """ Increases the scale in the canvas. """
+    def zoom(self, dirc):
+        """ Scales the canvas. """
 
-        if dir:
+        if dirc:
             self.canvas.zoomIn()
         else:
             self.canvas.zoomOut()
         self.boat.redrawAll()
+
+    def rotate(self, dirc):
+        """ Rotates the canvas. """
+
+        if dirc:
+            self.canvas.rotate(10)
+        else:
+            self.canvas.rotate(-10)
+        self.boat.redrawAll()
+
 
 def main():
     app = QtGui.QApplication(sys.argv)

@@ -40,7 +40,8 @@ class Boat(items.item.Item):
 
 
     def addFurniture(self, name):
-        self.items.append(items.furniture.Furniture(self.canvas, name))
+        self.items.append(items.furniture.Furniture(self.canvas, name, 
+            self.attrs['bow']+self.attrs['wallWidth'], self.attrs['wallWidth']))
 
     def addWall(self):
         self.items.append(items.furniture.Wall(self.canvas))
@@ -53,6 +54,9 @@ class Boat(items.item.Item):
         self.redraw()
         for item in self.items:
             item.redraw()
+    def updateAllPos():
+        for item in self.items:
+            item.updatePos()
 
 
     def _setLength(self, length):

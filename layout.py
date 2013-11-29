@@ -9,17 +9,17 @@ class Canvas(QtGui.QGraphicsView):
     def __init__(self, scale, ppm):
         super(Canvas, self).__init__()
 
-        self.scale = scale
         self.ppm = ppm
+        self.scale(scale*ppm, scale*ppm)
 
         self.scene = QtGui.QGraphicsScene(self)
         self.setScene(self.scene)
 
     def zoomIn(self):
-        self.scale *= 1.1
+        self.scale(1.1, 1.1)
 
     def zoomOut(self):
-        self.scale *= 0.9
+        self.scale(.9, .9)
 
 def main():
     app = QtGui.QApplication(sys.argv)

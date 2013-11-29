@@ -8,7 +8,7 @@ class Furniture(items.item.Item):
             and can return its XML or SVG.
     """
     
-    def __init__(self, canvas, name, x=0, y=0, scale=1, angle=0, 
+    def __init__(self, canvas, name, x, y, scale=1, angle=0, 
                  description='', color='#000000'):
         super(Furniture, self).__init__()
 
@@ -16,8 +16,9 @@ class Furniture(items.item.Item):
         
         self.attrs = {}
         self._setName(name)
-        self._setX(x)
-        self._setY(y)
+        # Set x and y to 0 to create the initial vectors.
+        self._setX(0)
+        self._setY(0)
         self._setScale(scale)
         self._setAngle(angle)
         self._setDescription(description)
@@ -33,6 +34,11 @@ class Furniture(items.item.Item):
 
         # Create QItems
         self.redraw()
+        self.updatePos()
+        self._setX(x)
+        self._setY(y)
+        self.redraw()
+        # self.updatePos()
 
 
     def mousePressEvent(self, e):
@@ -45,12 +51,13 @@ class Furniture(items.item.Item):
 
         self.setCursor(QtCore.Qt.OpenHandCursor)
         self.top()
+        self.updatePos()
         
-        # self.setX((e.scenePos().x() - e.pos().x())/(self.canvas.scale * self.canvas.ppm))
-        # self.setY((e.scenePos().y() - e.pos().y())/(self.canvas.scale * self.canvas.ppm))
-        # self.setX(self.x()/(self.canvas.scale * self.canvas.ppm))
-        # self.setY(self.y()/(self.canvas.scale * self.canvas.ppm))
         self.redraw()
+
+    def updatePos(self):
+        self._setX(self.x())
+        self._setY(self.y())
 
 
     # Each 'set' method has a private one for internal use which does the work
