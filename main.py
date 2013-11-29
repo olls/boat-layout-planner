@@ -20,13 +20,13 @@ class BoatPlanner(QtGui.QMainWindow):
 
         self.newBoat()
 
-    def newBoat(self, length=20, width=2, stern=2.5, bow=2.5, description='Dvbris'):
-        self.scale = .3
+    def newBoat(self, length=20, width=2, stern=2.5, bow=2, description='Dvbris'):
+        self.scale = .5
 
         self.canvas = layout.Canvas(self.scale, self.ppm)
-        # self.canvas.scale = (self.ppm/length)*(self.canvas.width())
         self.boat = items.boat.Boat(self.canvas, length=length, width=width, 
                         stern=stern, bow=bow, description=description)
+        self.canvas.setBoat(self.boat)
         
         self.boat.redrawAll()
         self.initUI()
@@ -58,23 +58,23 @@ class BoatPlanner(QtGui.QMainWindow):
 
         # Controls
         zoomInAction = QtGui.QAction('Zoom In', self)
-        zoomInAction.setShortcut('Ctrl+Up')
-        zoomInAction.setStatusTip('Zoom In (Ctrl+Up)')
+        zoomInAction.setShortcut('Up')
+        zoomInAction.setStatusTip('Zoom In (Up)')
         zoomInAction.triggered.connect(lambda: self.zoom(True))
 
         zoomOutAction = QtGui.QAction('Zoom Out', self)
-        zoomOutAction.setShortcut('Ctrl+Down')
-        zoomOutAction.setStatusTip('Zoom Out (Ctrl+Down)')
+        zoomOutAction.setShortcut('Down')
+        zoomOutAction.setStatusTip('Zoom Out (Down)')
         zoomOutAction.triggered.connect(lambda: self.zoom(False))
 
         turnCWAction = QtGui.QAction('Rotate CW', self)
-        turnCWAction.setShortcut('Ctrl+Left')
-        turnCWAction.setStatusTip('Zoom In (Ctrl+Left)')
+        turnCWAction.setShortcut('Left')
+        turnCWAction.setStatusTip('Zoom In (Left)')
         turnCWAction.triggered.connect(lambda: self.rotate(True))
 
         turnCCWAction = QtGui.QAction('Rotate CCW', self)
-        turnCCWAction.setShortcut('Ctrl+Right')
-        turnCCWAction.setStatusTip('Zoom Out (Ctrl+Right)')
+        turnCCWAction.setShortcut('Right')
+        turnCCWAction.setStatusTip('Zoom Out (Right)')
         turnCCWAction.triggered.connect(lambda: self.rotate(False))
 
         toolbar = self.addToolBar('controls')

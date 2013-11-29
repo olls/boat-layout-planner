@@ -33,7 +33,7 @@ class Furniture(items.item.Item):
         self.setCursor(QtCore.Qt.OpenHandCursor)
 
         # Create QItems
-        self.redraw()
+        # self.redraw()
         self.updatePos()
         self._setX(x)
         self._setY(y)
