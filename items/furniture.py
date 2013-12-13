@@ -8,17 +8,17 @@ class Furniture(items.item.Item):
             and can return its XML or SVG.
     """
     
-    def __init__(self, canvas, name, x, y, scale=1, angle=0, 
+    def __init__(self, canvas, name, x, y, xL, yL, scale=1, angle=0, 
                  description='', color='#000000'):
         super(Furniture, self).__init__()
 
         self.canvas = canvas
+        self.origin = (x, y)
+        self.limit = (xL, yL)
         
-        self.attrs = {}
         self._setName(name)
-        # Set x and y to 0 to create the initial vectors.
-        self._setX(0)
-        self._setY(0)
+        self._setX(x)
+        self._setY(y)
         self._setScale(scale)
         self._setAngle(angle)
         self._setDescription(description)
@@ -33,12 +33,8 @@ class Furniture(items.item.Item):
         self.setCursor(QtCore.Qt.OpenHandCursor)
 
         # Create QItems
-        # self.redraw()
-        self.updatePos()
-        self._setX(x)
-        self._setY(y)
         self.redraw()
-        # self.updatePos()
+        self.updatePos()
 
 
     def mousePressEvent(self, e):
@@ -51,13 +47,19 @@ class Furniture(items.item.Item):
 
         self.setCursor(QtCore.Qt.OpenHandCursor)
         self.top()
-        self.updatePos()
         
+        self.updatePos()
         self.redraw()
 
+
     def updatePos(self):
-        self._setX(self.x())
-        self._setY(self.y())
+        self._setX(self.x()+self.origin[0])
+        self._setY(self.y()+self.origin[1])
+
+        if self.attrs['x'] > self.limit[0]:
+            self._setX(self.limit[0] - self.width)
+        if self.attrs['y'] > self.limit[1]:
+            self._setY(self.limit[1] - self.height)
 
 
     # Each 'set' method has a private one for internal use which does the work

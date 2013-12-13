@@ -14,6 +14,7 @@ class Item(QtGui.QGraphicsItemGroup):
     def __init__(self):
         super(Item, self).__init__()
 
+        self.attrs = {}
         self.TEMPLATES = self.flatten(TEMPLATES)
 
 
@@ -52,22 +53,27 @@ class Item(QtGui.QGraphicsItemGroup):
             # Add the QItem to ourself so it is a part of the group.
             self.addToGroup(QItem)
         self.top()
-        print((self.x(), self.y()))
 
 
     def generateXML(self):
         """ Creates XML code for this object using the template and attrs """
-        return self.formatEval(self.TEMPLATES[self.attrs['name']]['XML'])
+        return self.formatEval(
+            self.TEMPLATES[self.attrs['name']]['XML'], 
+            self.attrs
+        )
 
     def generateSVG(self):
         """ Creates SVG code for this object using the template and attrs """
-        return self.formatEval(self.TEMPLATES[self.attrs['name']]['SVG'])
+        return self.formatEval(
+            self.TEMPLATES[self.attrs['name']]['SVG'], 
+            self.attrs
+        )
 
-    def formatEval(self, template):
+    def formatEval(self, template, attrs):
         """ A method which acts like the str.format method, except it evaluates 
             the contents of quotes after inserting the values """
         # First put the values in place as normal.
-        s = template.format(**self.attrs)
+        s = template.format(**attrs)
         # Then split it at the quotes into a list.
         s = s.split('"')
         ret = s
