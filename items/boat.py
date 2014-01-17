@@ -56,11 +56,20 @@ class Boat(items.item.Item):
 
     def redrawAll(self):
         self.redraw()
-        for item in self.items:
-            item.redraw()
+        [item.redraw() for item in self.items]
     def updateAllPos():
-        for item in self.items:
-            item.updatePos()
+        [item.updatePos() for item in self.items]
+
+    def generateAllSVG(self):
+        xml = ('<?xml version="1.0"?>\
+                <svg width="{length}" height="{width}" \
+                version="1.1" xmlns="http://www.w3.org/2000/svg">'
+                .format(length=self.attrs['length']*100, width=self.attrs['width']*100)
+                 +''.join([item.generateSVG(100) for item in self.items]+[self.generateSVG(100)])+'</svg>')
+        xml.split('stroke-width="')
+    def generateAllXML(self):
+        return ('<?xml version="1.0"?>\
+                 <boat>'+''.join([item.generateXML() for item in self.items]+[self.generateXML()]) +'</boat>')
 
 
     def _setLength(self, length):
@@ -69,7 +78,7 @@ class Boat(items.item.Item):
         except ValueError:
             sys.exit('Fatal error: Invalid length attribute for Boat item')
     def setLength(self, length):
-        self._setWidth(length)
+        self._setLength(length)
         self.redraw()
 
     def _setWidth(self, width):
@@ -82,7 +91,6 @@ class Boat(items.item.Item):
     def setWidth(self, width):
         self._setWidth(width)
         self.redraw()
-        self.redraw()
 
     def _setHeight(self, height):
         try:
@@ -91,7 +99,7 @@ class Boat(items.item.Item):
             sys.exit('Fatal error: Invalid height attribute for Boat item')
         if self.attrs['height'] < 0:
             sys.exit('Fatal error: Invalid height attribute for Boat item')
-    def setWallWidth(self, height):
+    def setHeight(self, height):
         self._setHeight(height)
         self.redraw()
 
@@ -124,8 +132,8 @@ class Boat(items.item.Item):
             sys.exit('Fatal error: Invalid wallWidth attribute for Boat item')
         if self.attrs['wallWidth'] > (self.attrs['length'] / 2):
             sys.exit('Fatal error: Invalid wallWidth attribute for Boat item')
-    def setWallWidth(self, stern):
-        self._setStern(stern)
+    def setWallWidth(self, wallWidth):
+        self._setWallWidth(wallWidth)
 
     def _setAuthor(self, author):
         self.attrs['author'] = author

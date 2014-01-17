@@ -47,6 +47,16 @@ class BoatPlanner(QtGui.QMainWindow):
         isoAction.setStatusTip('View an isometric image of the boat.')
         isoAction.triggered.connect(self.isoView)
 
+        saveXMLAction = QtGui.QAction('Save', self)
+        saveXMLAction.setShortcut('Ctrl+S')
+        saveXMLAction.setStatusTip('Save file for editing later.')
+        saveXMLAction.triggered.connect(lambda: self.save(self.statusBar, type_='XML'))
+
+        saveSVGAction = QtGui.QAction('Export Image', self)
+        saveSVGAction.setShortcut('Ctrl+Shift+S')
+        saveSVGAction.setStatusTip('Export file for viewing in external programs.')
+        saveSVGAction.triggered.connect(lambda: self.save(self.statusBar, type_='SVG'))
+
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(isoAction)
         fileMenu.addAction(exitAction)
@@ -54,6 +64,8 @@ class BoatPlanner(QtGui.QMainWindow):
         toolbar = self.addToolBar('menu')
         toolbar.addAction(exitAction)
         toolbar.addAction(isoAction)
+        toolbar.addAction(saveXMLAction)
+        toolbar.addAction(saveSVGAction)
 
 
         # Controls
@@ -124,6 +136,34 @@ class BoatPlanner(QtGui.QMainWindow):
         else:
             self.canvas.rotate(-10)
         self.boat.redrawAll()
+
+    def save(self, statusBar, type_='XML'):
+        if type_ == 'XML':
+            data = self.boat.generateAllXML()
+        elif type_ == 'SVG':
+            data = self.boat.generateAllSVG()
+        else:
+            return False
+
+        type_ = type_.lower()
+        filename = QtGui.QFileDialog.getSaveFileName(self, 'Save {} File'.format(type_), 
+                                                     '/home', '*.{}'.format(type_))
+        if filename:
+            if not str(filename)[-4:].lower() == '.'+type_:
+                filename += '.'+type_
+            try:
+                with open(filename, 'w') as f:
+                    f.write(data)
+                statusBar().showMessage('Saved \'{}\' successfully.'
+                                        .format(filename))
+            except IOError:
+                QtGui.QMessageBox.question(self, 'Error', 
+                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid filename.</center>", 
+                    QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+        else:
+            statusBar().showMessage('Saving Canceled')
+            return False
+        return True
 
 
 def main():
