@@ -16,6 +16,12 @@ class Furniture(items.item.Item):
         self.origin = (x, y)
         self.limit = (xL, yL)
 
+        self.editable = {
+            'scale':   'lineEdit',
+            # 'angle':    QtGui.QLineEdit(self),
+            'color':    'color'
+        }
+
         self._setName(name)
         self._setX(x)
         self._setY(y)
@@ -67,6 +73,14 @@ class Furniture(items.item.Item):
             self._setY(self.origin[1])
 
 
+    def updateAttr(self, attr, value):
+        if attr == 'x': self.setX(value)
+        elif attr == 'y': self.setY(value)
+        elif attr == 'scale': self.setScale(value)
+        elif attr == 'angle': self.setAngle(value)
+        elif attr == 'description': self.setDescription(value)
+        elif attr == 'color': self.setColor(value)
+
     # Each 'set' method has a private one for internal use which does the work
     #   and validates the input, and a public one which uses the private one
     #   then redraws the canvas.
@@ -93,4 +107,8 @@ class Furniture(items.item.Item):
 class Wall(items.item.Item):
 
     def __init__(self, x=0, doorY=0, description=''):
-        pass
+        self.editable = {
+            'width':    'lineEdit',
+            'door y':   'lineEdit',
+            'color':    'color'
+        }

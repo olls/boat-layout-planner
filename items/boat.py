@@ -16,6 +16,17 @@ class Boat(items.item.Item):
 
         self.canvas = canvas
 
+        self.editable = {
+            'length':   'lineEdit',
+            'width':    'lineEdit',
+            'height':   'lineEdit',
+            'bow':   'lineEdit',
+            'stern':   'lineEdit',
+            'wallWidth':   'lineEdit',
+            'author':   'lineEdit',
+            'color':    'color'
+        }
+
         self.attrs = {}
         self._setName('boat')
         self._setLength(length)
@@ -71,6 +82,19 @@ class Boat(items.item.Item):
         return ('<?xml version="1.0"?>\
                  <boat>'+''.join([item.generateXML() for item in self.items]+[self.generateXML()]) +'</boat>')
 
+
+    def updateAttr(self, attr, value):
+        if attr == 'length': self.setLength(value)
+        elif attr == 'width': self.setWidth(value)
+        elif attr == 'height': self.setHeight(value)
+        elif attr == 'bow': self.setBow(value)
+        elif attr == 'stern': self.setStern(value)
+        elif attr == 'wallWidth': self.setWallWidth(value)
+        elif attr == 'x': self.setX(value)
+        elif attr == 'y': self.setY(value)
+        elif attr == 'color': self.setColor(value)
+        elif attr == 'description': self.setDescription(value)
+        elif attr == 'author': self.setAuthor(value)
 
     def _setLength(self, length):
         try:

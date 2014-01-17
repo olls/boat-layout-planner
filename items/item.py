@@ -19,7 +19,7 @@ class Item(QtGui.QGraphicsItemGroup):
 
 
     def redraw(self):
-        """ Creates vector information for this object, which is 
+        """ Creates vector information for this object, which is
             then displayed on the canvas. """
 
         # First remove all items from group.
@@ -58,20 +58,20 @@ class Item(QtGui.QGraphicsItemGroup):
     def generateXML(self):
         """ Creates XML code for this object using the template and attrs """
         return self.formatEval(
-            self.TEMPLATES[self.attrs['name']]['XML'], 
+            self.TEMPLATES[self.attrs['name']]['XML'],
             self.attrs
         )
 
     def generateSVG(self, scale=1):
         """ Creates SVG code for this object using the template and attrs """
         return self.formatEval(
-            self.TEMPLATES[self.attrs['name']]['SVG'], 
+            self.TEMPLATES[self.attrs['name']]['SVG'],
             self.attrs,
             scale
         )
 
     def formatEval(self, template, attrs, scale=1):
-        """ A method which acts like the str.format method, except it evaluates 
+        """ A method which acts like the str.format method, except it evaluates
             the contents of quotes after inserting the values """
         # First put the values in place as normal.
         s = template.format(**attrs)
@@ -79,10 +79,10 @@ class Item(QtGui.QGraphicsItemGroup):
         s = s.split('"')
         ret = s
         for i, section in enumerate(s):
-            # Take the even elements from the list to 
+            # Take the even elements from the list to
             #   get the bits between the quotes.
             if (i+1)%2 == 0:
-                # Try to evaluate it, if it causes an error, I will assume it's 
+                # Try to evaluate it, if it causes an error, I will assume it's
                 #   not an expression, and leave it alone.
                 try:
                     result = eval(section)*scale
@@ -126,7 +126,7 @@ class Item(QtGui.QGraphicsItemGroup):
         for sibling in self.collidingItems():
             sibling.setZValue(0)
 
-    
+
     def mouseDoubleClickEvent(self, e):
         """ Opens the edit window when double clicked. """
         self.win = items.edit.Edit(self)
@@ -138,7 +138,7 @@ class Item(QtGui.QGraphicsItemGroup):
     #   then redraws the canvas.
 
     def _setName(self, name):
-        self.attrs['name'] = name    
+        self.attrs['name'] = name
     def setName(self, name):
         self._setName(name)
         self.redraw()
@@ -176,7 +176,7 @@ class Item(QtGui.QGraphicsItemGroup):
 
 def main():
     """
-        Can't do much to test, because the Furniture class relies 
+        Can't do much to test, because the Furniture class relies
             on the canvas class
     """
 

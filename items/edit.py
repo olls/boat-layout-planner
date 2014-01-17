@@ -12,29 +12,11 @@ class Edit(QtGui.QMainWindow):
 
         self.item = item
 
-        if 'Boat' in str(self.item.__class__):
-            self.values = {
-                'length':   QtGui.QLineEdit(self),
-                'width':    QtGui.QLineEdit(self),
-                'height':   QtGui.QLineEdit(self),
-                'bow':   QtGui.QLineEdit(self),
-                'stern':   QtGui.QLineEdit(self),
-                'wallWidth':   QtGui.QLineEdit(self),
-                'author':   QtGui.QLineEdit(self),
-                'color':    ColorPicker()
-            }
-        elif 'Furniture' in str(self.item.__class__):
-            self.values = {
-                'scale':   QtGui.QLineEdit(self),
-                # 'angle':    QtGui.QLineEdit(self),
-                'color':    ColorPicker()
-            }
-        elif 'Wall' in str(self.item.__class__):
-            self.values = {
-                'width':    QtGui.QLineEdit(self),
-                'door y':   QtGui.QLineEdit(self),
-                'color':    ColorPicker()
-            }
+        self.fieldsTypes = {
+            'lineEdit': lambda: QtGui.QLineEdit(self),
+            'color': lambda: ColorPicker()
+        }
+        self.fields = {}
 
         self.initUI()
 
@@ -44,18 +26,33 @@ class Edit(QtGui.QMainWindow):
         self.grid = QtGui.QGridLayout()
 
         y = 0
-        for key, value in self.values.items():
-            value.insert(str(self.item.attrs[key]))
-            if not key == 'color':
+        for key, value in self.item.editable.items():
+
+            # Create the field object by running the
+            #   lambda in the fieldsTypes dict.
+            field = self.fieldsTypes[value]()
+
+            field.insert(str(self.item.attrs[key]))
+
+            # Give line edits labels:
+            if isinstance(field, QtGui.QLineEdit):
                 self.grid.addWidget(QtGui.QLabel(Edit.capt(key)+':'), y, 0)
                 y += 1
-            self.grid.addWidget(value, y, 0)
+
+            self.grid.addWidget(field, y, 0)
             y += 1
 
-        self.grid.addWidget(QtGui.QLabel('Description:'), 0, 1)
+            # Add the field object to the dict so we
+            #    can save the value later.
+            self.fields.update({key: field})
+
+        # Create the description that all of them have.
         self.description = QtGui.QTextEdit(self)
         self.description.append(self.item.attrs['description'])
+
+        self.grid.addWidget(QtGui.QLabel('Description:'), 0, 1)
         self.grid.addWidget(self.description, 1, 1, y, 1)
+
 
         btn = QtGui.QPushButton('OK')
         btn.clicked.connect(self.ok)
@@ -64,23 +61,32 @@ class Edit(QtGui.QMainWindow):
         mainF.setLayout(self.grid)
         self.setCentralWidget(mainF)
 
-        self.setWindowTitle('Editing '+ self.item.attrs['name'])
+        self.setWindowTitle('Edit: '+ self.item.attrs['name'])
 
     def ok(self):
-        for key, value in self.values.items():
-            v = value.text()
+        """ Updates self.item with the data in self.fields. """
+
+        print('\nUpdating \''+str(self.item.attrs['name'])+'\':')
+
+        for key, field in self.fields.items():
+
+            # Extract the data from the field:
+            data = field.text()
+
+            # Find the data type
             try:
-                v = int(v)
-            except (TypeError, ValueError):
-                try:
-                    v = '"'+str(v)+'"'
-                except (TypeError, ValueError):
-                    pass
-            command = 'self.item.set{key}({value})'.format(key = Edit.capt(key), value = v)
-            print(command)
-            exec(command)
-        print(self.description.toPlainText())
+                data = float(data)
+            except ValueError:
+                data = str(data)
+
+            # Update the item with the new data
+            print(str(key)+': '+str(data))
+            self.item.updateAttr(key, data)
+
+        print('description: '+str(self.description.toPlainText()))
         self.item.setDescription(str(self.description.toPlainText()))
+
+        print('\n')
         self.close()
 
     def capt(string):
@@ -92,15 +98,14 @@ class ColorPicker(QtGui.QPushButton):
         picker, and it is the color it is given. """
     def __init__(self):
         super(ColorPicker, self).__init__('Color')
-        
-        self.color = QtGui.QColor(0, 0, 0) 
-        self.clicked.connect(self.showDialog)
 
+        self.color = QtGui.QColor(0, 0, 0)
+        self.clicked.connect(self.showDialog)
 
     def update(self):
         self.setStyleSheet('QPushButton { background-color: '+self.text()+'; color: ' + str('white' if self.color.lightness() < 127 else 'black') + '}')
-        
-    def showDialog(self):      
+
+    def showDialog(self):
         self.color = QtGui.QColorDialog.getColor(self.color)
         self.update()
 
