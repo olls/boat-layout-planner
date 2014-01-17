@@ -24,10 +24,10 @@ class BoatPlanner(QtGui.QMainWindow):
         self.scale = .5
 
         self.canvas = layout.Canvas(self.scale, self.ppm)
-        self.boat = items.boat.Boat(self.canvas, length=length, width=width, 
+        self.boat = items.boat.Boat(self.canvas, length=length, width=width,
                         stern=stern, bow=bow, description=description)
         self.canvas.setBoat(self.boat)
-        
+
         self.boat.redrawAll()
         self.initUI()
 
@@ -114,7 +114,7 @@ class BoatPlanner(QtGui.QMainWindow):
     def isoView(self):
         """ Opens the isometric 3D view window. """
 
-        # Open the 3D view with a temporary random length, 
+        # Open the 3D view with a temporary random length,
         #   and position it in the center of this window.
         self.win = isometric.Boat3D(self.boat, self.frameGeometry().center())
         self.win.show()
@@ -146,7 +146,7 @@ class BoatPlanner(QtGui.QMainWindow):
             return False
 
         type_ = type_.lower()
-        filename = QtGui.QFileDialog.getSaveFileName(self, 'Save {} File'.format(type_), 
+        filename = QtGui.QFileDialog.getSaveFileName(self, 'Save {} File'.format(type_),
                                                      '/home', '*.{}'.format(type_))
         if filename:
             if not str(filename)[-4:].lower() == '.'+type_:
@@ -157,8 +157,8 @@ class BoatPlanner(QtGui.QMainWindow):
                 statusBar().showMessage('Saved \'{}\' successfully.'
                                         .format(filename))
             except IOError:
-                QtGui.QMessageBox.question(self, 'Error', 
-                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid filename.</center>", 
+                QtGui.QMessageBox.question(self, 'Error',
+                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid filename.</center>",
                     QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
         else:
             statusBar().showMessage('Saving Canceled')
