@@ -1,6 +1,7 @@
 import sys
 import random
 import time
+from os.path import expanduser
 from PyQt4 import QtGui
 
 import isometric
@@ -147,7 +148,7 @@ class BoatPlanner(QtGui.QMainWindow):
 
         type_ = type_.lower()
         filename = QtGui.QFileDialog.getSaveFileName(self, 'Save {} File'.format(type_),
-                                                     '/home', '*.{}'.format(type_))
+                                                     expanduser("~"), '*.{}'.format(type_))
         if filename:
             if not str(filename)[-4:].lower() == '.'+type_:
                 filename += '.'+type_
