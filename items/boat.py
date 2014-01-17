@@ -68,8 +68,12 @@ class Boat(items.item.Item):
     def redrawAll(self):
         self.redraw()
         [item.redraw() for item in self.items]
-    def updateAllPos():
+    def updateAllPos(self):
         [item.updatePos() for item in self.items]
+
+    def removeAll(self):
+        self.canvas.scene.removeItem(self)
+        [self.canvas.scene.removeItem(item) for item in self.items]
 
     def generateAllSVG(self):
         return ('<?xml version="1.0"?>\n<svg width="{length}" height="{width}" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'
