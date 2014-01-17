@@ -6,9 +6,9 @@ from items.templates import TEMPLATES
 
 
 class Boat(items.item.Item):
-    
-    def __init__(self, canvas, length=20, width=2, height=3, bow=3, stern=4, 
-                 wallWidth=0.1, color='#000000', description='', 
+
+    def __init__(self, canvas, length=20, width=2, height=3, bow=3, stern=4,
+                 wallWidth=0.1, color='#000000', description='',
                  author='Unknown'):
         super(Boat, self).__init__()
 
@@ -40,7 +40,7 @@ class Boat(items.item.Item):
 
 
     def addFurniture(self, name):
-        self.items.append(items.furniture.Furniture(self.canvas, name, 
+        self.items.append(items.furniture.Furniture(self.canvas, name,
             self.attrs['bow'] + self.attrs['wallWidth'], # X
             self.attrs['wallWidth'], # Y
             self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
