@@ -62,15 +62,16 @@ class Item(QtGui.QGraphicsItemGroup):
             self.attrs
         )
 
-    def generateSVG(self, scale=1):
+    def generateSVG(self, scale=1, noScale=None):
         """ Creates SVG code for this object using the template and attrs """
         return self.formatEval(
             self.TEMPLATES[self.attrs['name']]['SVG'],
             self.attrs,
-            scale
+            scale = scale,
+            noScale = noScale
         )
 
-    def formatEval(self, template, attrs, scale=1):
+    def formatEval(self, template, attrs, scale=1, noScale=None):
         """ A method which acts like the str.format method, except it evaluates
             the contents of quotes after inserting the values """
         # First put the values in place as normal.
@@ -85,7 +86,9 @@ class Item(QtGui.QGraphicsItemGroup):
                 # Try to evaluate it, if it causes an error, I will assume it's
                 #   not an expression, and leave it alone.
                 try:
-                    result = eval(section)*scale
+                    result = eval(section)
+                    if not noScale == None and not noScale in s[i-1]:
+                            result *= scale
                 except:
                     result = section
                 # Add the result back to the list.

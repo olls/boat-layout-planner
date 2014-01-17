@@ -72,12 +72,12 @@ class Boat(items.item.Item):
         [item.updatePos() for item in self.items]
 
     def generateAllSVG(self):
-        xml = ('<?xml version="1.0"?>\
-                <svg width="{length}" height="{width}" \
-                version="1.1" xmlns="http://www.w3.org/2000/svg">'
-                .format(length=self.attrs['length']*100, width=self.attrs['width']*100)
-                 +''.join([item.generateSVG(100) for item in self.items]+[self.generateSVG(100)])+'</svg>')
-        xml.split('stroke-width="')
+        return ('<?xml version="1.0"?>\n<svg width="{length}" height="{width}" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'
+                .format(length=(self.attrs['length']*100)+1, width=(self.attrs['width']*100)+1) +
+                '\n'.join([item.generateSVG(scale=100, noScale='stroke-width') for item in self.items] +
+                          [self.generateSVG(scale=100, noScale='stroke-width')]) +
+                '</svg>')
+
     def generateAllXML(self):
         return ('<?xml version="1.0"?>\
                  <boat>'+''.join([item.generateXML() for item in self.items]+[self.generateXML()]) +'</boat>')
