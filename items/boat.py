@@ -50,13 +50,25 @@ class Boat(items.item.Item):
         # self.canvas.fitInView(self)
 
 
-    def addFurniture(self, name):
-        self.items.append(items.furniture.Furniture(self.canvas, name,
-            self.attrs['bow'] + self.attrs['wallWidth'], # X
-            self.attrs['wallWidth'], # Y
-            self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
-            self.attrs['width'] - self.attrs['wallWidth'] # Y Limit
-        ))
+    def addFurniture(self, name, attrs=None):
+        if attrs == None:
+            self.items.append(items.furniture.Furniture(self.canvas, name,
+                self.attrs['bow'] + self.attrs['wallWidth'], # X
+                self.attrs['wallWidth'], # Y
+                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                self.attrs['width'] - self.attrs['wallWidth'] # Y Limit
+            ))
+        else:
+            self.items.append(items.furniture.Furniture(self.canvas, name,
+                float(attrs['x']), # X
+                float(attrs['y']), # Y
+                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                self.attrs['width'] - self.attrs['wallWidth'], # Y Limit
+                scale = float(attrs['scale']),
+                angle = float(attrs['angle']),
+                description = attrs['description'],
+                color = attrs['color']
+            ))
 
     def addWall(self):
         self.items.append(items.furniture.Wall(self.canvas))
@@ -83,8 +95,8 @@ class Boat(items.item.Item):
                 '</svg>')
 
     def generateAllXML(self):
-        return ('<?xml version="1.0"?>\
-                 <boat>'+''.join([item.generateXML() for item in self.items]+[self.generateXML()]) +'</boat>')
+        return ('<?xml version="1.0"?>' +
+                 self.generateXML()+''.join([item.generateXML() for item in self.items]) +'</boat>')
 
 
     def updateAttr(self, attr, value):

@@ -5,7 +5,7 @@
 TEMPLATES = {
     'furniture': {
         'chair': {
-            'XML': '<chair x="{x}" y="{y}" scale="{scale}*.3" angle="{angle}" description="{description}" color="{color}" />', 
+            'XML': '<chair x="{x}" y="{y}" scale="{scale}*.3" angle="{angle}" description="{description}" color="{color}" />',
             'SVG': '<line stroke="#000000" stroke-width="1" x1="{x}" y1="{y}" x2="{x}" y2="{y}+({scale}*.4)" />\
                     <line stroke="#000000" stroke-width="1" x1="{x}" y1="{y}" x2=" {x}+({scale}*.4) " y2="{y}" />\
                     <line stroke="#000000" stroke-width="1" x1="{x}" y1=" {y}+({scale}*.4) " x2=" {x}+({scale}*.4) " y2=" {y}+({scale}*.4) " />\
@@ -15,7 +15,7 @@ TEMPLATES = {
     },
     'other': {
         'boat': {
-            'XML': '<boat length="{length}" width="{width}" bow="{bow}" stern="{stern}" color="{color}" description="{description}" author="{author}" />',
+            'XML': '<boat length="{length}" width="{width}" height="{height}" wallWidth="{wallWidth}" bow="{bow}" stern="{stern}" color="{color}" description="{description}" author="{author}">',
             'SVG': '<line stroke="#000000" stroke-width="1" x1="{x}+{bow}" y1="{y}" x2="{x}+{length}" y2="{y}"/>\
                     <line stroke="#000000" stroke-width="1" x1="{x}+{bow}+{wallWidth}" y1="{y}+{wallWidth}" x2="{x}+{length}-{stern}-{wallWidth}" y2="{y}+{wallWidth}"/>\
                     <line stroke="#000000" stroke-width="1" x1="{x}+{bow}" y1="{y}+{width}" x2="{x}+{length}" y2="{y}+{width}" />\

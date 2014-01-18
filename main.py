@@ -1,6 +1,7 @@
 import sys
 import random
 import time
+from xml.dom.minidom import parse
 from os.path import expanduser
 from PyQt4 import QtGui
 
@@ -42,15 +43,15 @@ class BoatPlanner(QtGui.QMainWindow):
         isoAction.setStatusTip('View an isometric image of the boat.')
         isoAction.triggered.connect(self.isoView)
 
-        newAction = QtGui.QAction('Open', self)
-        newAction.setShortcut('Ctrl+O')
-        newAction.setStatusTip('Open a saved boat layout file.')
-        newAction.triggered.connect(lambda: self.open(self.statusBar))
+        newAction = QtGui.QAction('New', self)
+        newAction.setShortcut('Ctrl+N')
+        newAction.setStatusTip('Create a new blank boat.')
+        newAction.triggered.connect(self.new)
 
-        openAction = QtGui.QAction('New', self)
-        openAction.setShortcut('Ctrl+N')
-        openAction.setStatusTip('Create a new blank boat.')
-        openAction.triggered.connect(self.new)
+        openAction = QtGui.QAction('Open', self)
+        openAction.setShortcut('Ctrl+O')
+        openAction.setStatusTip('Open a saved boat layout file.')
+        openAction.triggered.connect(self.open)
 
         saveXMLAction = QtGui.QAction('Save', self)
         saveXMLAction.setShortcut('Ctrl+S')
@@ -127,18 +128,103 @@ class BoatPlanner(QtGui.QMainWindow):
 
         self.newBoat()
 
-    def newBoat(self, length=20, width=2, stern=2.5, bow=2, description='Dvbris'):
+    def newBoat(self, length=20, width=2, height=3, stern=2.5, bow=2,
+                wallWidth=0.1, description='Dvbris', author='Unknown',
+                color='#000000'):
         try:
             self.boat.removeAll()
         except AttributeError:
             pass # self.boat must not exist yet.
 
         self.boat = items.boat.Boat(self.canvas, length=length, width=width,
-                        stern=stern, bow=bow, description=description)
+            height=height, stern=stern, bow=bow, wallWidth=wallWidth,
+            description=description, author=author, color=color)
 
         self.canvas.setBoat(self.boat)
         self.boat.redrawAll()
 
+    def open(self):
+        xml = self.openFile()
+        if not xml:
+            return False
+        else:
+            try:
+                boat = xml.getElementsByTagName('boat')[0]
+            except IndexError:
+                QtGui.QMessageBox.question(self, 'Error',
+                    '<center>Error while opening.<br>The file you tried to open is not a vaild BTL file.</center>',
+                    QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+                return False
+
+            bAt = boat.attributes
+            self.newBoat(length=bAt['length'].value, width=bAt['width'].value,
+                height=bAt['height'].value, stern=bAt['stern'].value,
+                bow=bAt['bow'].value, wallWidth=bAt['wallWidth'].value,
+                description=bAt['description'].value,
+                author=bAt['author'].value, color=bAt['color'].value)
+
+            for child in boat.childNodes:
+                name = child.tagName
+                self.boat.addFurniture(name, attrs = {'x': child.attributes['x'].value,
+                                                      'y': child.attributes['y'].value,
+                                                      'scale': child.attributes['scale'].value,
+                                                      'angle': child.attributes['angle'].value,
+                                                      'description': child.attributes['description'].value,
+                                                      'color': child.attributes['color'].value})
+
+    def openFile(self):
+        type_ = 'BTL'.lower()
+        filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', expanduser('~'), '*.{}'.format(type_))
+
+        if filename:
+            if not str(filename)[-4:].lower() == '.'+type_:
+                QtGui.QMessageBox.question(self, 'Error',
+                    '<center>File not a {} file.</center>'.format(type_),
+                    QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+                return False
+            else:
+                try:
+                    data = parse(filename)
+                except:
+                    QtGui.QMessageBox.question(self, 'Error',
+                        '<center>Error while opening.<br>This could be due to not having permission<br>or using an invalid filename.</center>',
+                        QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+                    return False
+                print(data.toprettyxml())
+                self.statusBar().showMessage('Opened successfully.')
+                return data
+        else:
+            self.statusBar().showMessage('Opening Canceled')
+            return False
+
+    def save(self, type_='XML'):
+        if type_ == 'XML':
+            data = self.boat.generateAllXML()
+            type_ = 'BTL'
+        elif type_ == 'SVG':
+            data = self.boat.generateAllSVG()
+        else:
+            return False
+
+        type_ = type_.lower()
+        filename = QtGui.QFileDialog.getSaveFileName(self, 'Save {} File'.format(type_),
+                                                     expanduser("~"), '*.{}'.format(type_))
+        if filename:
+            if not str(filename)[-4:].lower() == '.'+type_:
+                filename += '.'+type_
+            try:
+                with open(filename, 'w') as f:
+                    f.write(data)
+                self.statusBar().showMessage('Saved \'{}\' successfully.'
+                                        .format(filename))
+            except IOError:
+                QtGui.QMessageBox.question(self, 'Error',
+                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid filename.</center>",
+                    QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
+        else:
+            self.statusBar().showMessage('Saving Canceled')
+            return False
+        return True
 
     def isoView(self):
         """ Opens the isometric 3D view window. """
@@ -165,34 +251,6 @@ class BoatPlanner(QtGui.QMainWindow):
         else:
             self.canvas.rotate(-10)
         self.boat.redrawAll()
-
-    def save(self, type_='XML'):
-        if type_ == 'XML':
-            data = self.boat.generateAllXML()
-        elif type_ == 'SVG':
-            data = self.boat.generateAllSVG()
-        else:
-            return False
-
-        type_ = type_.lower()
-        filename = QtGui.QFileDialog.getSaveFileName(self, 'Save {} File'.format(type_),
-                                                     expanduser("~"), '*.{}'.format(type_))
-        if filename:
-            if not str(filename)[-4:].lower() == '.'+type_:
-                filename += '.'+type_
-            try:
-                with open(filename, 'w') as f:
-                    f.write(data)
-                self.statusBar().showMessage('Saved \'{}\' successfully.'
-                                        .format(filename))
-            except IOError:
-                QtGui.QMessageBox.question(self, 'Error',
-                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid filename.</center>",
-                    QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
-        else:
-            self.statusBar().showMessage('Saving Canceled')
-            return False
-        return True
 
 
 def main():
