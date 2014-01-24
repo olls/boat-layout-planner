@@ -64,13 +64,13 @@ class Furniture(items.item.Item):
 
         if self.attrs['x'] > self.limit[0] - self.boundingRect().width():
             self._setX(self.canvas.boat.attrs['x'] + self.limit[0] - self.boundingRect().width())
-        elif self.attrs['x'] < self.origin[0]:
-            self._setX(self.origin[0])
+        elif self.attrs['x'] < self.canvas.boat.attrs['bow'] + self.canvas.boat.attrs['wallWidth']:
+            self._setX(self.canvas.boat.attrs['bow'] + self.canvas.boat.attrs['wallWidth'])
 
         if self.attrs['y'] > self.limit[1] + self.origin[1] - self.boundingRect().height():
             self._setY(self.canvas.boat.attrs['y'] + self.limit[1] - self.boundingRect().height())
-        elif self.attrs['y'] < self.origin[1]:
-            self._setY(self.origin[1])
+        elif self.attrs['y'] < self.canvas.boat.attrs['wallWidth']:
+            self._setY(self.canvas.boat.attrs['wallWidth'])
 
 
     def updateAttr(self, attr, value):
