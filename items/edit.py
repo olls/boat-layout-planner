@@ -2,7 +2,7 @@ import sys
 from PyQt4 import QtGui, QtCore
 
 
-class Edit(QtGui.QMainWindow):
+class Edit(QtGui.QDialog):
     """
         The window to edit the parameters of an item.
     """
@@ -22,7 +22,8 @@ class Edit(QtGui.QMainWindow):
 
 
     def initUI(self):
-        mainF = QtGui.QFrame()
+        self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
+
         self.grid = QtGui.QGridLayout()
 
         y = 0
@@ -58,9 +59,7 @@ class Edit(QtGui.QMainWindow):
         btn.clicked.connect(self.ok)
         self.grid.addWidget(btn, y, 0)
 
-        mainF.setLayout(self.grid)
-        self.setCentralWidget(mainF)
-
+        self.setLayout(self.grid)
         self.setWindowTitle('Edit: '+ self.item.attrs['name'])
 
     def ok(self):

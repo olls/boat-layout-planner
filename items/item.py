@@ -88,7 +88,7 @@ class Item(QtGui.QGraphicsItemGroup):
                 try:
                     result = eval(section)
                     if not noScale == None and not noScale in s[i-1]:
-                            result *= scale
+                        result *= scale
                 except:
                     result = section
                 # Add the result back to the list.
@@ -133,8 +133,8 @@ class Item(QtGui.QGraphicsItemGroup):
     def mouseDoubleClickEvent(self, e):
         """ Opens the edit window when double clicked. """
         self.win = items.edit.Edit(self)
+        self.win.setModal(True)
         self.win.show()
-
 
     # Each 'set' method has a private one for internal use which does the work
     #   and validates the input, and a public one which uses the private one
