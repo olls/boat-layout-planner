@@ -104,7 +104,7 @@ class Furniture(items.item.Item):
         self.redraw()
 
 
-class Wall(items.item.Item):
+class Wall(Furniture):
 
     def __init__(self, x=0, doorY=0, description=''):
         self.editable = {
