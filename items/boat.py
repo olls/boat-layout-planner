@@ -70,13 +70,26 @@ class Boat(items.item.Item):
                 color = attrs['color']
             ))
 
-    def addWall(self):
-        self.items.append(items.furniture.Wall(self.canvas,
-            self.attrs['bow'] + self.attrs['wallWidth'], # X
-            self.attrs['wallWidth'], # Y
-            self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
-            self.attrs['width'] - self.attrs['wallWidth'] # Y Limit
-        ))
+    def addWall(self, attrs=None):
+        if attrs == None:
+            self.items.append(items.furniture.Wall(self.canvas,
+                self.attrs['bow'] + self.attrs['wallWidth'], # X
+                self.attrs['wallWidth'], # Y
+                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                self.attrs['width'] - self.attrs['wallWidth'] # Y Limit
+            ))
+        else:
+            self.items.append(items.furniture.Wall(self.canvas,
+                float(attrs['x']), # X
+                float(attrs['y']), # Y
+                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                self.attrs['width'] - self.attrs['wallWidth'], # Y Limit
+                doorY = float(attrs['doorY']),
+                doorWidth = float(attrs['doorWidth']),
+                scale = float(attrs['scale']),
+                description = attrs['description'],
+                color = attrs['color']
+            ))
 
     @property
     def furniture(self):

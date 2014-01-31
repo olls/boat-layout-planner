@@ -29,12 +29,13 @@ class Item(QtGui.QGraphicsItemGroup):
         # It converts the SVG vector information to QItems.
         svg = self.generateSVG()
 
-        vectorItems = []
         item = True
         while item:
             # Goes through each SVG item and depending on the type,
             #   extracts different attributes from it and creates the QItem.
             item = svg[svg.find('<')+1 : svg.find('>')]
+            if item == '':
+                break
             svg = svg[svg.find('>')+1:]
 
             name = item.split(' ')[0]
@@ -49,6 +50,12 @@ class Item(QtGui.QGraphicsItemGroup):
 
             elif name == 'rect':
                 pass
+
+            # try:
+            color = self.getSVGItemAttrValue(item, 'stroke')
+            # except IndexError:
+                # color = '#000000'
+            QItem.setPen(QtGui.QColor(color))
 
             # Add the QItem to ourself so it is a part of the group.
             self.addToGroup(QItem)

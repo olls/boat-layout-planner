@@ -58,6 +58,10 @@ class BoatPlanner(QtGui.QMainWindow):
         saveXMLAction.setStatusTip('Save file for editing later.')
         saveXMLAction.triggered.connect(lambda: self.save(type_='XML'))
 
+        saveXMLBackupAction = QtGui.QAction('Backup', self)
+        saveXMLBackupAction.setStatusTip('Save a backup of the file for editing later.')
+        saveXMLBackupAction.triggered.connect(lambda: self.save(type_='XML'))
+
         saveSVGAction = QtGui.QAction('Export Image', self)
         saveSVGAction.setShortcut('Ctrl+Shift+S')
         saveSVGAction.setStatusTip('Export file for viewing in external programs.')
@@ -66,6 +70,7 @@ class BoatPlanner(QtGui.QMainWindow):
         fileMenu = menubar.addMenu('&File')
         fileMenu.addAction(exitAction)
         fileMenu.addAction(saveXMLAction)
+        fileMenu.addAction(saveXMLBackupAction)
         fileMenu.addAction(openAction)
         fileMenu.addAction(newAction)
 
@@ -73,6 +78,7 @@ class BoatPlanner(QtGui.QMainWindow):
         toolbar.addAction(exitAction)
         toolbar.addAction(isoAction)
         toolbar.addAction(saveXMLAction)
+        toolbar.addAction(saveXMLBackupAction)
         toolbar.addAction(saveSVGAction)
 
 
@@ -171,12 +177,30 @@ class BoatPlanner(QtGui.QMainWindow):
 
             for child in boat.childNodes:
                 name = child.tagName
-                self.boat.addFurniture(name, attrs = {'x': child.attributes['x'].value,
-                                                      'y': child.attributes['y'].value,
-                                                      'scale': child.attributes['scale'].value,
-                                                      'angle': child.attributes['angle'].value,
-                                                      'description': child.attributes['description'].value,
-                                                      'color': child.attributes['color'].value})
+                if name == 'wall':
+                    self.boat.addWall(
+                        attrs = {
+                            'x': child.attributes['x'].value,
+                            'y': child.attributes['y'].value,
+                            'doorY': child.attributes['doorY'].value,
+                            'doorWidth': child.attributes['doorWidth'].value,
+                            'scale': child.attributes['scale'].value,
+                            'description': child.attributes['description'].value,
+                            'color': child.attributes['color'].value
+                        }
+                    )
+                else:
+                    self.boat.addFurniture(
+                        name,
+                        attrs = {
+                            'x': child.attributes['x'].value,
+                            'y': child.attributes['y'].value,
+                            'scale': child.attributes['scale'].value,
+                            'angle': child.attributes['angle'].value,
+                            'description': child.attributes['description'].value,
+                            'color': child.attributes['color'].value
+                        }
+                    )
 
     def openFile(self):
         type_ = 'BTL'.lower()
