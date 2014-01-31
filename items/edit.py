@@ -65,8 +65,6 @@ class Edit(QtGui.QDialog):
     def ok(self):
         """ Updates self.item with the data in self.fields. """
 
-        print('\nUpdating \''+str(self.item.attrs['name'])+'\':')
-
         for key, field in self.fields.items():
 
             # Extract the data from the field:
@@ -79,13 +77,9 @@ class Edit(QtGui.QDialog):
                 data = str(data)
 
             # Update the item with the new data
-            print(str(key)+': '+str(data))
             self.item.updateAttr(key, data)
 
-        print('description: '+str(self.description.toPlainText()))
         self.item.setDescription(str(self.description.toPlainText()))
-
-        print('\n')
         self.close()
 
     def capt(string):
