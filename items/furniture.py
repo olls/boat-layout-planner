@@ -80,6 +80,10 @@ class Furniture(items.item.Item):
         elif attr == 'angle': self.setAngle(value)
         elif attr == 'description': self.setDescription(value)
         elif attr == 'color': self.setColor(value)
+        print(str(self.attrs['name']) + ':\n' +
+                str(self.attrs['description']))
+        self.setToolTip(str(self.attrs['name']) + ':\n' +
+                str(self.attrs['description']))
 
     # Each 'set' method has a private one for internal use which does the work
     #   and validates the input, and a public one which uses the private one
@@ -180,6 +184,8 @@ class Wall(items.item.Item):
         elif attr == 'scale': self.setScale(value)
         elif attr == 'description': self.setDescription(value)
         elif attr == 'color': self.setColor(value)
+        self.setToolTip(str(self.attrs['name']) + ':\n' +
+                str(self.attrs['description']))
 
     # Each 'set' method has a private one for internal use which does the work
     #   and validates the input, and a public one which uses the private one

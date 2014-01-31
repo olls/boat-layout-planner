@@ -263,7 +263,7 @@ class BoatPlanner(QtGui.QMainWindow):
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Quit?!',
-            "<center>Are you sure to quit?<br>You will lose your work if you havn't saved it.</center>", QtGui.QMessageBox.Yes |
+            "<center>Are you sure you want to quit?<br>You will lose your work if you haven't saved it.</center>", QtGui.QMessageBox.Yes |
             QtGui.QMessageBox.No, QtGui.QMessageBox.No)
 
         if reply == QtGui.QMessageBox.Yes:
