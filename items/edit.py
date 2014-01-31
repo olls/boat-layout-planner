@@ -114,12 +114,3 @@ class ColorPicker(QtGui.QPushButton):
 
     def text(self):
         return self.color.name()
-
-def main():
-    app = QtGui.QApplication(sys.argv)
-    win = Edit()
-    win.show()
-    sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()

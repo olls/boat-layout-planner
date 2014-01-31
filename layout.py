@@ -33,13 +33,3 @@ class Canvas(QtGui.QGraphicsView):
             self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         else:
             QtGui.QGraphicsView.wheelEvent(self, e)
-
-
-def main():
-    app = QtGui.QApplication(sys.argv)
-    win = Canvas()
-    win.showMaximized()
-    sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()

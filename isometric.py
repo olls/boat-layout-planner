@@ -273,18 +273,3 @@ class Drawing(QtGui.QWidget):
                     QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
         else:
             statusBar().showMessage('Saving Canceled')
-
-
-def main():
-    try:
-        length = sys.argv[1]
-    except IndexError:
-        length = random.randint(0, 300)
-
-    app = QtGui.QApplication(sys.argv)
-    bt1 = Boat3D(length, QtGui.QDesktopWidget().availableGeometry().center())
-    bt1.show()
-    sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    main()

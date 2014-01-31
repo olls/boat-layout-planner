@@ -188,19 +188,3 @@ class Item(QtGui.QGraphicsItemGroup):
     def setColor(self, color):
         self._setColor(color)
         self.redraw()
-
-
-def main():
-    """
-        Can't do much to test, because the Furniture class relies
-            on the canvas class
-    """
-
-    # Canvas doesn't exist so this doesn't run.
-    chair1 = Furniture('chair', 100, 100, 1.5, 0, 'My Seat', '#000000', canvas)
-    print(chair1.generateXML())
-    print(chair1.generateSVG())
-    print(chair1.generateVectors())
-
-if __name__ == '__main__':
-    main()

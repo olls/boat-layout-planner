@@ -176,7 +176,13 @@ class BoatPlanner(QtGui.QMainWindow):
                 author=bAt['author'].value, color=bAt['color'].value)
 
             for child in boat.childNodes:
-                name = child.tagName
+
+                try:
+                    name = child.tagName
+                except AttributeError:
+                    # Not a XML tag, ignore.
+                    name = None
+
                 if name == 'wall':
                     self.boat.addWall(
                         attrs = {
@@ -189,7 +195,7 @@ class BoatPlanner(QtGui.QMainWindow):
                             'color': child.attributes['color'].value
                         }
                     )
-                else:
+                elif name is not None:
                     self.boat.addFurniture(
                         name,
                         attrs = {
@@ -220,7 +226,6 @@ class BoatPlanner(QtGui.QMainWindow):
                         '<center>Error while opening.<br>This could be due to not having permission<br>or using an invalid filename.</center>',
                         QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
                     return False
-                print(data.toprettyxml())
                 self.statusBar().showMessage('Opened successfully.')
                 return data
         else:
