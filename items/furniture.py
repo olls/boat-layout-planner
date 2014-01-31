@@ -34,8 +34,6 @@ class Furniture(items.item.Item):
         self.canvas.scene.addItem(self)
         self.setFlag(QtGui.QGraphicsItem.ItemIsMovable)
 
-        self.setToolTip(str(self.attrs['name']) + ':\n' +
-                        str(self.attrs['description']))
         self.setCursor(QtCore.Qt.OpenHandCursor)
 
         # Create QItems
@@ -80,10 +78,6 @@ class Furniture(items.item.Item):
         elif attr == 'angle': self.setAngle(value)
         elif attr == 'description': self.setDescription(value)
         elif attr == 'color': self.setColor(value)
-        print(str(self.attrs['name']) + ':\n' +
-                str(self.attrs['description']))
-        self.setToolTip(str(self.attrs['name']) + ':\n' +
-                str(self.attrs['description']))
 
     # Each 'set' method has a private one for internal use which does the work
     #   and validates the input, and a public one which uses the private one

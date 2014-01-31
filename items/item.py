@@ -179,6 +179,8 @@ class Item(QtGui.QGraphicsItemGroup):
 
     def _setDescription(self, description):
         self.attrs['description'] = description
+        self.setToolTip(str(self.attrs['name']) + ':\n' +
+        str(self.attrs['description']))
     def setDescription(self, description):
         self._setDescription(description)
         self.redraw()

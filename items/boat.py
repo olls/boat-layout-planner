@@ -43,8 +43,6 @@ class Boat(items.item.Item):
 
         self.canvas.scene.addItem(self)
 
-        self.setToolTip(str(self.attrs['description']))
-
         # Create QItems
         self.redraw()
         # self.canvas.fitInView(self)
