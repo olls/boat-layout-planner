@@ -71,7 +71,12 @@ class Boat(items.item.Item):
             ))
 
     def addWall(self):
-        self.items.append(items.furniture.Wall(self.canvas))
+        self.items.append(items.furniture.Wall(self.canvas,
+            self.attrs['bow'] + self.attrs['wallWidth'], # X
+            self.attrs['wallWidth'], # Y
+            self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+            self.attrs['width'] - self.attrs['wallWidth'] # Y Limit
+        ))
 
     @property
     def furniture(self):

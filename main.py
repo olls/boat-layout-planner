@@ -112,19 +112,16 @@ class BoatPlanner(QtGui.QMainWindow):
     def setUpItemsToolbar(self):
         addItems = self.addToolBar('items')
 
-        def callback_factory(n):
+        def callbackFactory(n):
             return lambda: self.boat.addFurniture(n)
-
-        name = 'wall'
-        action = QtGui.QAction(name, self)
-        action.setStatusTip('Add a '+str(name))
-        action.triggered.connect(callback_factory(name))
-        addItems.addAction(action)
 
         for name in self.boat.furniture.keys():
             action = QtGui.QAction(name, self)
             action.setStatusTip('Add a '+str(name))
-            action.triggered.connect(callback_factory(name))
+            if name is not 'wall':
+                action.triggered.connect(callbackFactory(name))
+            else:
+                action.triggered.connect(self.boat.addWall)
             addItems.addAction(action)
 
     def new(self):

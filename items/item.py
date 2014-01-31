@@ -74,6 +74,12 @@ class Item(QtGui.QGraphicsItemGroup):
     def formatEval(self, template, attrs, scale=1, noScale=None):
         """ A method which acts like the str.format method, except it evaluates
             the contents of quotes after inserting the values """
+        try:
+            attrs.update({'boatWidth': self.canvas.boat.attrs['width'] - (self.canvas.boat.attrs['wallWidth'] * 2)})
+        except:
+            # Boat hasn't been added to self yet.
+            pass
+
         # First put the values in place as normal.
         s = template.format(**attrs)
         # Then split it at the quotes into a list.
