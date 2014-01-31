@@ -232,6 +232,16 @@ class BoatPlanner(QtGui.QMainWindow):
             return False
         return True
 
+    def closeEvent(self, event):
+        reply = QtGui.QMessageBox.question(self, 'Quit?!',
+            "<center>Are you sure to quit?<br>You will lose your work if you havn't saved it.</center>", QtGui.QMessageBox.Yes |
+            QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
     def isoView(self):
         """ Opens the isometric 3D view window. """
 
