@@ -1,6 +1,7 @@
 import sys
 import math
 import random
+from os.path import expanduser
 from PyQt4 import QtGui, QtCore
 
 
@@ -257,9 +258,9 @@ class Drawing(QtGui.QWidget):
         svg = self.generateSVG()
 
         filename = QtGui.QFileDialog.getSaveFileName(self, 'Save SVG File',
-                                                     '/home', '*.svg')
+                                                     expanduser('~'), '*.svg')
         if filename:
-            if not str(filename)[-4:].lower() == '.svg':
+            if not str(filename).endswith(('.svg', '.SVG')):
                 filename += '.svg'
             try:
                 with open(filename, 'w') as f:

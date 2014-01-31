@@ -216,7 +216,7 @@ class BoatPlanner(QtGui.QMainWindow):
         filename = QtGui.QFileDialog.getSaveFileName(self, 'Save {} File'.format(type_),
                                                      expanduser("~"), '*.{}'.format(type_))
         if filename:
-            if not str(filename)[-4:].lower() == '.'+type_:
+            if not str(filename).endswith(('.'+type_.lower(), '.'+type_.upper())):
                 filename += '.'+type_
             try:
                 with open(filename, 'w') as f:
