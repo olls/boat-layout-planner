@@ -20,9 +20,9 @@ class Boat(items.item.Item):
             'length':   'lineEdit',
             'width':    'lineEdit',
             'height':   'lineEdit',
-            'bow':   'lineEdit',
-            'stern':   'lineEdit',
-            'wallWidth':   'lineEdit',
+            'bow':      'lineEdit',
+            'stern':    'lineEdit',
+            'wallWidth':'lineEdit',
             'author':   'lineEdit',
             'color':    'color'
         }

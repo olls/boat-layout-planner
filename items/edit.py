@@ -51,9 +51,14 @@ class Edit(QtGui.QDialog):
         self.description = QtGui.QTextEdit(self)
         self.description.append(self.item.attrs['description'])
 
+        if not self.item.attrs['name'] == 'boat':
+            btn = QtGui.QPushButton('DELETE')
+            btn.clicked.connect(self.delete)
+            self.grid.addWidget(btn, y, 0)
+            y += 1
+
         self.grid.addWidget(QtGui.QLabel('Description:'), 0, 1)
         self.grid.addWidget(self.description, 1, 1, y, 1)
-
 
         btn = QtGui.QPushButton('OK')
         btn.clicked.connect(self.ok)
@@ -81,6 +86,17 @@ class Edit(QtGui.QDialog):
 
         self.item.setDescription(str(self.description.toPlainText()))
         self.close()
+
+    def delete(self):
+        reply = QtGui.QMessageBox.question(self, 'DELETE?!',
+            "<center>Are you sure you want to DELETE the item?<br>You will not be able to retrieve it.</center>",
+            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+
+        if reply == QtGui.QMessageBox.Yes:
+            self.item.canvas.boat.items.remove(self.item)
+            self.item.canvas.scene.removeItem(self.item)
+
+            self.close()
 
     def capt(string):
         """ Takes a string, and capitalizes the first letter. """

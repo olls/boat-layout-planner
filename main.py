@@ -3,7 +3,7 @@ import random
 import time
 from xml.dom.minidom import parse
 from os.path import expanduser
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 
 import isometric
 import layout
@@ -123,7 +123,7 @@ class BoatPlanner(QtGui.QMainWindow):
 
         for name in self.boat.furniture.keys():
             action = QtGui.QAction(name, self)
-            action.setStatusTip('Add a '+str(name))
+            action.setStatusTip('Add a ' + str(name))
             if name is not 'wall':
                 action.triggered.connect(callbackFactory(name))
             else:
