@@ -1,5 +1,5 @@
 """
-    Scale is in Meters.
+    Scale is a meter at normal scale = 1.
 """
 
 TEMPLATES = {
@@ -27,6 +27,91 @@ TEMPLATES = {
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.9*{scale})"  y1="{y}+{scale}"        x2="{x}+(0.9*{scale})"  y2="{y}+(0.9*{scale})"  />\n'
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}+{scale}"        y1="{y}+(0.9*{scale})"  x2="{x}+(0.9*{scale})"  y2="{y}+(0.9*{scale})"  />\n')
         },
+
+        'one segment sofa south': {
+            'XML': '<one-seg-sofa-south x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+(0.5*{scale})"  y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.5*{scale})"  x2="{x}+(0.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.5*{scale})"  y1="{y}"                x2="{x}+(0.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    # Back
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.1*{scale})"  x2="{x}+(0.5*{scale})"  y2="{y}+(0.1*{scale})"  />\n'
+                    # Sides
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.1*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(0.1*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.4*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(0.4*{scale})"  y2="{y}+(0.5*{scale})"  />\n')
+        },
+        'two segment sofa south': {
+            'XML': '<two-seg-sofa-south x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+{scale}"        y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.5*{scale})"  x2="{x}+{scale}"        y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+{scale}"        y1="{y}"                x2="{x}+{scale}"        y2="{y}+(0.5*{scale})"  />\n'
+                    # Back
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.1*{scale})"  x2="{x}+{scale}"        y2="{y}+(0.1*{scale})"  />\n'
+                    # Sides
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.1*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(0.1*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.9*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(0.9*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    # Segments
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.5*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(0.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n')
+        },
+        'three segment sofa south': {
+            'XML': '<three-seg-sofa-south x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+(1.5*{scale})"  y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.5*{scale})"  x2="{x}+(1.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(1.5*{scale})"  y1="{y}"                x2="{x}+(1.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    # Back
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.1*{scale})"  x2="{x}+(1.5*{scale})"  y2="{y}+(0.1*{scale})"  />\n'
+                    # Sides
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.1*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(0.1*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(1.4*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(1.4*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    # Segments
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.5*{scale})"  y1="{y}+(0.1*{scale})"  x2="{x}+(0.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+{scale}"        y1="{y}+(0.1*{scale})"  x2="{x}+{scale}"        y2="{y}+(0.5*{scale})"  />\n')
+        },
+
+        'one segment sofa north': {
+            'XML': '<one-seg-sofa-north x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+(0.5*{scale})"  y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.5*{scale})"  x2="{x}+(0.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.5*{scale})"  y1="{y}"                x2="{x}+(0.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    # Back
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.4*{scale})"  x2="{x}+(0.5*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    # Sides
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.1*{scale})"  y1="{y}"                x2="{x}+(0.1*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.4*{scale})"  y1="{y}"                x2="{x}+(0.4*{scale})"  y2="{y}+(0.4*{scale})"  />\n')
+        },
+        'two segment sofa north': {
+            'XML': '<two-seg-sofa-north x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+{scale}"        y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.5*{scale})"  x2="{x}+{scale}"        y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+{scale}"        y1="{y}"                x2="{x}+{scale}"        y2="{y}+(0.5*{scale})"  />\n'
+                    # Back
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.4*{scale})"  x2="{x}+{scale}"        y2="{y}+(0.4*{scale})"  />\n'
+                    # Sides
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.1*{scale})"  y1="{y}"                x2="{x}+(0.1*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.9*{scale})"  y1="{y}"                x2="{x}+(0.9*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    # Segments
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.5*{scale})"  y1="{y}"                x2="{x}+(0.5*{scale})"  y2="{y}+(0.4*{scale})"  />\n')
+        },
+        'three segment sofa north': {
+            'XML': '<three-seg-sofa-north x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+(1.5*{scale})"  y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.5*{scale})"  x2="{x}+(1.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.5*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(1.5*{scale})"  y1="{y}"                x2="{x}+(1.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
+                    # Back
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.4*{scale})"  x2="{x}+(1.5*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    # Sides
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.1*{scale})"  y1="{y}"                x2="{x}+(0.1*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(1.4*{scale})"  y1="{y}"                x2="{x}+(1.4*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    # Segments
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.5*{scale})"  y1="{y}"                x2="{x}+(0.5*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+{scale}"        y1="{y}"                x2="{x}+{scale}"        y2="{y}+(0.4*{scale})"  />\n')
+        },
+
         'wall': {
             'XML': '<wall x="{x}" y="{y}" doorY="{doorY}" doorWidth="{doorWidth}" scale="{scale}" description="{description}" color="{color}" />',
             'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                        x2="{x}"                y2="{y}+{boatWidth}"            />\n'
