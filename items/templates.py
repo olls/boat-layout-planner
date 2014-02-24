@@ -4,13 +4,37 @@
 
 TEMPLATES = {
     'furniture': {
-        'chair': {
-            'XML': '<chair x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+        'chair north': {
+            'XML': '<chair-north x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                    x2="{x}"                y2="{y}+({scale}*.4)"       />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                    x2="{x}+({scale}*.4)"   y2="{y}"                    />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+({scale}*.4)"       x2="{x}+({scale}*.4)"   y2="{y}+({scale}*.4)"       />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+({scale}*.4)"   y1="{y}"                    x2="{x}+({scale}*.4)"   y2="{y}+({scale}*.4)"       />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(({scale}*.4))*.8"  x2="{x}+({scale}*.4)"   y2="{y}+(({scale}*.4))*.8 " />\n')
+        },
+        'chair south': {
+            'XML': '<chair-south x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
             'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                    x2="{x}"                y2="{y}+({scale}*.4)"       />\n'
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                    x2="{x}+({scale}*.4)"   y2="{y}"                    />\n'
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+({scale}*.4)"       x2="{x}+({scale}*.4)"   y2="{y}+({scale}*.4)"       />\n'
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}+({scale}*.4)"   y1="{y}"                    x2="{x}+({scale}*.4)"   y2="{y}+({scale}*.4)"       />\n'
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(({scale}*.4))*.2"  x2="{x}+({scale}*.4)"   y2="{y}+(({scale}*.4))*.2 " />\n')
+        },
+        'chair east': {
+            'XML': '<chair-east x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                    y1="{y}"                x2="{x}"                    y2="{y}+({scale}*.4)"   />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                    y1="{y}"                x2="{x}+({scale}*.4)"       y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                    y1="{y}+({scale}*.4)"   x2="{x}+({scale}*.4)"       y2="{y}+({scale}*.4)"   />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+({scale}*.4)"       y1="{y}"                x2="{x}+({scale}*.4)"       y2="{y}+({scale}*.4)"   />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(({scale}*.4))*.2"  y1="{y}"                x2="{x}+(({scale}*.4))*.2"  y2="{y}+({scale}*.4)"   />\n')
+        },
+        'chair west': {
+            'XML': '<chair-west x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                    x2="{x}"                y2="{y}+({scale}*.4)"       />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                    x2="{x}+({scale}*.4)"   y2="{y}"                    />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+({scale}*.4)"       x2="{x}+({scale}*.4)"   y2="{y}+({scale}*.4)"       />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+({scale}*.4)"   y1="{y}"                    x2="{x}+({scale}*.4)"   y2="{y}+({scale}*.4)"       />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(({scale}*.4))*.8"                y1="{y}"  x2="{x}+(({scale}*.4))*.8"   y2="{y}+({scale}*.4)" />\n')
         },
         'table': {
             'XML': '<table x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
