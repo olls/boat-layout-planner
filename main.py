@@ -122,11 +122,11 @@ class BoatPlanner(QtGui.QMainWindow):
             return lambda: self.boat.addFurniture(n)
 
         for name in self.boat.furniture.keys():
-            name = ' '.join(name.split('-'))
-            name = name[0].upper() + name[1:]
-            action = QtGui.QAction(name, self)
-            action.setStatusTip('Add a ' + str(name))
-            if not name == 'Wall':
+            pretty_name = ' '.join(name.split('-'))
+            pretty_name = pretty_name[0].upper() + pretty_name[1:]
+            action = QtGui.QAction(pretty_name, self)
+            action.setStatusTip('Add a ' + str(pretty_name))
+            if not name == 'wall':
                 action.triggered.connect(callbackFactory(name))
             else:
                 action.triggered.connect(self.boat.addWall)

@@ -49,7 +49,6 @@ class Boat(items.item.Item):
 
 
     def addFurniture(self, name, attrs=None):
-        name = '-'.join(name.split(' ')).lower()
         if attrs == None:
             self.items.append(items.furniture.Furniture(self.canvas, name,
                 self.attrs['bow'] + self.attrs['wallWidth'], # X
