@@ -139,11 +139,20 @@ TEMPLATES = {
         'television-north': {
             'XML': '<television-north x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
             'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+(0.6*{scale})"  y2="{y}"                />\n'
-                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.1*{scale})"  x2="{x}+(0.25*{scale})" y2="{y}+(0.15*{scale})" />\n'
-                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.35*{scale})" y1="{y}+(0.15*{scale})" x2="{x}+(0.6*{scale})"  y2="{y}+(0.1*{scale})"  />\n'
-                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.25*{scale})" y1="{y}+(0.15*{scale})" x2="{x}+(0.35*{scale})" y2="{y}+(0.15*{scale})" />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.1*{scale})"  x2="{x}+(0.25*{scale})" y2="{y}+(0.13*{scale})" />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.35*{scale})" y1="{y}+(0.13*{scale})" x2="{x}+(0.6*{scale})"  y2="{y}+(0.1*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.25*{scale})" y1="{y}+(0.13*{scale})" x2="{x}+(0.35*{scale})" y2="{y}+(0.13*{scale})" />\n'
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.1*{scale})"  />\n'
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.6*{scale})"  y1="{y}"                x2="{x}+(0.6*{scale})"  y2="{y}+(0.1*{scale})"  />\n')
+        },
+        'television-south': {
+            'XML': '<television-south x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.13*{scale})" x2="{x}+(0.6*{scale})"  y2="{y}+(0.13*{scale})" />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.03*{scale})"  x2="{x}+(0.25*{scale})" y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.35*{scale})" y1="{y}"                x2="{x}+(0.6*{scale})"  y2="{y}+(0.03*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.25*{scale})" y1="{y}"                x2="{x}+(0.35*{scale})" y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.13*{scale})" x2="{x}"                y2="{y}+(0.03*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.6*{scale})"  y1="{y}+(0.13*{scale})" x2="{x}+(0.6*{scale})"  y2="{y}+(0.03*{scale})"  />\n')
         },
 
         'wall': {
