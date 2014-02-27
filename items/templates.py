@@ -136,21 +136,15 @@ TEMPLATES = {
                     '<line  stroke="{color}"    stroke-width="1"    x1="{x}+{scale}"        y1="{y}"                x2="{x}+{scale}"        y2="{y}+(0.4*{scale})"  />\n')
         },
 
-        # 'television-north': {
-        #     'XML': '<television-north x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
-        #     'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+(1.5*{scale})"  y2="{y}"                />\n'
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.5*{scale})"  x2="{x}+(1.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.5*{scale})"  />\n'
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(1.5*{scale})"  y1="{y}"                x2="{x}+(1.5*{scale})"  y2="{y}+(0.5*{scale})"  />\n'
-        #             # Back
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.4*{scale})"  x2="{x}+(1.5*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
-        #             # Sides
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.1*{scale})"  y1="{y}"                x2="{x}+(0.1*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(1.4*{scale})"  y1="{y}"                x2="{x}+(1.4*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
-        #             # Segments
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.5*{scale})"  y1="{y}"                x2="{x}+(0.5*{scale})"  y2="{y}+(0.4*{scale})"  />\n'
-        #             '<line  stroke="{color}"    stroke-width="1"    x1="{x}+{scale}"        y1="{y}"                x2="{x}+{scale}"        y2="{y}+(0.4*{scale})"  />\n')
-        # },
+        'television-north': {
+            'XML': '<television-north x="{x}" y="{y}" scale="{scale}" angle="{angle}" description="{description}" color="{color}" />',
+            'SVG': ('<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}+(0.6*{scale})"  y2="{y}"                />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}+(0.1*{scale})"  x2="{x}+(0.25*{scale})" y2="{y}+(0.15*{scale})" />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.35*{scale})" y1="{y}+(0.15*{scale})" x2="{x}+(0.6*{scale})"  y2="{y}+(0.1*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.25*{scale})" y1="{y}+(0.15*{scale})" x2="{x}+(0.35*{scale})" y2="{y}+(0.15*{scale})" />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}"                y1="{y}"                x2="{x}"                y2="{y}+(0.1*{scale})"  />\n'
+                    '<line  stroke="{color}"    stroke-width="1"    x1="{x}+(0.6*{scale})"  y1="{y}"                x2="{x}+(0.6*{scale})"  y2="{y}+(0.1*{scale})"  />\n')
+        },
 
         'wall': {
             'XML': '<wall x="{x}" y="{y}" doorY="{doorY}" doorWidth="{doorWidth}" scale="{scale}" description="{description}" color="{color}" />',
