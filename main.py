@@ -142,9 +142,9 @@ class BoatPlanner(QtGui.QMainWindow):
 
         self.newBoat()
 
-    def newBoat(self, length=20, width=2, height=3, stern=2.5, bow=2,
-                wallWidth=0.1, description='Dvbris', author='Unknown',
-                color='#000000'):
+    def newBoat(self, length=20, width=2.5, height=3, bow=3, stern=3,
+                 wallWidth=0.1, color='#000000', description='',
+                 author='Unknown'):
         try:
             self.boat.removeAll()
         except AttributeError:

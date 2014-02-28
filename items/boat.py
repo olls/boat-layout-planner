@@ -105,20 +105,20 @@ class Boat(items.item.Item):
         [self.canvas.scene.removeItem(item) for item in self.items]
 
     def generateAllSVG(self):
-        svg = ('<?xml version="1.0"?>\n<svg width="{length}" height="{width}" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'
-               .format(length=(self.attrs['length']*100)+1, width=(self.attrs['width']*100)+1) +
-               '\n'.join([item.generateSVG(scale=100, noScale='stroke-width') for item in self.items] +
-                         [self.generateSVG(scale=100, noScale='stroke-width')]) +
-               '</svg>')
-        while '  ' in svg:
-            svg = svg.replace('  ', ' ')
+        svg = (('<?xml version="1.0"?>\n'
+                '<svg width="{length}" height="{width}" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'
+                '<text x="0" y="{width}" font-family="sans-serif" font-size="20px">{description}</text>\n')
+                .format(length=(self.attrs['length']*100)+1, width=(self.attrs['width']*100)+1, description=self.attrs['description']) +
+                '\n'.join([item.generateSVG(scale=100, noScale='stroke-width') for item in self.items] +
+                          [self.generateSVG(scale=100, noScale='stroke-width')]) +
+                '</svg>')
+        svg = svg.replace('  ', ' ')
         return svg
 
     def generateAllXML(self):
         xml = ('<?xml version="1.0"?>\n' +
                self.generateXML()+'\n'+'\n\t'.join([item.generateXML() for item in self.items]) +'\n</boat>')
-        while '  ' in xml:
-            xml = xml.replace('  ', ' ')
+        xml = xml.replace('  ', ' ')
         return xml
 
     def updateAttr(self, attr, value):
