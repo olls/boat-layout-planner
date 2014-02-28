@@ -1,6 +1,7 @@
 from PyQt4 import QtGui, QtCore
 
 import items.item
+from func import *
 
 class Furniture(items.item.Item):
     """
@@ -87,7 +88,7 @@ class Furniture(items.item.Item):
         try:
             self.attrs['scale'] = float(scale)
         except ValueError:
-            sys.exit('Fatal error: Invalid scale attribute for Furniture item')
+            error(self.canvas, 'Value Error', 'Invalid scale attribute for Furniture item')
     def setScale(self, scale):
         self._setScale(scale)
         self.redraw()
@@ -96,7 +97,7 @@ class Furniture(items.item.Item):
         try:
             self.attrs['angle'] = float(angle)
         except ValueError:
-            sys.exit('Fatal error: Invalid angle attribute for Furniture item')
+            error(self.canvas, 'Value Error', 'Invalid angle attribute for Furniture item')
     def setAngle(self, angle):
         self._setAngle(angle)
         self.redraw()
@@ -131,8 +132,7 @@ class Wall(items.item.Item):
         self.canvas.scene.addItem(self)
         self.setFlag(QtGui.QGraphicsItem.ItemIsMovable)
 
-        self.setToolTip('Wall:\n' +
-                        str(self.attrs['description']))
+        self.setToolTip('Wall:\n' + str(self.attrs['description']))
         self.setCursor(QtCore.Qt.OpenHandCursor)
 
         # Create QItems
@@ -189,7 +189,8 @@ class Wall(items.item.Item):
         try:
             self.attrs['scale'] = float(scale)
         except ValueError:
-            sys.exit('Fatal error: Invalid scale attribute for Wall item')
+            error(self.canvas, 'Value Error', 'Invalid scale attribute for Wall item')
+
     def setScale(self, scale):
         self._setScale(scale)
         self.redraw()
@@ -198,7 +199,7 @@ class Wall(items.item.Item):
         try:
             self.attrs['doorY'] = float(doorY)
         except ValueError:
-            sys.exit('Fatal error: Invalid doorY attribute for Wall item')
+            error(self.canvas, 'Value Error', 'Invalid doorY attribute for Wall item')
     def setDoorY(self, doorY):
         self._setDoorY(doorY)
         self.redraw()
@@ -207,7 +208,7 @@ class Wall(items.item.Item):
         try:
             self.attrs['doorWidth'] = float(doorWidth)
         except ValueError:
-            sys.exit('Fatal error: Invalid doorWidth attribute for Wall item')
+            error(self.canvas, 'Value Error', 'Invalid doorWidth attribute for Wall item')
     def setDoorWidth(self, doorWidth):
         self._setDoorWidth(doorWidth)
         self.redraw()

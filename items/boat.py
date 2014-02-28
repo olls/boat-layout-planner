@@ -3,6 +3,7 @@ from PyQt4 import QtGui, QtCore
 
 import items.item
 from items.templates import TEMPLATES
+from func import *
 
 
 class Boat(items.item.Item):
@@ -138,7 +139,7 @@ class Boat(items.item.Item):
         try:
             self.attrs['length'] = float(length)
         except ValueError:
-            sys.exit('Fatal error: Invalid length attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid length attribute for Boat item')
     def setLength(self, length):
         self._setLength(length)
         self.redraw()
@@ -147,9 +148,9 @@ class Boat(items.item.Item):
         try:
             self.attrs['width'] = float(width)
         except ValueError:
-            sys.exit('Fatal error: Invalid width attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid width attribute for Boat item')
         if self.attrs['width'] < 0:
-            sys.exit('Fatal error: Invalid width attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid width attribute for Boat item')
     def setWidth(self, width):
         self._setWidth(width)
         self.redraw()
@@ -158,9 +159,9 @@ class Boat(items.item.Item):
         try:
             self.attrs['height'] = float(height)
         except ValueError:
-            sys.exit('Fatal error: Invalid height attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid height attribute for Boat item')
         if self.attrs['height'] < 0:
-            sys.exit('Fatal error: Invalid height attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid height attribute for Boat item')
     def setHeight(self, height):
         self._setHeight(height)
         self.redraw()
@@ -169,9 +170,9 @@ class Boat(items.item.Item):
         try:
             self.attrs['bow'] = float(bow)
         except ValueError:
-            sys.exit('Fatal error: Invalid bow attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid bow attribute for Boat item')
         if self.attrs['bow'] > self.attrs['length']:
-            sys.exit('Fatal error: Invalid bow attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid bow attribute for Boat item')
     def setBow(self, bow):
         self._setBow(bow)
         self.redraw()
@@ -180,9 +181,9 @@ class Boat(items.item.Item):
         try:
             self.attrs['stern'] = float(stern)
         except ValueError:
-            sys.exit('Fatal error: Invalid stern attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid stern attribute for Boat item')
         if self.attrs['stern'] > (self.attrs['length'] - self.attrs['bow']):
-            sys.exit('Fatal error: Invalid stern attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid stern attribute for Boat item')
     def setStern(self, stern):
         self._setStern(stern)
         self.redraw()
@@ -191,9 +192,9 @@ class Boat(items.item.Item):
         try:
             self.attrs['wallWidth'] = float(wallWidth)
         except ValueError:
-            sys.exit('Fatal error: Invalid wallWidth attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid wallWidth attribute for Boat item')
         if self.attrs['wallWidth'] > (self.attrs['length'] / 2):
-            sys.exit('Fatal error: Invalid wallWidth attribute for Boat item')
+            error(self.canvas, 'Value Error', 'Invalid wallWidth attribute for Boat item')
     def setWallWidth(self, wallWidth):
         self._setWallWidth(wallWidth)
 

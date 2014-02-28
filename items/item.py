@@ -4,6 +4,7 @@ from PyQt4 import QtGui, QtCore
 
 import items.edit
 from items.templates import TEMPLATES
+from func import *
 
 
 class Item(QtGui.QGraphicsItemGroup):
@@ -163,7 +164,7 @@ class Item(QtGui.QGraphicsItemGroup):
         try:
             self.attrs['x'] = float(x)
         except ValueError:
-            sys.exit('Fatal error: Invalid x attribute for Furniture item')
+            sys.exit('Fatal Error: Invalid x attribute for Furniture item')
     def setX(self, x):
         self._setX(x)
         self.redraw()
@@ -172,7 +173,7 @@ class Item(QtGui.QGraphicsItemGroup):
         try:
             self.attrs['y'] = float(y)
         except ValueError:
-            sys.exit('Fatal error: Invalid y attribute for Furniture item')
+            sys.exit('Fatal Error: Invalid y attribute for Furniture item')
     def setY(self, y):
         self._setY(y)
         self.redraw()
