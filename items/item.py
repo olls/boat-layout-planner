@@ -3,7 +3,6 @@ import math
 from PyQt4 import QtGui, QtCore
 
 import items.edit
-from items.templates import TEMPLATES
 from func import *
 
 
@@ -16,7 +15,7 @@ class Item(QtGui.QGraphicsItemGroup):
         super(Item, self).__init__()
 
         self.attrs = {}
-        self.TEMPLATES = self.flatten(TEMPLATES)
+        self.TEMPLATES = self.flatten(templates())
 
 
     def redraw(self):

@@ -1,8 +1,8 @@
 import sys
+import json
 from PyQt4 import QtGui, QtCore
 
 import items.item
-from items.templates import TEMPLATES
 from func import *
 
 
@@ -14,6 +14,7 @@ class Boat(items.item.Item):
         super(Boat, self).__init__()
 
         self.items = []
+        self.templates = templates()
 
         self.canvas = canvas
 
@@ -92,7 +93,7 @@ class Boat(items.item.Item):
 
     @property
     def furniture(self):
-        return TEMPLATES['furniture']
+        return self.templates['furniture']
 
     def redrawAll(self):
         self.redraw()
