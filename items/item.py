@@ -35,7 +35,8 @@ class Item(QtGui.QGraphicsItemGroup):
         item = True
         while item:
             # Goes through each SVG item and depending on the type,
-            #   extracts different attributes from it and creates the QItem.
+            #   extracts different attributes from it and creates the
+            #   QItem.
             item = svg[svg.find('<')+1 : svg.find('>')]
             if item == '':
                 break
@@ -108,8 +109,8 @@ class Item(QtGui.QGraphicsItemGroup):
             # Take the even elements from the list to
             #   get the bits between the quotes.
             if (i+1)%2 == 0:
-                # Try to evaluate it, if it causes an error, I will assume it's
-                #   not an expression, and leave it alone.
+                # Try to evaluate it, if it causes an error, I will
+                #   assume it's not an expression, and leave it alone.
                 try:
                     result = eval(section)
                     if not noScale == None and not noScale in s[i-1]:
