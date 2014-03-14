@@ -7,6 +7,9 @@ from func import *
 
 
 class Boat(items.item.Item):
+    """
+        The boat which holds all of its the furniture items.
+    """
 
     def __init__(self, canvas, length=20, width=2, height=3, bow=3, stern=4,
                  wallWidth=0.1, color='#000000', description='',
@@ -14,7 +17,7 @@ class Boat(items.item.Item):
         super(Boat, self).__init__()
 
         self.items = []
-        self.templates = templates()
+        self.templates = templates
 
         self.canvas = canvas
 
@@ -47,10 +50,13 @@ class Boat(items.item.Item):
 
         # Create QItems
         self.redraw()
-        # self.canvas.fitInView(self)
 
 
     def addFurniture(self, name, attrs=None):
+        """
+            Add a new item of furniture with default attributes if not
+                given.
+        """
         if attrs == None:
             self.items.append(items.furniture.Furniture(self.canvas, name,
                 self.attrs['bow'] + self.attrs['wallWidth'], # X
@@ -71,6 +77,9 @@ class Boat(items.item.Item):
             ))
 
     def addWall(self, attrs=None):
+        """
+            Add a new wall item  with default attributes if not given.
+        """
         if not attrs:
             self.items.append(items.furniture.Wall(self.canvas,
                 self.attrs['bow'] + self.attrs['wallWidth'], # X
@@ -96,16 +105,31 @@ class Boat(items.item.Item):
         return self.templates['furniture']
 
     def redrawAll(self):
+        """
+            Calls the redraw method for itself and all its items of
+                furniture.
+        """
         self.redraw()
         [item.redraw() for item in self.items]
+
     def updateAllPos(self):
+        """
+            Calls the updatePos method for all its items of furniture.
+        """
         [item.updatePos() for item in self.items]
 
     def removeAll(self):
+        """
+            Deletes itself and all of its items from the scene.
+        """
         self.canvas.scene.removeItem(self)
         [self.canvas.scene.removeItem(item) for item in self.items]
 
     def generateAllSVG(self):
+        """
+            Returns an SVG document containing all of the items and
+                the boat.
+        """
         svg = (('<?xml version="1.0"?>\n'
                 '<svg width="{length}" height="{width}" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'
                 '<text x="0" y="{width}" font-family="sans-serif" font-size="20px">{description}</text>\n')
@@ -117,12 +141,20 @@ class Boat(items.item.Item):
         return svg
 
     def generateAllXML(self):
+        """
+            Returns and XML document containing the boat and all of
+                the items.
+        """
         xml = ('<?xml version="1.0"?>\n' +
                self.generateXML()+'\n'+'\n\t'.join([item.generateXML() for item in self.items]) +'\n</boat>')
         xml = xml.replace('  ', ' ')
         return xml
 
     def updateAttr(self, attr, value):
+        """
+            Calls one of its methods specified by attr, with value:
+                value.
+        """
         if attr == 'length': self.setLength(value)
         elif attr == 'width': self.setWidth(value)
         elif attr == 'height': self.setHeight(value)
@@ -134,6 +166,10 @@ class Boat(items.item.Item):
         elif attr == 'color': self.setColor(value)
         elif attr == 'description': self.setDescription(value)
         elif attr == 'author': self.setAuthor(value)
+
+    # Each 'set' method has a private version for internal use which
+    #   does the work and validates the input, and a public version
+    #   which uses the private one then redraws the canvas.
 
     def _setLength(self, length):
         try:

@@ -8,19 +8,22 @@ from func import *
 
 class Item(QtGui.QGraphicsItemGroup):
     """
-        An Item class which all displayed items on the canvas are derived from.
+        An Item class which all displayed items on the canvas are
+            derived from.
     """
 
     def __init__(self):
         super(Item, self).__init__()
 
         self.attrs = {}
-        self.TEMPLATES = self.flatten(templates())
+        self.TEMPLATES = self.flatten(templates)
 
 
     def redraw(self):
-        """ Creates vector information for this object, which is
-            then displayed on the canvas. """
+        """
+            Creates vector information for this object, which is then
+                displayed on the canvas.
+        """
 
         # First remove all items from group.
         for child in self.childItems():
@@ -51,10 +54,10 @@ class Item(QtGui.QGraphicsItemGroup):
             elif name == 'rect':
                 pass
 
-            # try:
-            color = self.getSVGItemAttrValue(item, 'stroke')
-            # except IndexError:
-                # color = '#000000'
+            try:
+                color = self.getSVGItemAttrValue(item, 'stroke')
+            except IndexError:
+                color = '#000000'
             QItem.setPen(QtGui.QColor(color))
 
             # Add the QItem to ourself so it is a part of the group.
@@ -63,14 +66,20 @@ class Item(QtGui.QGraphicsItemGroup):
 
 
     def generateXML(self):
-        """ Creates XML code for this object using the template and attrs """
+        """
+            Creates XML code for this object using the template and
+                attrs.
+        """
         return self.formatEval(
             self.TEMPLATES[self.attrs['name']]['XML'],
             self.attrs
         )
 
     def generateSVG(self, scale=1, noScale=None):
-        """ Creates SVG code for this object using the template and attrs """
+        """
+            Creates SVG code for this object using the template and
+                attrs.
+        """
         return self.formatEval(
             self.TEMPLATES[self.attrs['name']]['SVG'],
             self.attrs,
@@ -79,8 +88,11 @@ class Item(QtGui.QGraphicsItemGroup):
         )
 
     def formatEval(self, template, attrs, scale=1, noScale=None):
-        """ A method which acts like the str.format method, except it evaluates
-            the contents of quotes after inserting the values """
+        """
+            A method which acts like the str.format method, except it
+                evaluates the contents of quotes after inserting the
+                values.
+        """
         try:
             attrs.update({'boatWidth': self.canvas.boat.attrs['width'] - (self.canvas.boat.attrs['wallWidth'] * 2)})
         except:
@@ -113,6 +125,9 @@ class Item(QtGui.QGraphicsItemGroup):
         return ''.join(ret)
 
     def flatten(self, dic):
+        """
+            Flattens a dictionary.
+        """
         out = {}
         for key in dic:
             if isinstance(dic[key], dict):
@@ -122,7 +137,10 @@ class Item(QtGui.QGraphicsItemGroup):
         return out
 
     def getSVGItemAttrValue(self, item, attr):
-        """ Takes an SVG item and returns the value of a given attribute. """
+        """
+            Takes an SVG item and returns the value of a given
+                attribute.
+        """
 
         # Find attribute.
         for section in item.split(' '):
@@ -135,7 +153,10 @@ class Item(QtGui.QGraphicsItemGroup):
 
 
     def top(self):
-        """ Brings us to the top. """
+        """
+            Brings us to the top, in front of other items on the
+                canvas.
+        """
         # Sets our Z value to one.
         self.setZValue(1)
         # Set every colliding items Z value to 0
@@ -144,14 +165,16 @@ class Item(QtGui.QGraphicsItemGroup):
 
 
     def mouseDoubleClickEvent(self, e):
-        """ Opens the edit window when double clicked. """
+        """
+            Opens the edit window when self is double clicked.
+        """
         self.win = items.edit.Edit(self)
         self.win.setModal(True)
         self.win.show()
 
-    # Each 'set' method has a private one for internal use which does the work
-    #   and validates the input, and a public one which uses the private one
-    #   then redraws the canvas.
+    # Each 'set' method has a private version for internal use which
+    #   does the work and validates the input, and a public version
+    #   which uses the private one then redraws the canvas.
 
     def _setName(self, name):
         self.attrs['name'] = name

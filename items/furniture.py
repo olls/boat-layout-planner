@@ -5,8 +5,8 @@ from func import *
 
 class Furniture(items.item.Item):
     """
-        An QGraphicsItemGroup which holds all the QItems
-            and can return its XML or SVG.
+        An QGraphicsItemGroup which holds all the QItems for an item
+            of furniture and can return its XML or SVG.
     """
 
     def __init__(self, canvas, name, x, y, xL, yL, scale=1, angle=0,
@@ -17,9 +17,9 @@ class Furniture(items.item.Item):
         self.origin = (x, y)
         self.limit = (xL, yL)
 
+        # Attriutes that are editable in the edit window.
         self.editable = {
             'scale':   'lineEdit',
-            # 'angle':    QtGui.QLineEdit(self),
             'color':    'color'
         }
 
@@ -43,9 +43,15 @@ class Furniture(items.item.Item):
 
 
     def mousePressEvent(self, e):
+        """
+            Set the mouse cursor while dragging.
+        """
         if e.button() == 1:
             self.setCursor(QtCore.Qt.ClosedHandCursor)
     def mouseReleaseEvent(self, e):
+        """
+            Reset the mouse cursor when stopped dragging.
+        """
         # This runs the default event method, which allows
         #   the dragging to work properly.
         QtGui.QGraphicsItem.mouseReleaseEvent(self, e)
@@ -58,6 +64,10 @@ class Furniture(items.item.Item):
 
 
     def updatePos(self):
+        """
+            Recalculates its position and keeps it within the bounds
+                defined in self.limits and self.origin.
+        """
         self._setX(self.x()+self.origin[0])
         self._setY(self.y()+self.origin[1])
 
@@ -73,6 +83,10 @@ class Furniture(items.item.Item):
 
 
     def updateAttr(self, attr, value):
+        """
+            Calls one of its methods specified by attr, with value:
+                value.
+        """
         if attr == 'x': self.setX(value)
         elif attr == 'y': self.setY(value)
         elif attr == 'scale': self.setScale(value)
@@ -80,9 +94,9 @@ class Furniture(items.item.Item):
         elif attr == 'description': self.setDescription(value)
         elif attr == 'color': self.setColor(value)
 
-    # Each 'set' method has a private one for internal use which does the work
-    #   and validates the input, and a public one which uses the private one
-    #   then redraws the canvas.
+    # Each 'set' method has a private version for internal use which
+    #   does the work and validates the input, and a public version
+    #   which uses the private one then redraws the canvas.
 
     def _setScale(self, scale):
         try:
@@ -104,8 +118,13 @@ class Furniture(items.item.Item):
 
 
 class Wall(items.item.Item):
+    """
+        A similar class to Furniture, but follows the rules for a
+            wall.
+    """
 
-    def __init__(self, canvas, x, y, xL, yL, doorY=0.1, doorWidth=0.7, scale=1, description='', color='#000000'):
+    def __init__(self, canvas, x, y, xL, yL, doorY=0.1, doorWidth=0.7, scale=1,
+                 description='', color='#000000'):
         super(Wall, self).__init__()
 
         self.canvas = canvas
@@ -141,9 +160,15 @@ class Wall(items.item.Item):
 
 
     def mousePressEvent(self, e):
+        """
+            Set the mouse cursor while dragging.
+        """
         if e.button() == 1:
             self.setCursor(QtCore.Qt.ClosedHandCursor)
     def mouseReleaseEvent(self, e):
+        """
+            Reset the mouse cursor when stopped dragging.
+        """
         # This runs the default event method, which allows
         #   the dragging to work properly.
         QtGui.QGraphicsItem.mouseReleaseEvent(self, e)
@@ -156,6 +181,10 @@ class Wall(items.item.Item):
 
 
     def updatePos(self):
+        """
+            Recalculates its position and keeps it within the bounds
+                defined in self.limits and self.origin.
+        """
         self._setX(self.x()+self.origin[0])
         self._setY(self.y()+self.origin[1])
 
@@ -171,6 +200,10 @@ class Wall(items.item.Item):
 
 
     def updateAttr(self, attr, value):
+        """
+            Calls one of its methods specified by attr, with value:
+                value.
+        """
         if attr == 'x': self.setX(value)
         elif attr == 'y': self.setY(value)
         elif attr == 'doorY': self.setDoorY(value)
@@ -181,9 +214,9 @@ class Wall(items.item.Item):
         self.setToolTip(str(self.attrs['name']) + ':\n' +
                 str(self.attrs['description']))
 
-    # Each 'set' method has a private one for internal use which does the work
-    #   and validates the input, and a public one which uses the private one
-    #   then redraws the canvas.
+    # Each 'set' method has a private version for internal use which
+    #   does the work and validates the input, and a public version
+    #   which uses the private one then redraws the canvas.
 
     def _setScale(self, scale):
         try:

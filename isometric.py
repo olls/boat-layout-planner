@@ -7,7 +7,8 @@ from PyQt4 import QtGui, QtCore
 
 class Boat3D(QtGui.QMainWindow):
     """
-        The window which displays the 3D isometric image of the boat widget.
+        The window which displays the 3D isometric image of the boat
+            widget.
     """
 
     def __init__(self, boat, pos):
@@ -21,8 +22,11 @@ class Boat3D(QtGui.QMainWindow):
         self.initUI()
 
     def initUI(self):
+        """
+            Define the layout of the window and the tool-bar buttons.
+        """
 
-        # Center the boat image in the window.
+        # Centre the boat image in the window.
         mainF = QtGui.QFrame()
 
         hbox = QtGui.QHBoxLayout()
@@ -71,11 +75,15 @@ class Boat3D(QtGui.QMainWindow):
 
 class Drawing(QtGui.QWidget):
     """
-        The widget which generates the drawing,
-        draws it in the widget and saves it as an SVG file.
+        The widget which generates the drawing, draws it in the
+            widget and saves it as an SVG file.
     """
 
     def __init__(self, boat):
+        """
+            This calculates significant points on the boat drawing
+                used to position it.
+        """
         super(Drawing, self).__init__()
 
         sf = 50
@@ -110,7 +118,9 @@ class Drawing(QtGui.QWidget):
         self.show()
 
     def paintEvent(self, event):
-        """ The event which triggers the redrawing of the boat. """
+        """
+            The event which triggers the redrawing of the boat.
+        """
 
         qp = QtGui.QPainter()
         qp.begin(self)
@@ -118,26 +128,34 @@ class Drawing(QtGui.QWidget):
         qp.end()
 
     def rLine(self, length, origin):
-        """ Converts the right-hand 30 degree line to vector information
-            in the format needed for the pen.drawLine method """
+        """
+            Converts the right-hand 30 degree line to vector
+                information in the format needed for the pen.drawLine
+                method.
+        """
 
-        x = origin[0] + (self.COS30 * length) # (math.sqrt(3)/2) * length
+        x = origin[0] + (self.COS30 * length)
         y = origin[1] - (length /2)
 
         return origin[0], origin[1], x, y
 
     def lLine(self, length, origin):
-        """ Converts the left-hand 30 degree line to vector information
-            in the format needed for the pen.drawLine method """
+        """ 
+            Converts the left-hand 30 degree line to vector
+                information in the format needed for the pen.drawLine
+                method.
+        """
 
-        x = origin[0] - (self.COS30 * length) # (math.sqrt(3)/2) * length
+        x = origin[0] - (self.COS30 * length)
         y = origin[1] - (length / 2)
 
         return origin[0], origin[1], x, y
 
     def vLine(self, length, origin):
-        """ Converts the vertical line to vector information
-            in the format needed for the pen.drawLine method """
+        """
+            Converts the vertical line to vector information in the
+                format needed for the pen.drawLine method.
+        """
 
         x = origin[0]
         y = origin[1] + length
@@ -145,8 +163,10 @@ class Drawing(QtGui.QWidget):
         return origin[0], origin[1], x, y
 
     def calcualeVectors(self):
-        """ This calculates the vectors to draw the boat
-            based off the length and line height """
+        """
+            This calculates the vectors to draw the boat based off the
+                length and line height.
+        """
 
         self.vectors = [
             # Left wall
@@ -233,8 +253,10 @@ class Drawing(QtGui.QWidget):
         self.vectors = tuple(self.vectors)
 
     def drawBoat(self, qp):
-        """ Draws the vectors calculated by self.calcualeVectors
-            to the widget. """
+        """
+            Draws the vectors calculated by self.calcualeVectors to
+                the widget.
+        """
 
         pen = QtGui.QPen(QtCore.Qt.black, 1, QtCore.Qt.SolidLine)
         qp.setPen(pen)
@@ -243,7 +265,10 @@ class Drawing(QtGui.QWidget):
             qp.drawLine(*vector)
 
     def generateSVG(self):
-        """ Generates the SVG which is used when the user saves the image. """
+        """
+            Generates the SVG which is used when the user saves the
+                image.
+        """
 
         svg = '<?xml version="1.0"?>\n<svg width="{width}" height="{height}" version="1.1" xmlns="http://www.w3.org/2000/svg">'.format(width=int(self.totLength+2), height=(self.totHeight+2))
         for vector in self.vectors:
@@ -253,7 +278,9 @@ class Drawing(QtGui.QWidget):
         return svg
 
     def save(self, statusBar):
-        """ Displays a file save dialog and saves the file. """
+        """
+            Displays a file save dialogue and saves the file.
+        """
 
         svg = self.generateSVG()
 
@@ -269,7 +296,7 @@ class Drawing(QtGui.QWidget):
                                         .format(filename))
             except IOError:
                 QtGui.QMessageBox.question(self, 'Error',
-                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid filename.</center>",
+                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid file-name.</center>",
                     QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
         else:
-            statusBar().showMessage('Saving Canceled')
+            statusBar().showMessage('Saving Cancelled')

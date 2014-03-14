@@ -12,6 +12,7 @@ class Edit(QtGui.QDialog):
 
         self.item = item
 
+        # The different functions for field types.
         self.fieldsTypes = {
             'lineEdit': lambda: QtGui.QLineEdit(self),
             'color': lambda: ColorPicker()
@@ -22,6 +23,10 @@ class Edit(QtGui.QDialog):
 
 
     def initUI(self):
+        """
+            Lays-out the window with the fields self.item.editable
+                contains.
+        """
         self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)
 
         self.grid = QtGui.QGridLayout()
@@ -44,7 +49,7 @@ class Edit(QtGui.QDialog):
             y += 1
 
             # Add the field object to the dict so we
-            #    can save the value later.
+            #   can save the value later.
             self.fields.update({key: field})
 
         # Create the description that all of them have.
@@ -68,7 +73,9 @@ class Edit(QtGui.QDialog):
         self.setWindowTitle('Edit: '+ self.item.attrs['name'])
 
     def ok(self):
-        """ Updates self.item with the data in self.fields. """
+        """
+            Updates self.item with the data in self.fields.
+        """
 
         for key, field in self.fields.items():
 
@@ -88,6 +95,9 @@ class Edit(QtGui.QDialog):
         self.close()
 
     def delete(self):
+        """
+            Warns the user, then deletes self.item from the boat.
+        """
         reply = QtGui.QMessageBox.question(self, 'DELETE?!',
             "<center>Are you sure you want to DELETE the item?<br>You will not be able to retrieve it.</center>",
             QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
@@ -99,12 +109,18 @@ class Edit(QtGui.QDialog):
             self.close()
 
     def capt(string):
-        """ Takes a string, and capitalizes the first letter. """
+        """
+            Takes a string, and capitalizes the first letter.
+        """
         return string[:1].upper() + string[1:]
 
+
 class ColorPicker(QtGui.QPushButton):
-    """ A button widget which activates a color
-        picker, and it is the color it is given. """
+    """
+        A button widget which activates a colour picker, and displays
+            the colour it is given.
+    """
+
     def __init__(self):
         super(ColorPicker, self).__init__('Color')
 
@@ -112,15 +128,31 @@ class ColorPicker(QtGui.QPushButton):
         self.clicked.connect(self.showDialog)
 
     def update(self):
+        """
+            Sets the button background colour to the colour selected
+                with the picker, and the text colour to white or black
+                depending on the lightness of the colour.
+        """
         self.setStyleSheet('QPushButton { background-color: '+self.text()+'; color: ' + str('white' if self.color.lightness() < 127 else 'black') + '}')
 
     def showDialog(self):
+        """
+            Shows the colour picker.
+        """
         self.color = QtGui.QColorDialog.getColor(self.color)
         self.update()
 
+    # Next two methods called insert and text so they behave like a
+    #   line edit for giving a value and extracting the value.
     def insert(self, color):
+        """
+            Sets the colour to the given colour and displays it.
+        """
         self.color = QtGui.QColor(color)
         self.update()
 
     def text(self):
+        """
+            Returns the colour picked by the picker.
+        """
         return self.color.name()

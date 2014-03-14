@@ -28,6 +28,11 @@ class BoatPlanner(QtGui.QMainWindow):
         self.initUI()
 
     def initUI(self):
+        """
+            Define the layout of the program and all the tool-bar
+                buttons.
+        """
+
         self.setCentralWidget(self.canvas)
 
         self.statusBar()
@@ -116,6 +121,10 @@ class BoatPlanner(QtGui.QMainWindow):
         self.showMaximized()
 
     def setUpItemsToolbar(self):
+        """
+            Add all the buttons to the tool-bar for the different
+                furniture items.
+        """
         addItems = self.addToolBar('items')
 
         def callbackFactory(n):
@@ -133,6 +142,9 @@ class BoatPlanner(QtGui.QMainWindow):
             addItems.addAction(action)
 
     def new(self):
+        """
+            Warn the user then reset the program with a new boat.
+        """
         if QtGui.QMessageBox.question(self, 'Save Changes?',
            "<center>Do you want to save your changes to the boat?</center>",
            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
@@ -145,10 +157,15 @@ class BoatPlanner(QtGui.QMainWindow):
     def newBoat(self, length=20, width=2.5, height=3, bow=3, stern=3,
                  wallWidth=0.1, color='#000000', description='',
                  author='Unknown'):
+        """
+            Create a new boat.
+        """
+
+        # Clear the old boat.
         try:
             self.boat.removeAll()
         except AttributeError:
-            pass # self.boat must not exist yet.
+            pass # There must not be an old boat.
 
         self.boat = items.boat.Boat(self.canvas, length=length, width=width,
             height=height, stern=stern, bow=bow, wallWidth=wallWidth,
@@ -158,6 +175,9 @@ class BoatPlanner(QtGui.QMainWindow):
         self.boat.redrawAll()
 
     def open(self):
+        """
+           Load the boat data and use it to create a new boat.
+        """
         xml = self.openFile()
         if not xml:
             return False
@@ -166,7 +186,7 @@ class BoatPlanner(QtGui.QMainWindow):
                 boat = xml.getElementsByTagName('boat')[0]
             except IndexError:
                 QtGui.QMessageBox.question(self, 'Error',
-                    '<center>Error while opening.<br>The file you tried to open is not a vaild BTL file.</center>',
+                    '<center>Error while opening.<br>The file you tried to open is not a valid BTL file.</center>',
                     QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
                 return False
 
@@ -177,6 +197,7 @@ class BoatPlanner(QtGui.QMainWindow):
                 description=bAt['description'].value,
                 author=bAt['author'].value, color=bAt['color'].value)
 
+            # For every furniture item.
             for child in boat.childNodes:
 
                 try:
@@ -211,6 +232,10 @@ class BoatPlanner(QtGui.QMainWindow):
                     )
 
     def openFile(self):
+        """
+            Display the open file dialog for the user to select a
+                *.btl file and return the XML data.
+        """
         type_ = 'BTL'.lower()
         filename = QtGui.QFileDialog.getOpenFileName(self, 'Open file', expanduser('~'), '*.{}'.format(type_))
 
@@ -225,16 +250,21 @@ class BoatPlanner(QtGui.QMainWindow):
                     data = parse(filename)
                 except:
                     QtGui.QMessageBox.question(self, 'Error',
-                        '<center>Error while opening.<br>This could be due to not having permission<br>or using an invalid filename.</center>',
+                        '<center>Error while opening.<br>This could be due to not having permission<br>or using an invalid file-name.</center>',
                         QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
                     return False
                 self.statusBar().showMessage('Opened successfully.')
                 return data
         else:
-            self.statusBar().showMessage('Opening Canceled')
+            self.statusBar().showMessage('Opening Cancelled')
             return False
 
     def save(self, type_='XML'):
+        """
+            Creates a save file dialogue for the user to select where
+                to save the file, then it gets the XML/SVG data
+                (type_ parameter), and saves it to the file.
+        """
         if type_ == 'XML':
             data = self.boat.generateAllXML()
             type_ = 'BTL'
@@ -256,14 +286,17 @@ class BoatPlanner(QtGui.QMainWindow):
                                         .format(filename))
             except IOError:
                 QtGui.QMessageBox.question(self, 'Error',
-                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid filename.</center>",
+                    "<center>Error while saving.<br>This could be due to not having permission<br>or using an invalid file-name.</center>",
                     QtGui.QMessageBox.Ok, QtGui.QMessageBox.Ok)
         else:
-            self.statusBar().showMessage('Saving Canceled')
+            self.statusBar().showMessage('Saving Cancelled')
             return False
         return True
 
     def closeEvent(self, event):
+        """
+            Warns the user to save before closing the program.
+        """
         reply = QtGui.QMessageBox.question(self, 'Quit?!',
             "<center>Are you sure you want to quit?<br>You will lose your work if you haven't saved it.</center>", QtGui.QMessageBox.Yes |
             QtGui.QMessageBox.No, QtGui.QMessageBox.No)
@@ -274,15 +307,19 @@ class BoatPlanner(QtGui.QMainWindow):
             event.ignore()
 
     def isoView(self):
-        """ Opens the isometric 3D view window. """
+        """
+            Opens the isometric 3D view window.
+        """
 
         # Open the 3D view with a temporary random length,
-        #   and position it in the center of this window.
+        #   and position it in the centre of this window.
         self.win = isometric.Boat3D(self.boat, self.frameGeometry().center())
         self.win.show()
 
     def zoom(self, dirc):
-        """ Scales the canvas. """
+        """
+            Scales the canvas in dirc.
+        """
 
         if dirc:
             self.canvas.zoomIn()
@@ -291,7 +328,9 @@ class BoatPlanner(QtGui.QMainWindow):
         self.boat.redrawAll()
 
     def rotate(self, dirc):
-        """ Rotates the canvas. """
+        """
+            Rotates the canvas in dirc.
+        """
 
         if dirc:
             self.canvas.rotate(10)
