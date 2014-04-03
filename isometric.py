@@ -109,7 +109,7 @@ class Drawing(QtGui.QWidget):
                        min(self.totHeight,
                            self.totHeight + (self.width / 4) - (self.bow / 2) + (self.width / 3))) # Y NBOTa always totheight
 
-        self.calcualeVectors()
+        self.calculateVectors()
 
         self.initUI()
 
@@ -162,7 +162,7 @@ class Drawing(QtGui.QWidget):
 
         return origin[0], origin[1], x, y
 
-    def calcualeVectors(self):
+    def calculateVectors(self):
         """
             This calculates the vectors to draw the boat based off the
                 length and line height.
@@ -254,7 +254,7 @@ class Drawing(QtGui.QWidget):
 
     def drawBoat(self, qp):
         """
-            Draws the vectors calculated by self.calcualeVectors to
+            Draws the vectors calculated by self.calculateVectors to
                 the widget.
         """
 
