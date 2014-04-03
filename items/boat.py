@@ -159,9 +159,9 @@ class Boat(items.item.Item):
                 the items.
         """
         xml = (
-            '<?xml version="1.0"?>\n' + 
-            self.generateXML() + '\n' + 
-            '\n\t'.join([item.generateXML() for item in self.items]) + 
+            '<?xml version="1.0"?>\n' +
+            self.generateXML() + '\n' +
+            '\n\t'.join([item.generateXML() for item in self.items]) +
             '\n</boat>'
         )
         xml = xml.replace('  ', ' ')
