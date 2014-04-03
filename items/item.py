@@ -95,7 +95,10 @@ class Item(QtGui.QGraphicsItemGroup):
                 values.
         """
         try:
-            attrs.update({'boatWidth': self.canvas.boat.attrs['width'] - (self.canvas.boat.attrs['wallWidth'] * 2)})
+            attrs.update({
+                'boatWidth': self.canvas.boat.attrs['width']
+                     - (self.canvas.boat.attrs['wallWidth'] * 2)
+            })
         except:
             # Boat hasn't been added to self yet.
             pass

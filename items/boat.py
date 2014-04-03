@@ -61,14 +61,16 @@ class Boat(items.item.Item):
             self.items.append(items.furniture.Furniture(self.canvas, name,
                 self.attrs['bow'] + self.attrs['wallWidth'], # X
                 self.attrs['wallWidth'], # Y
-                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                (self.attrs['length'] - self.attrs['wallWidth']
+                  - self.attrs['stern']), # X Limit
                 self.attrs['width'] - self.attrs['wallWidth'] # Y Limit
             ))
         else:
             self.items.append(items.furniture.Furniture(self.canvas, name,
                 float(attrs['x']), # X
                 float(attrs['y']), # Y
-                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                (self.attrs['length'] - self.attrs['wallWidth']
+                  - self.attrs['stern']), # X Limit
                 self.attrs['width'] - self.attrs['wallWidth'], # Y Limit
                 scale = float(attrs['scale']),
                 angle = float(attrs['angle']),
@@ -84,14 +86,16 @@ class Boat(items.item.Item):
             self.items.append(items.furniture.Wall(self.canvas,
                 self.attrs['bow'] + self.attrs['wallWidth'], # X
                 self.attrs['wallWidth'], # Y
-                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                (self.attrs['length'] - self.attrs['wallWidth']
+                  - self.attrs['stern']), # X Limit
                 self.attrs['width'] - self.attrs['wallWidth'] # Y Limit
             ))
         else:
             self.items.append(items.furniture.Wall(self.canvas,
                 float(attrs['x']), # X
                 float(attrs['y']), # Y
-                self.attrs['length'] - self.attrs['wallWidth'] - self.attrs['stern'], # X Limit
+                (self.attrs['length'] - self.attrs['wallWidth']
+                  - self.attrs['stern']), # X Limit
                 self.attrs['width'] - self.attrs['wallWidth'], # Y Limit
                 doorY = float(attrs['doorY']),
                 doorWidth = float(attrs['doorWidth']),
@@ -130,13 +134,22 @@ class Boat(items.item.Item):
             Returns an SVG document containing all of the items and
                 the boat.
         """
-        svg = (('<?xml version="1.0"?>\n'
-                '<svg width="{length}" height="{width}" version="1.1" xmlns="http://www.w3.org/2000/svg">\n'
-                '<text x="0" y="{width}" font-family="sans-serif" font-size="20px">{description}</text>\n')
-                .format(length=(self.attrs['length']*100)+1, width=(self.attrs['width']*100)+1, description=self.attrs['description']) +
-                '\n'.join([item.generateSVG(scale=100, noScale='stroke-width') for item in self.items] +
-                          [self.generateSVG(scale=100, noScale='stroke-width')]) +
-                '</svg>')
+        svg = (
+            ('<?xml version="1.0"?>\n'
+             '<svg width="{length}" height="{width}" version="1.1" '
+             'xmlns="http://www.w3.org/2000/svg">\n'
+             '<text x="0" y="{width}" font-family="sans-serif" '
+             'font-size="20px">{description}</text>\n')
+            .format(
+                length=(self.attrs['length']*100)+1,
+                width=(self.attrs['width']*100)+1,
+                description=self.attrs['description']
+            ) + '\n'.join(
+                [item.generateSVG(scale=100, noScale='stroke-width')
+                    for item in self.items] +
+                [self.generateSVG(scale=100, noScale='stroke-width')]
+            ) + '</svg>'
+        )
         svg = svg.replace('  ', ' ')
         return svg
 
@@ -145,8 +158,12 @@ class Boat(items.item.Item):
             Returns and XML document containing the boat and all of
                 the items.
         """
-        xml = ('<?xml version="1.0"?>\n' +
-               self.generateXML()+'\n'+'\n\t'.join([item.generateXML() for item in self.items]) +'\n</boat>')
+        xml = (
+            '<?xml version="1.0"?>\n' + 
+            self.generateXML() + '\n' + 
+            '\n\t'.join([item.generateXML() for item in self.items]) + 
+            '\n</boat>'
+        )
         xml = xml.replace('  ', ' ')
         return xml
 
@@ -175,7 +192,11 @@ class Boat(items.item.Item):
         try:
             self.attrs['length'] = float(length)
         except ValueError:
-            error(self.canvas, 'Value Error', 'Invalid length attribute for Boat item')
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid length attribute for Boat item'
+            )
     def setLength(self, length):
         self._setLength(length)
         self.redraw()
@@ -184,53 +205,85 @@ class Boat(items.item.Item):
         try:
             self.attrs['width'] = float(width)
         except ValueError:
-            error(self.canvas, 'Value Error', 'Invalid width attribute for Boat item')
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid width attribute for Boat item'
+            )
         if self.attrs['width'] < 0:
-            error(self.canvas, 'Value Error', 'Invalid width attribute for Boat item')
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid width attribute for Boat item'
+            )
     def setWidth(self, width):
         self._setWidth(width)
         self.redraw()
 
     def _setHeight(self, height):
-        try:
-            self.attrs['height'] = float(height)
-        except ValueError:
-            error(self.canvas, 'Value Error', 'Invalid height attribute for Boat item')
-        if self.attrs['height'] < 0:
-            error(self.canvas, 'Value Error', 'Invalid height attribute for Boat item')
+        if not float(height) < 0:
+            try:
+                self.attrs['height'] = float(height)
+                return
+            except ValueError:
+                pass
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid height attribute for Boat item'
+            )
+        else: return
     def setHeight(self, height):
         self._setHeight(height)
         self.redraw()
 
     def _setBow(self, bow):
-        try:
-            self.attrs['bow'] = float(bow)
-        except ValueError:
-            error(self.canvas, 'Value Error', 'Invalid bow attribute for Boat item')
-        if self.attrs['bow'] > self.attrs['length']:
-            error(self.canvas, 'Value Error', 'Invalid bow attribute for Boat item')
+        if not float(bow) > self.attrs['length']:
+            try:
+                self.attrs['bow'] = float(bow)
+                return
+            except ValueError:
+                pass
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid bow attribute for Boat item'
+            )
+        else: return
     def setBow(self, bow):
         self._setBow(bow)
         self.redraw()
 
     def _setStern(self, stern):
-        try:
-            self.attrs['stern'] = float(stern)
-        except ValueError:
-            error(self.canvas, 'Value Error', 'Invalid stern attribute for Boat item')
-        if self.attrs['stern'] > (self.attrs['length'] - self.attrs['bow']):
-            error(self.canvas, 'Value Error', 'Invalid stern attribute for Boat item')
+        if not float(stern) > (self.attrs['length'] - self.attrs['bow']):
+            try:
+                self.attrs['stern'] = float(stern)
+                return
+            except ValueError:
+                pass
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid stern attribute for Boat item'
+            )
+        else: return
     def setStern(self, stern):
         self._setStern(stern)
         self.redraw()
 
     def _setWallWidth(self, wallWidth):
-        try:
-            self.attrs['wallWidth'] = float(wallWidth)
-        except ValueError:
-            error(self.canvas, 'Value Error', 'Invalid wallWidth attribute for Boat item')
-        if self.attrs['wallWidth'] > (self.attrs['length'] / 2):
-            error(self.canvas, 'Value Error', 'Invalid wallWidth attribute for Boat item')
+        if not float(wallWidth) > (self.attrs['length'] / 2):
+            try:
+                self.attrs['wallWidth'] = float(wallWidth)
+                return
+            except ValueError:
+                pass
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid wallWidth attribute for Boat item'
+            )
+        else: return
     def setWallWidth(self, wallWidth):
         self._setWallWidth(wallWidth)
 

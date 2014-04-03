@@ -42,7 +42,8 @@ class Edit(QtGui.QDialog):
 
             # Give line edits labels:
             if isinstance(field, QtGui.QLineEdit):
-                self.grid.addWidget(QtGui.QLabel(Edit.capt(key)+':'), y, 0)
+                self.grid.addWidget(QtGui.QLabel(Edit.capt(key)+':'),
+                    y, 0)
                 y += 1
 
             self.grid.addWidget(field, y, 0)
@@ -99,8 +100,11 @@ class Edit(QtGui.QDialog):
             Warns the user, then deletes self.item from the boat.
         """
         reply = QtGui.QMessageBox.question(self, 'DELETE?!',
-            "<center>Are you sure you want to DELETE the item?<br>You will not be able to retrieve it.</center>",
-            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+            ('<center>Are you sure you want to DELETE the item?<br>'
+             'You will not be able to retrieve it.</center>'),
+            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
+            QtGui.QMessageBox.No
+        )
 
         if reply == QtGui.QMessageBox.Yes:
             self.item.canvas.boat.items.remove(self.item)
@@ -133,7 +137,12 @@ class ColorPicker(QtGui.QPushButton):
                 with the picker, and the text colour to white or black
                 depending on the lightness of the colour.
         """
-        self.setStyleSheet('QPushButton { background-color: '+self.text()+'; color: ' + str('white' if self.color.lightness() < 127 else 'black') + '}')
+        self.setStyleSheet(
+            'QPushButton { background-color: '+self.text()+';' + 
+            'color: ' + str(
+                'white' if self.color.lightness() < 127 else 'black')
+             + '}'
+        )
 
     def showDialog(self):
         """

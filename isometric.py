@@ -140,7 +140,7 @@ class Drawing(QtGui.QWidget):
         return origin[0], origin[1], x, y
 
     def lLine(self, length, origin):
-        """ 
+        """
             Converts the left-hand 30 degree line to vector
                 information in the format needed for the pen.drawLine
                 method.
