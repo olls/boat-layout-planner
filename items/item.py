@@ -94,6 +94,7 @@ class Item(QtGui.QGraphicsItemGroup):
                 evaluates the contents of quotes after inserting the
                 values.
         """
+        # Boat width not stored, so calculated here...
         try:
             attrs.update({
                 'boatWidth': self.canvas.boat.attrs['width']

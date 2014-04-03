@@ -221,6 +221,15 @@ class Boat(items.item.Item):
         self.redraw()
 
     def _setHeight(self, height):
+        try:
+            float(height)
+        except ValueError:
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid height attribute for Boat item'
+            )
+            return
         if not float(height) < 0:
             try:
                 self.attrs['height'] = float(height)
@@ -238,6 +247,15 @@ class Boat(items.item.Item):
         self.redraw()
 
     def _setBow(self, bow):
+        try:
+            float(bow)
+        except ValueError:
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid bow attribute for Boat item'
+            )
+            return
         if not float(bow) > self.attrs['length']:
             try:
                 self.attrs['bow'] = float(bow)
@@ -255,6 +273,15 @@ class Boat(items.item.Item):
         self.redraw()
 
     def _setStern(self, stern):
+        try:
+            float(stern)
+        except ValueError:
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid stern attribute for Boat item'
+            )
+            return
         if not float(stern) > (self.attrs['length'] - self.attrs['bow']):
             try:
                 self.attrs['stern'] = float(stern)
@@ -272,6 +299,15 @@ class Boat(items.item.Item):
         self.redraw()
 
     def _setWallWidth(self, wallWidth):
+        try:
+            float(wallWidth)
+        except ValueError:
+            error(
+                self.canvas,
+                'Value Error',
+                'Invalid wallWidth attribute for Boat item'
+            )
+            return
         if not float(wallWidth) > (self.attrs['length'] / 2):
             try:
                 self.attrs['wallWidth'] = float(wallWidth)
